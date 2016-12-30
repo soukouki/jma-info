@@ -1,6 +1,4 @@
 
-require "open-uri"
-
 require "nokogiri"
 
 class UriAndTitle
@@ -9,9 +7,6 @@ class UriAndTitle
 		yield(self)
 	end
 	
-	def to_s
-		"uri=>#{uri}, title=>#{title}"
-	end
 	def eql? pair
 		uri == pair.uri && title == pair.title
 	end
@@ -22,7 +17,7 @@ end
 
 # 古いものを上にして表示する
 def get_uri_list
-	Nokogiri::HTML(open("http://api.aitc.jp/jmardb/"), nil, 'UTF-8')
+	Nokogiri::HTML(open("http://api.aitc.jp/jmardb/"), nil, "UTF-8")
 		.xpath("/html/body/div[3]/table/tr[position()!=1]")
 		.map do |tr|
 			UriAndTitle.new do |a|
