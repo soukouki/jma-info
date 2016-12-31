@@ -33,7 +33,7 @@ def alerm_info doc
 				a.elements["Kind/Name"].text+"が"+
 				a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join(" ")+"に"
 			end
-			.join("、")+"出ています"
+			.join("、")+"出ています。"
 	else # 解除時
 		""
 	end
