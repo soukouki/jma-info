@@ -38,11 +38,11 @@ end
 def get_info(uri_and_title)
 	case uri_and_title.title
 	when "府県天気概況"
-		uri_and_title.title+" : "+get_general_report(uri_and_title.uri)+"\n"
+		uri_and_title.title+" : "+get_general_report(uri_and_title.uri)
 	when "気象警報・注意報" # 無視
 	when "気象特別警報・警報・注意報"
-		uri_and_title.title+" : "+get_alerm(uri_and_title.uri)+"\n"
+		uri_and_title.title+" : "+get_alerm(uri_and_title.uri)
 	else
-		uri_and_title.title+"\n"
+		uri_and_title.title
 	end
 end
