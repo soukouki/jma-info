@@ -1,4 +1,6 @@
 
+require "open-uri"
+
 require "rexml/document"
 
 def get_doc uri

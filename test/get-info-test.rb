@@ -1,5 +1,4 @@
 
-require "open-uri"
 require "./jma-info/get-info"
 
 =begin 一般報
@@ -18,5 +17,3 @@ puts get_alerm("http://api.aitc.jp/jmardb/reports/9f2c7b54-171d-3bab-9c0b-81bdc4
 # 注意報解除
 puts get_alerm("http://api.aitc.jp/jmardb/reports/0854e7f4-44e6-32bf-a78a-500a628cbbdd")
 =end
-
-exit
