@@ -1,29 +1,26 @@
 
-require "nokogiri"
+require "open-uri"
+require "json"
 
-class UriAndTitle
-	attr_accessor :uri, :title
-	def initialize
-		yield(self)
-	end
-	
-	def eql? pair
-		uri == pair.uri && title == pair.title
-	end
-	def hash
-		uri.hash + title.hash
+UriAndTitle = Struct.new(:uri, :title)
+
+def time_format time
+	time.strftime("%F %T")
+end
+
+def get_json uri
+	data = JSON.parse(OpenURI.open_uri(uri).read)
+	if data["paging"]["next"].nil?
+		data["data"]
+	else
+		data["data"]+get_json(data["paging"]["next"])
 	end
 end
 
 # 古いものを上にして表示する
-def get_uri_list
-	Nokogiri::HTML(open("http://api.aitc.jp/jmardb/"), nil, "UTF-8")
-		.xpath("/html/body/div[3]/table/tr[position()!=1]")
-		.map do |tr|
-			UriAndTitle.new do |a|
-				a.uri = File.join("http://api.aitc.jp/jmardb/", tr.xpath("td[6]/a/@href").text.split(";")[0])
-				a.title = tr.xpath("td[6]/a").text
-			end
-		end
-		.reverse
+def get_uri_list time_a, time_b
+	data = get_json(
+		"http://api.aitc.jp/jmardb-api/search?"+
+		"datetime=#{time_format(time_a)}&datetime=#{time_format(time_b)}&limit=100")
+	data.map{|h|UriAndTitle.new(h["link"], h["title"])}
 end
