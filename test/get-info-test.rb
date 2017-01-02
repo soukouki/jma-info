@@ -25,3 +25,9 @@ puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/a61ce04e-be36
 puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b5c0ab67-3e52-3ab3-adbf-395dcf848fa0")
 puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b815b9a7-f1cb-32b4-a008-2dd25b9565ea")
 =end
+
+=begin 地方海上警報
+puts get_local_maritime_alert("http://api.aitc.jp/jmardb/reports/7fdbc660-411a-3568-9025-4dab1777dde0")
+puts get_local_maritime_alert("http://api.aitc.jp/jmardb/reports/15d0e1ab-a581-36eb-8e43-0989b96fc5da")
+puts get_local_maritime_alert("http://api.aitc.jp/jmardb/reports/961acdfc-8019-3b17-98cb-ea947f268d16")
+=end

@@ -9,8 +9,10 @@ end
 
 def cleanly_text text
 	text
+		.tr('０-９．（）', '0-9.()') # 全角を半角に
 		.gsub(/\u3000|\n(?!\n)/){""} # 全角スペースと単独の改行を消す
 		.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
+		.gsub("  "){" "} # 連続した空白を一つにまとめる
 		.gsub(/^/){"\t"} # 行のはじめにタブを付ける
 end
 
@@ -35,7 +37,7 @@ def get_alerm uri
 	doc.elements[
 		"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]"+
 		"/Item/Areas/Area/Name"].text+"\n\t"+
-	doc.elements["Report/Head/Headline/Text"].text.gsub(/。([^\n])/){"。\n\t#{$1}"}+
+	doc.elements["Report/Head/Headline/Text"].text.gsub(/。(?=\n)/){"。\n\t"}+
 	alerm_info(doc)
 end
 
@@ -73,8 +75,8 @@ def get_special_weather_report uri
 	when "特殊気象報（気圧）"
 		"気圧"+"\n\t"+item.elements["Kind/Property/PressurePart/Temporary/jmx_eb:Pressure"].attributes["description"]
 	when "特殊気象報（各種現象）"
-		item.elements["Kind/Name"].text+"\n\t"+
-		delete_parentheses(add_info.elements["Text"].text).tr('０-９．　', '0-9. ')
+		item.elements["Kind/Name"].text+"\n"+
+		cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
 	end
 end
 
@@ -87,21 +89,36 @@ def format_special_weather_report_wind item
 		end.join(", ")
 end
 
+def get_local_maritime_alert uri
+	doc = get_doc(uri)
+	item = doc.elements["Report/Body/Warning"].select{|a|a.kind_of?(REXML::Element)}
+	doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+
+	item.map do |it|
+		((it.elements["Kind/Property/*/SubArea/Sentence"].nil?)? "" :
+			cleanly_text(it.elements["Kind/Property/*/SubArea/Sentence"].text)+"\n\t")+
+		it.elements["Area/Name"].text+"に"+it.elements["Kind/Name"].text+"が出ています。"
+	end.join("\n")
+end
+
 def get_info(uri_and_title)
-	case uri_and_title.title
+	title = uri_and_title.title
+	uri = uri_and_title.uri
+	case title
 	when # 一般報
 		/^全般台風情報/, "全般気象情報", "地方気象情報", "府県気象情報", "天気概況",
 		"全般週間天気予報", "地方週間天気予報", "スモッグ気象情報", "全般スモッグ気象情報",
 		"全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報", "地方高温注意情報", "府県高温注意情報 "
-		uri_and_title.title+" : "+get_general_report(uri_and_title.uri)
+		title+" : "+get_general_report(uri)
 	when "府県天気概況"
-		uri_and_title.title+" : "+get_general_weather_conditions(uri_and_title.uri)
+		title+" : "+get_general_weather_conditions(uri)
 	when "気象警報・注意報" # 無視
 	when "気象特別警報・警報・注意報"
-		uri_and_title.title+" : "+get_alerm(uri_and_title.uri)
+		title+" : "+get_alerm(uri)
 	when "季節観測", "特殊気象報"
-		uri_and_title.title+" : "+get_special_weather_report(uri_and_title.uri)
+		title+" : "+get_special_weather_report(uri)
+	when "地方海上警報"
+		title+" : "+get_local_maritime_alert(uri)
 	else
-		uri_and_title.title
+		title
 	end
 end
