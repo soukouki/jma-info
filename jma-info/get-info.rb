@@ -14,6 +14,10 @@ def cleanly_text text
 		.gsub(/^/){"\t"} # 行のはじめにタブを付ける
 end
 
+def delete_parentheses str
+	str.gsub(/(.+)（.+）/){$1}
+end
+
 def get_general_report uri
 	doc=get_doc(uri)
 	doc.elements["Report/Head/Title"].text+"\n"+
@@ -53,6 +57,36 @@ def format_alerm_info doc
 		.join("、")+"出ています。"
 end
 
+def get_special_weather_report uri
+	doc = get_doc(uri)
+	item = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item"]
+	add_info = doc.elements["Report/Body/AdditionalInfo/ObservationAddition"]
+	item.elements["Station/Name"].text+" "+
+	case doc.elements["Report/Head/Title"].text
+	when "季節観測"
+		average_year_diff = add_info.elements["DeviationFromNormal"].text.to_i
+		item.elements["Kind/Name"].text+
+		((add_info.elements["Text"].nil?)? "" : " "+delete_parentheses(add_info.elements["Text"].text))+"\n\t"+
+		"平年より#{average_year_diff.abs}日"+((average_year_diff.positive?)? "遅い" : "早い")
+	when "特殊気象報（風）"
+		"風"+"\n\t"+format_special_weather_report_wind(item)
+	when "特殊気象報（気圧）"
+		"気圧"+"\n\t"+item.elements["Kind/Property/PressurePart/Temporary/jmx_eb:Pressure"].attributes["description"]
+	when "特殊気象報（各種現象）"
+		item.elements["Kind/Name"].text+"\n\t"+
+		delete_parentheses(add_info.elements["Text"].text).tr('０-９．　', '0-9. ')
+	end
+end
+
+def format_special_weather_report_wind item
+	item.elements["Kind/Property/WindPart"]
+		.select{|a|a.kind_of?(REXML::Element)}
+		.map do |w|
+			w.elements["jmx_eb:WindDegree"].attributes["description"]+" "
+			w.elements["jmx_eb:WindSpeed"].attributes["description"]
+		end.join(", ")
+end
+
 def get_info(uri_and_title)
 	case uri_and_title.title
 	when # 一般報
@@ -65,6 +99,8 @@ def get_info(uri_and_title)
 	when "気象警報・注意報" # 無視
 	when "気象特別警報・警報・注意報"
 		uri_and_title.title+" : "+get_alerm(uri_and_title.uri)
+	when "季節観測", "特殊気象報"
+		uri_and_title.title+" : "+get_special_weather_report(uri_and_title.uri)
 	else
 		uri_and_title.title
 	end

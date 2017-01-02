@@ -17,3 +17,11 @@ puts get_alerm("http://api.aitc.jp/jmardb/reports/9f2c7b54-171d-3bab-9c0b-81bdc4
 # 注意報解除
 puts get_alerm("http://api.aitc.jp/jmardb/reports/0854e7f4-44e6-32bf-a78a-500a628cbbdd")
 =end
+
+=begin 季節観測・特殊気象報
+puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/8c13276d-3962-39c4-9344-46416963cd73")
+puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/8ca44e6c-6e97-37e8-81d8-e6576f6752cb")
+puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/a61ce04e-be36-3864-8a41-2430a826d748")
+puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b5c0ab67-3e52-3ab3-adbf-395dcf848fa0")
+puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b815b9a7-f1cb-32b4-a008-2dd25b9565ea")
+=end
