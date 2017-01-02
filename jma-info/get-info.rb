@@ -26,27 +26,31 @@ def get_general_weather_conditions uri
 	cleanly_text(doc.elements["Report/Body/Comment/Text"].text)
 end
 
+def get_alerm uri
+	doc = get_doc(uri)
+	doc.elements[
+		"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]"+
+		"/Item/Areas/Area/Name"].text+"\n\t"+
+	doc.elements["Report/Head/Headline/Text"].text.gsub(/。([^\n])/){"。\n\t#{$1}"}+
+	alerm_info(doc)
+end
+
 def alerm_info doc
-	info_type = "[@type=\"気象警報・注意報（警報注意報種別毎）\"]"
-	if doc.elements["Report/Head/Headline/Information#{info_type}"]
-		"\n\t"+doc.elements["Report/Head/Headline/Information#{info_type}"]
-			.select{|x|x!="\n"}
-			.map do |a|
-				a.elements["Kind/Name"].text+"が"+
-				a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join(" ")+"に"
-			end
-			.join("、")+"出ています。"
+	if doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
+		"\n\t"+format_alerm_info(doc)
 	else # 解除時
 		""
 	end
 end
 
-def get_alerm uri
-	doc = get_doc(uri)
-	info_type = "[@type=\"気象警報・注意報（府県予報区等）\"]"
-	doc.elements["Report/Head/Headline/Information#{info_type}/Item/Areas/Area/Name"].text+"\n\t"+
-	doc.elements["Report/Head/Headline/Text"].text.gsub(/。[^\n]/){"。\n\t"}+
-	alerm_info(doc)
+def format_alerm_info doc
+	doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
+		.select{|x|x!="\n"}
+		.map do |a|
+			a.elements["Kind/Name"].text+"が"+
+			a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join(" ")+"に"
+		end
+		.join("、")+"出ています。"
 end
 
 def get_info(uri_and_title)
