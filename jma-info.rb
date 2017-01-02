@@ -20,13 +20,16 @@ def puts_info uris
 end
 
 def sleep_up_to_even_number_minutes
-	sleep(((Time.now.min+1)%2*60)+(60-Time.now.sec))
+	loop_sec = 30 # 60で割り切れるように
+	sleep(loop_sec-(Time.now.sec%loop_sec))
 end
 
 old_date = Time.now-120
 loop do
-	file_write_and_print new_date = Time.now
-	puts_info(get_uri_list(old_date, new_date))
+	new_date = Time.now
+	uri_list = get_uri_list(old_date, new_date)
+	file_write_and_print new_date unless uri_list.empty?
+	puts_info(uri_list)
 	old_date = new_date
 	sleep_up_to_even_number_minutes
 end
