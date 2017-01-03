@@ -24,12 +24,20 @@ def sleep_up_to_even_number_minutes
 	sleep(loop_sec-(Time.now.sec%loop_sec))
 end
 
-old_date = Time.now-120
-loop do
-	new_date = Time.now
-	uri_list = get_uri_list(old_date, new_date)
-	file_write_and_print new_date unless uri_list.empty?
-	puts_info(uri_list)
-	old_date = new_date
-	sleep_up_to_even_number_minutes
+def app
+	old_date = Time.now-120
+	loop do
+		new_date = Time.now
+		uri_list = get_uri_list(old_date, new_date)
+		file_write_and_print new_date unless uri_list.empty?
+		puts_info(uri_list)
+		old_date = new_date
+		sleep_up_to_even_number_minutes
+	end
+end
+
+begin
+	app()
+rescue Exception => e
+	file_write_and_print(e)
 end
