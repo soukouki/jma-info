@@ -95,7 +95,7 @@ def get_local_maritime_alert uri
 	doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+
 	item.map do |it|
 		((it.elements["Kind/Property/*/SubArea/Sentence"].nil?)? "" :
-			cleanly_text(it.elements["Kind/Property/*/SubArea/Sentence"].text)+"\n\t")+
+			cleanly_text(it.elements["Kind/Property/*/SubArea/Sentence"].text).gsub(" "){"、"}+"\n\t")+
 		it.elements["Area/Name"].text+"に"+it.elements["Kind/Name"].text+"が出ています。"
 	end.join("\n")
 end
