@@ -51,7 +51,7 @@ end
 
 def js_yomi str
 	<<-"EOS"
-<p>#{str.gsub("\n"){"<br>"}}</p>
+<p>#{str.gsub("\n"){"<br>"}.gsub("\t"){"　　"}}</p>
 <script>
 var ssu = new SpeechSynthesisUtterance();
 ssu.text = #{str.lines.map{|s|"'#{s.chomp}。'"}.join("+\n")};
@@ -74,4 +74,8 @@ OptionParser.new do |opt|
 	opt.parse!(ARGV)
 end
 
-app(arg)
+begin
+	app(arg)
+rescue Exception => e
+	File::open("./jma-info.error.log", "a"){|f|f.puts("#{e.exception}\n#{e.backtrace.join("\n")}")}
+end
