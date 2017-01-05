@@ -4,8 +4,8 @@ require "open-uri"
 require "optparse"
 require "securerandom"
 
-require "./jma-info/get-uri-list"
-require "./jma-info/get-info"
+require_relative "jma-info/get-uri-list"
+require_relative "jma-info/get-info"
 
 def sleep_up_to_even_number_minutes
 	loop_sec = 30 # 60で割り切れるように
@@ -34,18 +34,17 @@ def app arg
 end
 
 def file_appending f, s
-	File::open(f, "a"){|f|f.puts s}
+	File::open(File::expand_path("../"+f, __FILE__), "a"){|f|f.puts s}
 end
 
 def yomi browser, str
-	f = SecureRandom.uuid + ".html"
-	if File::exist?(f)
+	f_path = File.expand_path("../"+SecureRandom.uuid+".html", __FILE__)
+	if File::exist?(f_path)
 		yomi(str)
 	else
-		File::open(f, "w"){|f|f.puts js_yomi(str)}
-		f_path = File.expand_path("../"+f, __FILE__)
+		File::open(f_path, "w"){|f|f.puts js_yomi(str)}
 		`#{browser} #{f_path}`
-		Thread.new{sleep 5; File::delete(f)}
+		Thread.new{sleep 5; File::delete(f_path)}
 	end
 end
 
@@ -77,5 +76,5 @@ end
 begin
 	app(arg)
 rescue Exception => e
-	File::open("./jma-info.error.log", "a"){|f|f.puts("#{e.exception}\n#{e.backtrace.join("\n")}")}
+	file_appending("./jma-info.debug.log", e.class)
 end

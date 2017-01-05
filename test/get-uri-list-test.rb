@@ -1,5 +1,5 @@
 
-require "./jma-info/get-uri-list"
+require_relative "jma-info/get-uri-list"
 
 public def test x, msg
 	if self!=x
