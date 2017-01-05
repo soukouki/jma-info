@@ -39,13 +39,9 @@ end
 
 def yomi browser, str
 	f_path = File.expand_path("../"+SecureRandom.uuid+".html", __FILE__)
-	if File::exist?(f_path)
-		yomi(str)
-	else
-		File::open(f_path, "w"){|f|f.puts js_yomi(str)}
-		`#{browser} #{f_path}`
-		Thread.new{sleep 5; File::delete(f_path)}
-	end
+	File::open(f_path, "w"){|f|f.puts js_yomi(str)}
+	`#{browser} #{f_path}`
+	Thread.new{sleep 5; File::delete(f_path)}
 end
 
 def js_yomi str
