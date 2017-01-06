@@ -92,12 +92,18 @@ end
 def get_local_maritime_alert uri
 	doc = get_doc(uri)
 	item = doc.elements["Report/Body/Warning"].select{|a|a.kind_of?(REXML::Element)}
-	doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+
+	doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+
 	item.map do |it|
-		((it.elements["Kind/Property/*/SubArea/Sentence"].nil?)? "" :
-			cleanly_text(it.elements["Kind/Property/*/SubArea/Sentence"].text).gsub(" "){"、"}+"\n\t")+
-		it.elements["Area/Name"].text+"に"+it.elements["Kind/Name"].text+"が出ています。"
-	end.join("\n")
+		sentence = it.elements["Kind/Property/*/SubArea/Sentence"]
+		((sentence.nil?)? "" : "\n"+cleanly_text(sentence.text).gsub(" "){"、"})
+	end.join("")+"\n\t"+
+	item
+		.map{|a|a.elements["Kind/Name"].text}.uniq
+		.map do |k|
+			k+"が"+item
+				.select{|a|a.elements["Kind/Name"].text==k}.
+				map{|a|a.elements["Area/Name"].text}.join(" ")+"に"
+		end.join("、")+"出ています。"
 end
 
 def get_info(uri_and_title)
