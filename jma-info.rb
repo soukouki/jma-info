@@ -7,13 +7,8 @@ require "securerandom"
 require_relative "jma-info/get-uri-list"
 require_relative "jma-info/get-info"
 
-def sleep_up_to_even_number_minutes
-	loop_sec = 30 # 60で割り切れるように
-	sleep(loop_sec-(Time.now.sec%loop_sec))
-end
-
 def multiple_puts lambdas, text
-	lambdas.each{|lam|lam.call(text)}
+	lambdas.each{|l|l.call(text)}
 end
 
 def app arg
@@ -29,7 +24,7 @@ def app arg
 			.join("\n")
 		multiple_puts(arg[:puts], text) unless text==""
 		old_date = new_date
-		sleep_up_to_even_number_minutes
+		sleep(10)
 	end
 end
 
