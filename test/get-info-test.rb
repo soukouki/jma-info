@@ -1,5 +1,5 @@
 
-require_relative "jma-info/get-info"
+require_relative "../jma-info/get-info"
 
 =begin 一般報
 puts get_general_report("http://api.aitc.jp/jmardb/reports/2be7a5a8-11df-3fa4-954a-0b0b233884d2")

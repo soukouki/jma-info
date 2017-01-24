@@ -18,9 +18,9 @@ def get_json uri
 end
 
 # 古いものを上にして表示する
-def get_uri_list time_a, time_b
-	data = get_json(
+def get_uri_list old_date, new_date
+	get_json(
 		"http://api.aitc.jp/jmardb-api/search?"+
-		"datetime=#{time_format(time_a)}&datetime=#{time_format(time_b)}&limit=100")
-	data.map{|h|UriAndTitle.new(h["link"], h["title"])}
+		"datetime=#{time_format(old_date)}&datetime=#{time_format(new_date)}&limit=100")
+		.map{|h|UriAndTitle.new(h["link"], h["title"])}
 end

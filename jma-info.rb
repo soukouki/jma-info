@@ -15,16 +15,22 @@ def app arg
 	old_date = Time.now
 	multiple_puts(arg[:puts], "起動しました。")
 	loop do
-		new_date = Time.now
-		uri_list = get_uri_list(old_date, new_date)
+		new_date = Time.now # puts_infoは時間のかかる処理なのでその分を取り逃がさないように
+		puts_info(arg[:puts], new_date, old_date)
+		old_date = new_date
+		sleep(10)
+	end
+end
+
+def puts_info(puts_lambdas, new_date, old_date)
+	uri_list = get_uri_list(old_date, new_date)
+	unless uri_list.empty?
 		text = ((uri_list.empty?)? "" : new_date.to_s+"\n")+
 		uri_list
 			.map{|u|get_info(u)}
 			.select{|s|!s.nil?}
 			.join("\n")
-		multiple_puts(arg[:puts], text) unless text==""
-		old_date = new_date
-		sleep(10)
+	multiple_puts(puts_lambdas, text)
 	end
 end
 
@@ -35,27 +41,30 @@ end
 def yomi browser, str
 	f_path = File.expand_path("../"+SecureRandom.uuid+".html", __FILE__)
 	File::open(f_path, "w"){|f|f.puts js_yomi(str)}
-	`#{browser} #{f_path}`
+	r = system(browser, f_path) or
+		raise "ブラウザの立ち上げに失敗 : result=#{r.class}, browser=#{browser}, filepath=#{f_path}" # エラー処理
 	Thread.new{sleep 5; File::delete(f_path)}
 end
-
 def js_yomi str
+	speak_text = '"'+str.lines.map{|s|s.chomp.gsub(/([^。])$/){$1+"。"}}.join(%!"+\n"!)+'"'
+	# 行末に「。」を追加しているのは、vivaldiで試したときに一息入れずに呼んだため。
+	print_text = str.gsub("\n"){"<br>\n"}.gsub("\t"){"　　"}
 	<<-"EOS"
 <!DOCTYPE html>
-<html lang="ja"> 
+<html lang="ja">
 	<head>
 		<meta charset="utf-8"/>
 		<title>jma-infoの読み上げ</title>
 		<script type="text/javascript">
 			var ssu = new SpeechSynthesisUtterance();
-			ssu.text = #{str.lines.map{|s|"'#{s.chomp}。'"}.join("+\n")};
+			ssu.text = #{speak_text};
 			ssu.lang = 'ja-JP';
 			ssu.onend = function(){window.close()};
 			speechSynthesis.speak(ssu);
 		</script>
 	</head>
 	<body>
-		<p>#{str.gsub("\n"){"<br>\n"}.gsub("\t"){"　　"}}</p>
+		<p>#{print_text}</p>
 	</body>
 </html>
 	EOS
@@ -76,5 +85,7 @@ end
 begin
 	app(arg)
 rescue Exception => e
-	file_appending("./jma-info.debug.log", e.class)
+	text = e.to_s+e.backtrace.join("\n")
+	puts text
+	file_appending("./jma-info.debug.log", e.to_s+e.backtrace.join("\n"))
 end
