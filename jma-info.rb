@@ -12,7 +12,7 @@ def multiple_puts lambdas, text
 end
 
 def app arg
-	old_date = Time.now-120
+	old_date = Time.now
 	multiple_puts(arg[:puts], "起動しました。")
 	loop do
 		new_date = Time.now
@@ -41,14 +41,23 @@ end
 
 def js_yomi str
 	<<-"EOS"
-<p>#{str.gsub("\n"){"<br>"}.gsub("\t"){"　　"}}</p>
-<script>
-var ssu = new SpeechSynthesisUtterance();
-ssu.text = #{str.lines.map{|s|"'#{s.chomp}。'"}.join("+\n")};
-ssu.lang = 'ja-JP';
-ssu.onend = function(){window.close()};
-speechSynthesis.speak(ssu);
-</script>
+<!DOCTYPE html>
+<html lang="ja"> 
+	<head>
+		<meta charset="utf-8"/>
+		<title>jma-infoの読み上げ</title>
+		<script type="text/javascript">
+			var ssu = new SpeechSynthesisUtterance();
+			ssu.text = #{str.lines.map{|s|"'#{s.chomp}。'"}.join("+\n")};
+			ssu.lang = 'ja-JP';
+			ssu.onend = function(){window.close()};
+			speechSynthesis.speak(ssu);
+		</script>
+	</head>
+	<body>
+		<p>#{str.gsub("\n"){"<br>\n"}.gsub("\t"){"　　"}}</p>
+	</body>
+</html>
 	EOS
 end
 
