@@ -24,14 +24,15 @@ end
 
 def puts_info(puts_lambdas, new_date, old_date)
 	uri_list = get_uri_list(old_date, new_date)
-	unless uri_list.empty?
-		text = ((uri_list.empty?)? "" : new_date.to_s+"\n")+
-		uri_list
-			.map{|u|get_info(u)}
-			.select{|s|!s.nil?}
-			.join("\n")
-	multiple_puts(puts_lambdas, text)
+	if uri_list.empty?
+		return
 	end
+	text = ((uri_list.empty?)? "" : new_date.to_s+"\n")+
+	uri_list
+		.map{|u|get_info(u)}
+		.select{|s|!s.nil?}
+		.join("\n")
+	multiple_puts(puts_lambdas, text)
 end
 
 def file_appending f, s
@@ -49,25 +50,8 @@ def js_yomi str
 	speak_text = '"'+str.lines.map{|s|s.chomp.gsub(/([^。])$/){$1+"。"}}.join(%!"+\n"!)+'"'
 	# 行末に「。」を追加しているのは、vivaldiで試したときに一息入れずに呼んだため。
 	print_text = str.gsub("\n"){"<br>\n"}.gsub("\t"){"　　"}
-	<<-"EOS"
-<!DOCTYPE html>
-<html lang="ja">
-	<head>
-		<meta charset="utf-8"/>
-		<title>jma-infoの読み上げ</title>
-		<script type="text/javascript">
-			var ssu = new SpeechSynthesisUtterance();
-			ssu.text = #{speak_text};
-			ssu.lang = 'ja-JP';
-			ssu.onend = function(){window.close()};
-			speechSynthesis.speak(ssu);
-		</script>
-	</head>
-	<body>
-		<p>#{print_text}</p>
-	</body>
-</html>
-	EOS
+	File::open("jma-info-data/yomi.html"){|io|io.set_encoding("utf-8").read}
+		.gsub(/\#{([a-z_]+)}/){binding.local_variable_get($1)}
 end
 
 arg = {puts: [->(s){puts s}]}
