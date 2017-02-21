@@ -25,7 +25,13 @@ class UrisCache
 		end
 		
 		def get_items uri
-			data = JSON.parse(OpenURI.open_uri(uri).read)
+			begin
+				text = OpenURI.open_uri(uri).read
+			rescue # ネット関係のエラーは握りつぶす
+				puts "インターネットでのエラーが発生しました。このまま続行します。"
+				return []
+			end
+			data = JSON.parse(text)
 			if data["paging"]["next"].nil?
 				data["data"]
 			else
