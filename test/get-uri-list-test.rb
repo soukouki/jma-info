@@ -1,11 +1,19 @@
 
-require_relative "../jma-info/get-uri-list"
+require_relative "../jma-info/updated-uris"
 
 public def test x, msg
 	if self!=x
 		puts "not ok #{self}!=#{x} #{msg}"
+	else
+		puts(".")
 	end
 end
+
+def get_uri_list(o, n)
+	UrisCache::get_uri_list(o, n)
+end
+
+UriAndTitle = UrisCache::UriAndTitle
 
 get_uri_list(
 	Time.new(2017, 1, 1, 22, 0, 0), Time.new(2017, 1, 1, 23, 0, 0)).length.test 6, "データが取得できるか"

@@ -1,10 +1,9 @@
 # encoding: UTF-8
 
-require "open-uri"
 require "optparse"
 require "securerandom"
 
-require_relative "jma-info/get-uri-list"
+require_relative "jma-info/updated-uris"
 require_relative "jma-info/get-info"
 
 def multiple_puts lambdas, text
@@ -12,23 +11,22 @@ def multiple_puts lambdas, text
 end
 
 def app arg
-	old_date = Time.now
 	multiple_puts(arg[:puts], "起動しました。")
+	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻が遅れないとする
 	loop do
-		new_date = Time.now # puts_infoは時間のかかる処理なのでその分を取り逃がさないように
-		puts_info(arg[:puts], new_date, old_date)
-		old_date = new_date
+		time = Time.now
+		updated_uris, uris_cache = uris_cache.updated_uris(time)
+		puts_info(arg[:puts], updated_uris, time)
 		sleep(10)
 	end
 end
 
-def puts_info(puts_lambdas, new_date, old_date)
-	uri_list = get_uri_list(old_date, new_date)
-	if uri_list.empty?
+def puts_info(puts_lambdas, updated_uris, now_time)
+	if updated_uris.empty?
 		return
 	end
-	text = ((uri_list.empty?)? "" : new_date.to_s+"\n")+
-	uri_list
+	text = now_time.to_s+"\n"+
+	updated_uris
 		.map{|u|get_info(u)}
 		.select{|s|!s.nil?}
 		.join("\n")
