@@ -5,7 +5,7 @@ public def test x, msg
 	if self!=x
 		puts "not ok #{self}!=#{x} #{msg}"
 	else
-		puts(".")
+		print("o")
 	end
 end
 
@@ -24,3 +24,5 @@ get_uri_list(
 get_uri_list(Time.new(2017, 1, 24, 22, 48, 10),Time.new(2017, 1, 24, 22, 48, 20)).test(
 	[UriAndTitle.new("http://api.aitc.jp/jmardb-api/reports/301a10b4-c540-372c-9db3-1457664031cd", "府県天気概況")],
 	"戻り値の確認")
+
+puts ""
