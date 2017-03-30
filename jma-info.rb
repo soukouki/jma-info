@@ -1,4 +1,4 @@
-# encoding: UTF-8
+﻿# encoding: UTF-8
 
 require "optparse"
 require "securerandom"
@@ -20,12 +20,12 @@ end
 
 def app arg
 	multiple_puts(arg[:puts], "起動しました。")
-	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻が遅れないとする
+	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
 		updated_uris, uris_cache = uris_cache.updated_uris(time)
 		puts_info(arg[:puts], updated_uris, time)
-		sleep(10)
+		sleep(15)
 	end
 end
 
@@ -50,7 +50,7 @@ def yomi browser, str
 	file_open(file_path, "w"){|f|f.puts js_yomi(str)}
 	r = system(browser, file_path) or
 		raise "ブラウザの立ち上げに失敗 : result=#{r.class}, browser=#{browser}, filepath=#{f_path}" # エラー処理
-	Thread.new{sleep 5; File::delete(f_path)}
+	Thread.new{sleep 5; File::delete(file_path)}
 end
 def js_yomi str
 	speak_text = '"'+str.lines.map{|s|s.chomp.gsub(/([^。])$/){$1+"。"}}.join(%!"+\n"!)+'"'
