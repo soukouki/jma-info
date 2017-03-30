@@ -20,12 +20,12 @@ end
 
 def app arg
 	multiple_puts(arg[:puts], "起動しました。")
-	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻が遅れないとする
+	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
 		updated_uris, uris_cache = uris_cache.updated_uris(time)
 		puts_info(arg[:puts], updated_uris, time)
-		sleep(10)
+		sleep(15)
 	end
 end
 

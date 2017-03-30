@@ -31,3 +31,10 @@ puts get_local_maritime_alert("http://api.aitc.jp/jmardb/reports/7fdbc660-411a-3
 puts get_local_maritime_alert("http://api.aitc.jp/jmardb/reports/9a8468ae-e420-3080-bbad-28146ab507ab")
 puts get_local_maritime_alert("http://api.aitc.jp/jmardb/reports/961acdfc-8019-3b17-98cb-ea947f268d16")
 =end
+
+=begin 生物季節観測
+puts creature_season_observation("http://api.aitc.jp/jmardb/reports/b4871712-1544-3421-a7e5-55e320fe02b7")
+puts creature_season_observation("http://api.aitc.jp/jmardb/reports/f32f302b-b026-315c-ae6d-c223c81be44f")
+puts creature_season_observation("http://api.aitc.jp/jmardb/reports/609ae627-07cf-3652-b43b-d60a884d58ca")
+puts creature_season_observation("http://api.aitc.jp/jmardb/reports/e128161d-1306-3fbe-acff-24c34678edad")
+=end

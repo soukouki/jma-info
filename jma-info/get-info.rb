@@ -106,6 +106,38 @@ def get_local_maritime_alert uri
 		end.join("、")+"出ています。"
 end
 
+def days_diff days
+	if days=="nil"
+		"データなし"
+	elsif days.to_i.positive?
+		days+"日遅い"
+	elsif days.to_i.negative?
+		days.to_i.abs.to_s+"日早い"
+	else
+		"同日"
+	end
+end
+
+class XNil
+	def text
+		"nil"
+	end
+end
+
+def creature_season_observation uri
+	doc = get_doc(uri)
+	item = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item"]
+	pos = item.elements["Station/Location"].text
+	data = item.elements["Kind/Name"].text+
+		"("+item.elements["Kind/ClassName"].text+", "+item.elements["Kind/Condition"].text+")"
+	daysitem = doc.elements["Report/Body/AdditionalInfo/ObservationAddition"]
+	
+	normal = (daysitem.elements["DeviationFromNormal"]||XNil.new).text
+	lastyear = (daysitem.elements["DeviationFromLastYear"]||XNil.new).text
+	daystext = "昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
+	pos+"\n\t"+data+"\n\t"+daystext
+end
+
 def get_info(uri_and_title)
 	title = uri_and_title.title
 	uri = uri_and_title.uri
@@ -124,6 +156,8 @@ def get_info(uri_and_title)
 		title+" : "+get_special_weather_report(uri)
 	when "地方海上警報"
 		title+" : "+get_local_maritime_alert(uri)
+	when "生物季節観測"
+		title+" : "+creature_season_observation(uri)
 	else
 		title
 	end
