@@ -69,13 +69,20 @@ OptionParser.new do |opt|
 	opt.on("-y", "--yomi=Browser", "読み上げる(引数にはブラウザのパスを指定してください)") do |b|
 		arg[:puts] << ->(s){yomi(b, s)}
 	end
-	opt.parse!(ARGV)
+	opt.parse(ARGV)
 end
 
 begin
+	start_time = Time.now
 	app(arg)
 rescue Exception => e
 	text = e.to_s+e.backtrace.join("\n")
 	puts text
 	file_appending("./jma-info.debug.log", e.to_s+e.backtrace.join("\n"))
+	puts "起動時間 #{Time.now-start_time}"
+	if Time.now-start_time > 300
+		puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
+		puts "拾い漏れるデータがある可能性があります"
+		retry
+	end
 end
