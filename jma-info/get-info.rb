@@ -20,6 +20,26 @@ def delete_parentheses str
 	str.gsub(/(.+)（.+）/){$1}
 end
 
+def days_diff days
+	if days=="nil"
+		"データなし"
+	elsif days.to_i.positive?
+		days+"日遅い"
+	elsif days.to_i.negative?
+		days.to_i.abs.to_s+"日早い"
+	else
+		"同日"
+	end
+end
+
+def last_year_and_normal_year_text xmlitem
+	xnil = Struct.new(:a){def text;"";end}.new
+	
+	normal = (xmlitem.elements["DeviationFromNormal"]||xnil.new).text
+	lastyear = (xmlitem.elements["DeviationFromLastYear"]||xnil.new).text
+	"昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
+end
+
 def get_general_report uri
 	doc=get_doc(uri)
 	doc.elements["Report/Head/Title"].text+"\n"+
@@ -66,14 +86,10 @@ def get_special_weather_report uri
 	item.elements["Station/Name"].text+" "+
 	case doc.elements["Report/Head/Title"].text
 	when "季節観測"
-		average_year_diff = add_info.elements["DeviationFromNormal"].text.to_i
-		item.elements["Kind/Name"].text+
-		((add_info.elements["Text"].nil?)? "" : " "+delete_parentheses(add_info.elements["Text"].text))+"\n\t"+
-		"平年より#{average_year_diff.abs}日"+((average_year_diff.positive?)? "遅い" : "早い")
+		item_text = ((add_info.elements["Text"].nil?)? "" : delete_parentheses(add_info.elements["Text"].text))
+		item.elements["Kind/Name"].text+" "+item_text+"\n\t"+last_year_and_normal_year_text(add_info)
 	when "特殊気象報（風）"
 		"風"+"\n\t"+format_special_weather_report_wind(item)
-	when "特殊気象報（気圧）"
-		"気圧"+"\n\t"+item.elements["Kind/Property/PressurePart/Temporary/jmx_eb:Pressure"].attributes["description"]
 	when "特殊気象報（各種現象）"
 		item.elements["Kind/Name"].text+"\n"+
 		cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
@@ -106,35 +122,14 @@ def get_local_maritime_alert uri
 		end.join("、")+"出ています。"
 end
 
-def days_diff days
-	if days=="nil"
-		"データなし"
-	elsif days.to_i.positive?
-		days+"日遅い"
-	elsif days.to_i.negative?
-		days.to_i.abs.to_s+"日早い"
-	else
-		"同日"
-	end
-end
-
-class XNil
-	def text
-		"nil"
-	end
-end
-
 def creature_season_observation uri
 	doc = get_doc(uri)
 	item = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item"]
 	pos = item.elements["Station/Location"].text
 	data = item.elements["Kind/Name"].text+
 		"("+item.elements["Kind/ClassName"].text+", "+item.elements["Kind/Condition"].text+")"
-	daysitem = doc.elements["Report/Body/AdditionalInfo/ObservationAddition"]
+	daystext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
 	
-	normal = (daysitem.elements["DeviationFromNormal"]||XNil.new).text
-	lastyear = (daysitem.elements["DeviationFromLastYear"]||XNil.new).text
-	daystext = "昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
 	pos+"\n\t"+data+"\n\t"+daystext
 end
 

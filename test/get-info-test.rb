@@ -30,9 +30,9 @@ end
 test_group(false, "季節観測・特殊気象報") do
 	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/8c13276d-3962-39c4-9344-46416963cd73")
 	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/8ca44e6c-6e97-37e8-81d8-e6576f6752cb")
-	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/a61ce04e-be36-3864-8a41-2430a826d748")
 	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b5c0ab67-3e52-3ab3-adbf-395dcf848fa0")
-	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b815b9a7-f1cb-32b4-a008-2dd25b9565ea")
+	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/abfc7ddd-4841-3ae3-9733-4de637a89da9")
+	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/a2b1a4b6-1091-31b8-aaa3-bc6c8a3e801b")
 end
 
 test_group(false, "地方海上警報") do
