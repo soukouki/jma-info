@@ -48,4 +48,8 @@ test_group(false, "生物季節観測") do
 	puts creature_season_observation("http://api.aitc.jp/jmardb/reports/e128161d-1306-3fbe-acff-24c34678edad")
 end
 
+test_group(true, "地震情報") do
+	puts open("./test/samples/32-35_01_01_100806_VXSE51.xml").read
+end
+
 puts ""
