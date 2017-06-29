@@ -19,7 +19,7 @@ def file_open name, open_type="r", &open_block
 end
 
 def app arg
-	multiple_puts(arg[:puts], "起動しました。")
+	multiple_puts(arg[:puts], "#{Time.now}\n	起動しました。")
 	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
@@ -68,6 +68,9 @@ OptionParser.new do |opt|
 	end
 	opt.on("-y", "--yomi=Browser", "読み上げる(引数にはブラウザのパスを指定してください)") do |b|
 		arg[:puts] << ->(s){yomi(b, s)}
+	end
+	opt.on("-s", "--softalk", "ソフトークコマンドを実行") do
+		arg[:puts] << ->(s){`softalk #{s.gsub(/\s/){"。"}}`}
 	end
 	opt.parse(ARGV)
 end
