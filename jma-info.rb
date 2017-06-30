@@ -19,7 +19,7 @@ def file_open name, open_type="r", &open_block
 end
 
 def app arg
-	multiple_puts(arg[:puts], "起動しました。")
+	multiple_puts(arg[:puts], "#{Time.now}\n	起動しました。")
 	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
@@ -45,29 +45,14 @@ def file_appending f, s
 	file_open(f, "a"){|f|f.puts s}
 end
 
-def yomi browser, str
-	file_path = absolute_path(SecureRandom.uuid+".html")
-	file_open(file_path, "w"){|f|f.puts js_yomi(str)}
-	r = system(browser, file_path) or
-		raise "ブラウザの立ち上げに失敗 : result=#{r.class}, browser=#{browser}, filepath=#{f_path}" # エラー処理
-	Thread.new{sleep 5; File::delete(file_path)}
-end
-def js_yomi str
-	speak_text = '"'+str.lines.map{|s|s.chomp.gsub(/([^。])$/){$1+"。"}}.join(%!"+\n"!)+'"'
-	# 行末に「。」を追加しているのは、vivaldiで試したときに一息入れずに呼んだため。
-	print_text = str.gsub("\n"){"<br>\n"}.gsub("\t"){"　　"}
-	file_open("jma-info-data/yomi.html"){|io|io.set_encoding("utf-8").read}
-		.gsub(/\#{([a-z_]+)}/){binding.local_variable_get($1)}
-end
-
 arg = {puts: [->(s){puts s}]}
 OptionParser.new do |opt|
 	opt.on("-w", "--write=[FILE]", "ファイルにログを保存する(デフォルトは\"./jma-info.log\")") do |f|
 		f ||= "./jma-info.log"
 		arg[:puts] << ->(s){file_appending(f, s)}
 	end
-	opt.on("-y", "--yomi=Browser", "読み上げる(引数にはブラウザのパスを指定してください)") do |b|
-		arg[:puts] << ->(s){yomi(b, s)}
+	opt.on("-s", "--system=[PATH]", "外部コマンドを実行する") do |path|
+		arg[:puts] << ->(s){`#{path} #{s.gsub(/\s/){"。"}}`}
 	end
 	opt.parse(ARGV)
 end
