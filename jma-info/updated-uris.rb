@@ -28,14 +28,14 @@ class UrisCache
 			begin
 				text = OpenURI.open_uri(uri).read
 			rescue # ネット関係のエラーは握りつぶす
-				puts "インターネットでのエラーが発生しました。このまま続行します。"
+				STDERR.puts "インターネットでのエラーが発生しました。このまま続行します。"
 				return []
 			end
 			data = JSON.parse(text)
 			if data["paging"]["next"].nil?
 				data["data"]
 			else
-				sleep(0.5) # 念のため少し間を空けておく
+				sleep(1) # 念のため少し間を空けておく
 				data["data"]+get_items(data["paging"]["next"])
 			end
 		end

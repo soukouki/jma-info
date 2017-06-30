@@ -1,7 +1,6 @@
 ﻿# encoding: UTF-8
 
 require "optparse"
-require "securerandom"
 
 require_relative "jma-info/updated-uris"
 require_relative "jma-info/get-info"
@@ -19,7 +18,7 @@ def file_open name, open_type="r", &open_block
 end
 
 def app arg
-	multiple_puts(arg[:puts], "起動しました。")
+	multiple_puts(arg[:puts], "#{Time.now}\n	起動しました。")
 	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
@@ -45,44 +44,39 @@ def file_appending f, s
 	file_open(f, "a"){|f|f.puts s}
 end
 
-def yomi browser, str
-	file_path = absolute_path(SecureRandom.uuid+".html")
-	file_open(file_path, "w"){|f|f.puts js_yomi(str)}
-	r = system(browser, file_path) or
-		raise "ブラウザの立ち上げに失敗 : result=#{r.class}, browser=#{browser}, filepath=#{f_path}" # エラー処理
-	Thread.new{sleep 5; File::delete(file_path)}
-end
-def js_yomi str
-	speak_text = '"'+str.lines.map{|s|s.chomp.gsub(/([^。])$/){$1+"。"}}.join(%!"+\n"!)+'"'
-	# 行末に「。」を追加しているのは、vivaldiで試したときに一息入れずに呼んだため。
-	print_text = str.gsub("\n"){"<br>\n"}.gsub("\t"){"　　"}
-	file_open("jma-info-data/yomi.html"){|io|io.set_encoding("utf-8").read}
-		.gsub(/\#{([a-z_]+)}/){binding.local_variable_get($1)}
+def optparse argv
+	arg = {puts: [->(s){puts s}]}
+	OptionParser.new do |opt|
+		opt.on("-w", "--write=[FILE]", "ファイルにログを保存する(デフォルトは\"./jma-info.log\")") do |f|
+			f ||= "./jma-info.log"
+			arg[:puts] << ->(s){file_appending(f, s)}
+		end
+		opt.on("-s", "--system=[PATH]", "外部コマンドを実行する") do |path|
+			arg[:puts] << ->(s){`#{path} #{s.gsub(/\s/){"。"}}`}
+		end
+		opt.parse(argv)
+	end
+	return arg
 end
 
-arg = {puts: [->(s){puts s}]}
-OptionParser.new do |opt|
-	opt.on("-w", "--write=[FILE]", "ファイルにログを保存する(デフォルトは\"./jma-info.log\")") do |f|
-		f ||= "./jma-info.log"
-		arg[:puts] << ->(s){file_appending(f, s)}
+def error_process start_time, error_time, error
+	text = "#{error.backtrace.first}: #{error.message} (#{error.class})\n#{error.backtrace[1..-1].each{|m|"\tfrom #{m}"}.join("\n")}"
+	STDERR.puts text
+	file_appending("./jma-info.debug.log", error.to_s+error.backtrace.join("\n"))
+	puts "起動時間 #{Time.now-start_time}"
+	if Time.now-start_time > 300
+		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
+		STDERR.puts "拾い漏れるデータがある可能性があります"
+		return true
+	else
+		return false
 	end
-	opt.on("-y", "--yomi=Browser", "読み上げる(引数にはブラウザのパスを指定してください)") do |b|
-		arg[:puts] << ->(s){yomi(b, s)}
-	end
-	opt.parse(ARGV)
 end
 
 begin
+	arg = optparse(ARGV)
 	start_time = Time.now
 	app(arg)
 rescue Exception => e
-	text = e.to_s+e.backtrace.join("\n")
-	puts text
-	file_appending("./jma-info.debug.log", e.to_s+e.backtrace.join("\n"))
-	puts "起動時間 #{Time.now-start_time}"
-	if Time.now-start_time > 300
-		puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
-		puts "拾い漏れるデータがある可能性があります"
-		retry
-	end
+	retry if error_process(start_time, Time.now, e)
 end
