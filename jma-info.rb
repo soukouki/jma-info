@@ -1,7 +1,6 @@
 ﻿# encoding: UTF-8
 
 require "optparse"
-require "securerandom"
 
 require_relative "jma-info/updated-uris"
 require_relative "jma-info/get-info"
@@ -45,29 +44,39 @@ def file_appending f, s
 	file_open(f, "a"){|f|f.puts s}
 end
 
-arg = {puts: [->(s){puts s}]}
-OptionParser.new do |opt|
-	opt.on("-w", "--write=[FILE]", "ファイルにログを保存する(デフォルトは\"./jma-info.log\")") do |f|
-		f ||= "./jma-info.log"
-		arg[:puts] << ->(s){file_appending(f, s)}
+def optparse argv
+	arg = {puts: [->(s){puts s}]}
+	OptionParser.new do |opt|
+		opt.on("-w", "--write=[FILE]", "ファイルにログを保存する(デフォルトは\"./jma-info.log\")") do |f|
+			f ||= "./jma-info.log"
+			arg[:puts] << ->(s){file_appending(f, s)}
+		end
+		opt.on("-s", "--system=[PATH]", "外部コマンドを実行する") do |path|
+			arg[:puts] << ->(s){`#{path} #{s.gsub(/\s/){"。"}}`}
+		end
+		opt.parse(argv)
 	end
-	opt.on("-s", "--system=[PATH]", "外部コマンドを実行する") do |path|
-		arg[:puts] << ->(s){`#{path} #{s.gsub(/\s/){"。"}}`}
+	return arg
+end
+
+def error_process start_time, error_time, error
+	text = "#{error.backtrace.first}: #{error.message} (#{error.class})\n#{error.backtrace[1..-1].each{|m|"\tfrom #{m}"}.join("\n")}"
+	STDERR.puts text
+	file_appending("./jma-info.debug.log", error.to_s+error.backtrace.join("\n"))
+	puts "起動時間 #{Time.now-start_time}"
+	if Time.now-start_time > 300
+		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
+		STDERR.puts "拾い漏れるデータがある可能性があります"
+		return true
+	else
+		return false
 	end
-	opt.parse(ARGV)
 end
 
 begin
+	arg = optparse(ARGV)
 	start_time = Time.now
 	app(arg)
 rescue Exception => e
-	text = e.to_s+e.backtrace.join("\n")
-	puts text
-	file_appending("./jma-info.debug.log", e.to_s+e.backtrace.join("\n"))
-	puts "起動時間 #{Time.now-start_time}"
-	if Time.now-start_time > 300
-		puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
-		puts "拾い漏れるデータがある可能性があります"
-		retry
-	end
+	retry if error_process(start_time, Time.now, e)
 end
