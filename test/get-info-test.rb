@@ -49,7 +49,9 @@ test_group(false, "生物季節観測") do
 end
 
 test_group(true, "地震情報") do
-	puts open("./test/samples/32-35_01_01_100806_VXSE51.xml").read
+end
+
+test_group(true, "津波情報") do
 end
 
 puts ""
