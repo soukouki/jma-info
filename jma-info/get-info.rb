@@ -138,23 +138,35 @@ end
 def earthquake_info uri
 	doc = get_doc(uri)
 	heading = cleanly_text(doc.elements["Report/Head/Headline/Text"].text, nonetab=true)
-	infos = doc.elements["Report/Head/Headline"]
-		.select{|i|i.class==REXML::Element}
-		.select{|i|i.name=="Information"}
-	text = infos.map do |info|
-		case info.attribute("type").value
-		when "震度速報", "震源・震度に関する情報（市町村等）"
-			"\t"+
-			info.select{|a|a.kind_of?(REXML::Element)}
-				.map{|item|
-					item.elements["Kind/Name/text()"].to_s+" : "+
-					item.elements["Areas"]
-						.select{|a|a.kind_of?(REXML::Element)}
-						.map{|a|a.elements["Name/text()"].value}
-						.join("、")
-				}.join("\n\t")
-		end
-	end.join
+	text = doc
+		.elements
+		.collect("Report/Body/*") do |info|
+			case info.name
+			when "Intensity"
+				# 震度速報の時false 震源震度に関する情報の時true
+				is_detail_info = info.elements["count(Observation/CodeDefine/Type)"]==4
+				sint_to_s = ->(si){si.gsub("+"){"強"}.gsub("-"){"弱"}}
+				maxint = ->(doc){":"+sint_to_s.call(doc.elements["MaxInt/text()"].to_s)}
+				name = ->(doc){doc.elements["Name/text()"].value}
+				name_and_maxint = ->(doc){name.call(doc)+maxint.call(doc)}
+				"\t全体"+maxint.call(info.elements["Observation"])+"\n\t"+
+				info.elements
+					.collect("Observation/Pref"){|pref|
+						name.call(pref)+"、"+
+						pref.elements
+							.collect("Area"){|area|
+								((!is_detail_info)? name_and_maxint.call(area) :
+									(name.call(area)+
+										"ここあれ"))}
+							.join("、")}
+					.join("\n\t")+"\n"
+			when "Comments"
+				"\t"+
+				info.elements
+					.collect("*/Text"){|c|c.text}
+					.join("\n\t")
+			end
+		end.join
 	heading+"\n"+text
 end
 
