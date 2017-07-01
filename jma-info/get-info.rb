@@ -171,38 +171,55 @@ module GetInfo
 			.collect("Report/Body/*") do |info|
 				case info.name
 				when "Intensity"
-					# 震度速報の時false 震源震度に関する情報の時true
-					is_detail_info = info.elements["count(Observation/CodeDefine/Type)"]==4
-					sint_to_s = ->(si){"震度"+si.gsub("+"){"強"}.gsub("-"){"弱"}}
-					maxint = ->(doc){":"+sint_to_s.call(doc.elements["MaxInt/text()"].to_s)}
-					name = ->(doc){doc.elements["Name/text()"].value}
-					name_and_maxint = ->(doc){name.call(doc)+maxint.call(doc)}
-					"\t全体"+maxint.call(info.elements["Observation"])+"\n\t"+
-					info.elements
-						.collect("Observation/Pref"){|pref|
-							name.call(pref)+((is_detail_info)? "\n\t" : "、")+
-							pref.elements
-								.collect("Area"){|area|
-									((!is_detail_info)? name_and_maxint.call(area) :
-										(name.call(area)+"\n\t\t"+
-											area.elements
-												.collect("City"){|city|
-													name.call(city)+" "+
-													city.elements
-														.collect("IntensityStation"){|is|
-															name.call(is)+":"+sint_to_s.call(is.elements["Int/text()"].to_s)}
-														.join(" ")}
-												.join("\n\t\t")))}
-								.join((is_detail_info)? "\n\t" : "、")}
-						.join("\n\t")+"\n"
+					earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
 				when "Comments"
-					"\t"+
-					info.elements
-						.collect("*/Text"){|c|c.text}
-						.join("\n\t")
+					earthquake_info_comment_part(info)
 				end
 			end.join
 		heading+"\n"+text
 	end
+	def earthquake_info_intensity_part(info, is_detail_info)
+		"\t全体"+maxint(info.elements["Observation"])+"\n\t"+intensity_pref_xml_to_s(info, is_detail_info)
+	end
+	def intensity_pref_xml_to_s info, is_detail_info
+		info.elements
+			.collect("Observation/Pref"){|pref|
+				name(pref)+((is_detail_info)? "\n\t" : "、")+intensity_area_xml_to_s(pref, is_detail_info)}
+			.join("\n\t")+"\n"
+	end
+	def intensity_area_xml_to_s pref, is_detail_info
+		# こっから先(city IS)は震源・震度に関する情報のときだけ
+		pref.elements
+			.collect("Area"){|area|(!is_detail_info)? name_and_maxint(area) : (name(area)+"\n\t\t"+intensity_city_xml_to_s(area))}
+			.join((is_detail_info)? "\n\t" : "、")
+	end
+	def intensity_city_xml_to_s area
+		area.elements
+			.collect("City"){|city|name(city)+"、"+intensity_station_xml_to_s(city)}
+			.join("\n\t\t")
+	end
+	def intensity_station_xml_to_s city
+		city.elements
+			.collect("IntensityStation"){|is|name(is)+":"+sint_to_s(is.elements["Int/text()"].to_s)}
+			.join("、")
+	end
+	def sint_to_s si
+		"震度"+si.gsub("+"){"強"}.gsub("-"){"弱"}
+	end
+	def maxint doc
+		":"+sint_to_s(doc.elements["MaxInt/text()"].to_s)
+	end
+	def name doc
+		doc.elements["Name/text()"].value
+	end
+	def name_and_maxint doc
+		name(doc)+maxint(doc)
+	end
 	
+	def earthquake_info_comment_part info
+		"\t"+
+		info.elements
+			.collect("*/Text"){|c|c.text}
+			.join("\n\t")
+	end
 end
