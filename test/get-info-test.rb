@@ -3,7 +3,7 @@ require_relative "../jma-info/get-info"
 
 def test_group execute, name, &block
 	if execute
-		puts name
+		puts "\n"+name
 		block.call
 	else
 		print "s"
@@ -49,9 +49,12 @@ test_group(false, "生物季節観測") do
 end
 
 test_group(true, "地震情報") do
+	puts earthquake_info("./test/samples/earthquark/32-35_01_01_100806_VXSE51.xml")
+	#２つファイルあり
+	puts earthquake_info("./test/samples/earthquark/32-35_01_03_100806_VXSE53.xml")
 end
 
-test_group(true, "津波情報") do
+test_group(false, "津波情報") do
 end
 
 puts ""

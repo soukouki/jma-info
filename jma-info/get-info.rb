@@ -7,13 +7,13 @@ def get_doc uri
 	REXML::Document.new(open(uri))
 end
 
-def cleanly_text text
+def cleanly_text text, nonetab=false
 	text
 		.tr('０-９．（）', '0-9.()') # 全角を半角に
 		.gsub(/\u3000|\n(?!\n)/){""} # 全角スペースと単独の改行を消す
 		.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
 		.gsub("  "){" "} # 連続した空白を一つにまとめる
-		.gsub(/^/){"\t"} # 行のはじめにタブを付ける
+		.gsub(/^/){(nonetab)? "" : "\t"} # 行のはじめにタブを付ける
 end
 
 def delete_parentheses str
@@ -131,6 +131,31 @@ def creature_season_observation uri
 	daystext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
 	
 	pos+"\n\t"+data+"\n\t"+daystext
+end
+
+# タイトルで分けれないため、この関数内で地震情報と津波情報を処理する
+# メモ、津波関連のタイトルのあれは津波で検索するほうが良さそう。
+def earthquake_info uri
+	doc = get_doc(uri)
+	heading = cleanly_text(doc.elements["Report/Head/Headline/Text"].text, nonetab=true)
+	infos = doc.elements["Report/Head/Headline"]
+		.select{|i|i.class==REXML::Element}
+		.select{|i|i.name=="Information"}
+	text = infos.map do |info|
+		case info.attribute("type").value
+		when "震度速報", "震源・震度に関する情報（市町村等）"
+			"\t"+
+			info.select{|a|a.kind_of?(REXML::Element)}
+				.map{|item|
+					item.elements["Kind/Name/text()"].to_s+" : "+
+					item.elements["Areas"]
+						.select{|a|a.kind_of?(REXML::Element)}
+						.map{|a|a.elements["Name/text()"].value}
+						.join("、")
+				}.join("\n\t")
+		end
+	end.join
+	heading+"\n"+text
 end
 
 def get_info(uri_and_title)
