@@ -149,7 +149,7 @@ def get_info(uri_and_title)
 		title+" : "+get_general_report(uri)
 	when "府県天気概況"
 		title+" : "+get_general_weather_conditions(uri)
-	when "気象警報・注意報" # 無視
+	when "気象警報・注意報（Ｈ２７）" # 無視
 	when "気象特別警報・警報・注意報"
 		title+" : "+get_alerm(uri)
 	when "季節観測", "特殊気象報"
