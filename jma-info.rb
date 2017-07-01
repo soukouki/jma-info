@@ -34,7 +34,7 @@ def puts_info(puts_lambdas, updated_uris, now_time)
 	end
 	text = now_time.to_s+"\n"+
 	updated_uris
-		.map{|u|get_info(u)}
+		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.nil?}
 		.join("\n")
 	multiple_puts(puts_lambdas, text)

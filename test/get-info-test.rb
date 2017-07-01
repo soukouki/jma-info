@@ -1,7 +1,9 @@
 
 require_relative "../jma-info/get-info"
 
+# テスト側を変えないためにここでincludeしている
 def test_group execute, name, &block
+	include GetInfo
 	if execute
 		puts "\n"+name
 		block.call
