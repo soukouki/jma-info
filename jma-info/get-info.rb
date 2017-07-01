@@ -162,6 +162,11 @@ module GetInfo
 	end
 	
 	# タイトルで分けれないため、この関数内で地震情報と津波情報を処理する
+	# 震度速報
+	# 震源に関する情報
+	# 震源・震度に関する情報
+	# 地震の活動状況に関する情報 <-移せそう
+	# 地震回数に関する情報 <-移せそう
 	# メモ、津波関連のタイトルのあれは津波で検索するほうが良さそう。
 	def earthquake_info uri
 		doc = get_doc(uri)
@@ -170,8 +175,17 @@ module GetInfo
 			.elements
 			.collect("Report/Body/*") do |info|
 				case info.name
+				when "Earthquake"
+					area = info.elements["Hypocenter/Area"]
+					"\t震源地:"+area.elements["Name/text()"].value+
+					((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
+					((area.elements["NameFromMark"])? "("+area.elements["NameFromMark/text()"].value+")" : "")+"\n\t"+
+					"\t"+area.elements["jmx_eb:Coordinate/@description"].value+"\n\t"+
+					"マグニチュード:"+info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){}+"\n"+
+					((info.elements["Hypocenter/Source"])? "\t情報元:"+info.elements["Hypocenter/Source/text()"].value+"\n" :  "")
 				when "Intensity"
 					earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+					"\tここに震度情報\n"
 				when "Comments"
 					earthquake_info_comment_part(info)
 				end
