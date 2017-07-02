@@ -1,5 +1,6 @@
 
 require "open-uri"
+require "time"
 
 require "rexml/document"
 
@@ -187,10 +188,12 @@ module GetInfo
 					#earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
 				when "Naming" # 地震の活動状況に関する情報
 					"\t"+info.text+"\n"
-				when "Text" # 地震の活動状況に関する情報
-					cleanly_text(info.text)
 				when "EarthquakeCount" # 地震回数に関する情報
-					"\t地震の回数だお！！\n"
+					earthquake_info_count_part(info)
+				when "NextAdvisory" # 地震回数に関する情報
+					cleanly_text(info.text)+"\n"
+				when "Text" # 地震の活動状況に関する情報+地震回数に関する情報
+					cleanly_text(info.text)
 				when "Comments"
 					earthquake_info_comment_part(info)
 				end
@@ -248,6 +251,27 @@ module GetInfo
 	end
 	def get_name_and_maxint doc
 		get_name(doc)+":"+get_maxint(doc)
+	end
+	
+	def earthquake_info_count_part info
+		"\t"+info
+			.elements.collect("Item"){|item|
+				s = Time.parse(item.elements["StartTime"].text)
+				e = Time.parse(item.elements["EndTime"].text)
+				time_to_counts_s(s)+"から"+
+				time_to_counts_s(e)+"までの"+
+				time_diff_to_count_s(e-s)+"で、"+
+				((item.elements["Number"].text!="-1")? (num=true; "回数:"+item.elements["Number"].text+"回") : "")+
+				((item.elements["FeltNumber"].text!="-1")? ((num)? "、" : "")+"有感:"+item.elements["FeltNumber"].text+"回" : "")}
+			.join("\n\t")+"\n"
+	end
+	def time_to_counts_s time
+		time.strftime("%m月%d日%H時")
+	end
+	# 日~時まで
+	def time_diff_to_count_s diff
+		((diff>=(60*60*24))? (day=true; (diff.to_i/(60*60*24)).to_s+"日") : "")+
+		((diff.to_i % (60*60*24)>=1)? (((day)? "と" : "")+((diff.to_i % (60*60*24))/(60*60)).to_s+"時間") : "")
 	end
 	
 	def earthquake_info_comment_part info
