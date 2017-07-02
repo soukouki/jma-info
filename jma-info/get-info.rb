@@ -35,13 +35,18 @@ module GetInfo
 		REXML::Document.new(open(uri))
 	end
 	
-	def cleanly_text text, nonetab=false
-		text
-			.tr('０-９．（）', '0-9.()') # 全角を半角に
-			.gsub(/\u3000|\n(?!\n)/){""} # 全角スペースと単独の改行を消す
+	# 文章を綺麗にする
+	def cleanly_text text
+		cleanly_str(text)
+			.gsub(/\n(?!\n)/){""} # 全角スペースと単独の改行を消す
 			.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
 			.gsub("  "){" "} # 連続した空白を一つにまとめる
-			.gsub(/^/){(nonetab)? "" : "\t"} # 行のはじめにタブを付ける
+			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
+	end
+	# 数字や、文字を置き換える
+	def cleanly_str text
+		text.tr('０-９Ａ-Ｚａ-ｚ．＊（）　', '0-9A-Za-z.*() ') # 全角を半角に
+			.gsub(/ (\d)/){$1} # 数字の前の空白を削除
 	end
 	
 	def delete_parentheses str
@@ -170,70 +175,77 @@ module GetInfo
 	# メモ、津波関連のタイトルのあれは津波で検索するほうが良さそう。
 	def earthquake_info uri
 		doc = get_doc(uri)
-		heading = cleanly_text(doc.elements["Report/Head/Headline/Text"].text, nonetab=true)
+		heading = cleanly_str(doc.elements["Report/Head/Headline/Text"].text)
 		text = doc
 			.elements
 			.collect("Report/Body/*") do |info|
 				case info.name
 				when "Earthquake"
-					area = info.elements["Hypocenter/Area"]
-					"\t震源地:"+area.elements["Name/text()"].value+
-					((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
-					((area.elements["NameFromMark"])? "("+area.elements["NameFromMark/text()"].value+")" : "")+"\n\t"+
-					"\t"+area.elements["jmx_eb:Coordinate/@description"].value+"\n\t"+
-					"マグニチュード:"+info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){}+"\n"+
-					((info.elements["Hypocenter/Source"])? "\t情報元:"+info.elements["Hypocenter/Source/text()"].value+"\n" :  "")
+					earthquake_info_earthquake_paet(info)
 				when "Intensity"
 					earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
-					"\tここに震度情報\n"
 				when "Comments"
 					earthquake_info_comment_part(info)
 				end
 			end.join
 		heading+"\n"+text
 	end
-	def earthquake_info_intensity_part(info, is_detail_info)
-		"\t全体"+maxint(info.elements["Observation"])+"\n\t"+intensity_pref_xml_to_s(info, is_detail_info)
+	
+	def earthquake_info_earthquake_paet info
+		area = info.elements["Hypocenter/Area"]
+		"\t震源地:"+area.elements["Name/text()"].value+
+		((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
+		((area.elements["NameFromMark"])? "("+cleanly_str(area.elements["NameFromMark/text()"].value)+")" : "")+"\n\t"+
+		"\t"+cleanly_str(area.elements["jmx_eb:Coordinate/@description"].value)+"\n\t"+
+		"マグニチュード:"+cleanly_str(info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){})+"\n"+
+		((info.elements["Hypocenter/Source"])? "\t情報元:"+cleanly_str(info.elements["Hypocenter/Source/text()"].value)+"\n" :  "")
+	end
+	
+	def earthquake_info_intensity_part info, is_detail_info
+		"\t最大震度:"+get_maxint(info.elements["Observation"])+"\n\t"+intensity_pref_xml_to_s(info, is_detail_info)
 	end
 	def intensity_pref_xml_to_s info, is_detail_info
 		info.elements
 			.collect("Observation/Pref"){|pref|
-				name(pref)+((is_detail_info)? "\n\t" : "、")+intensity_area_xml_to_s(pref, is_detail_info)}
+				get_name(pref)+((is_detail_info)? ":"+get_maxint(pref)+"\n\t" : "、")+
+					intensity_area_xml_to_s(pref, is_detail_info)}
 			.join("\n\t")+"\n"
 	end
 	def intensity_area_xml_to_s pref, is_detail_info
 		# こっから先(city IS)は震源・震度に関する情報のときだけ
 		pref.elements
-			.collect("Area"){|area|(!is_detail_info)? name_and_maxint(area) : (name(area)+"\n\t\t"+intensity_city_xml_to_s(area))}
+			.collect("Area"){|area|
+				(!is_detail_info)? get_name_and_maxint(area) :
+					(get_name(area)+":"+get_maxint(area)+"\n\t\t"+intensity_city_xml_to_s(area))}
 			.join((is_detail_info)? "\n\t" : "、")
 	end
 	def intensity_city_xml_to_s area
 		area.elements
-			.collect("City"){|city|name(city)+"、"+intensity_station_xml_to_s(city)}
+			.collect("City"){|city|get_name(city)+"、"+intensity_station_xml_to_s(city)}
 			.join("\n\t\t")
 	end
 	def intensity_station_xml_to_s city
 		city.elements
-			.collect("IntensityStation"){|is|name(is)+":"+sint_to_s(is.elements["Int/text()"].to_s)}
+			.collect("IntensityStation"){|is|cleanly_str(get_name(is))+":"+sint_to_s(is.elements["Int/text()"].value)}
 			.join("、")
 	end
 	def sint_to_s si
-		"震度"+si.gsub("+"){"強"}.gsub("-"){"弱"}
+		# 震度のgsubは、震度5弱以上未入電のときの最初の震度を消すため。
+		cleanly_str("震度"+si.gsub("震度"){""}.gsub("+"){"強"}.gsub("-"){"弱"})
 	end
-	def maxint doc
-		":"+sint_to_s(doc.elements["MaxInt/text()"].to_s)
+	def get_maxint doc
+		sint_to_s(doc.elements["MaxInt/text()"].to_s)
 	end
-	def name doc
+	def get_name doc
 		doc.elements["Name/text()"].value
 	end
-	def name_and_maxint doc
-		name(doc)+maxint(doc)
+	def get_name_and_maxint doc
+		get_name(doc)+":"+get_maxint(doc)
 	end
 	
 	def earthquake_info_comment_part info
-		"\t"+
 		info.elements
-			.collect("*/Text"){|c|c.text}
-			.join("\n\t")
+			.collect("*/Text"){|c|cleanly_text(c.text)}
+			.join("\n")
 	end
 end
