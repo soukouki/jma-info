@@ -54,7 +54,7 @@ def format_alerm_info doc
 		.select{|x|x!="\n"}
 		.map do |a|
 			a.elements["Kind/Name"].text+"が"+
-			a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join(" ")+"に"
+			a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join("、")+"に"
 		end
 		.join("、")+"出ています。"
 end
