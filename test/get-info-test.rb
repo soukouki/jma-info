@@ -97,6 +97,7 @@ test_group(true, "地震情報") do
 	puts earthquake_info("./test/samples/earthquake/32-35_08_07_100915_VXSE53.xml")
 	puts earthquake_info("./test/samples/earthquake/32-35_08_08_100915_VXSE53.xml")
 	puts earthquake_info("./test/samples/earthquake/33_12_01_120615_VXSE41.xml")
+	puts earthquake_info("http://api.aitc.jp/jmardb/reports/59f85cd9-0045-3779-aa1a-e6a0f13a55f1")
 end
 
 test_group(false, "津波情報") do

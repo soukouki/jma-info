@@ -45,7 +45,7 @@ module GetInfo
 	end
 	# 数字や、文字を置き換える
 	def cleanly_str text
-		text.tr('０-９Ａ-Ｚａ-ｚ．＊（）　', '0-9A-Za-z.*() ') # 全角を半角に
+		text.tr('０-９Ａ-Ｚａ-ｚ．＊－（）　', '0-9A-Za-z.*\-() ') # 全角を半角に
 			.gsub(/ (\d)/){$1} # 数字の前の空白を削除
 	end
 	
@@ -170,8 +170,8 @@ module GetInfo
 	# 震度速報
 	# 震源に関する情報
 	# 震源・震度に関する情報
-	# 地震の活動状況に関する情報 <-移せそう
-	# 地震回数に関する情報 <-移せそう
+	# 地震の活動状況に関する情報
+	# 地震回数に関する情報
 	# メモ、津波関連のタイトルのあれは津波で検索するほうが良さそう。
 	def earthquake_info uri
 		doc = get_doc(uri)
@@ -183,7 +183,13 @@ module GetInfo
 				when "Earthquake"
 					earthquake_info_earthquake_paet(info)
 				when "Intensity"
-					earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+					#earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+				when "Naming" # 地震の活動状況に関する情報
+					"\t"+info.text+"\n"
+				when "Text" # 地震の活動状況に関する情報
+					cleanly_text(info.text)
+				when "EarthquakeCount" # 地震回数に関する情報
+					"\t地震の回数だお！！\n"
 				when "Comments"
 					earthquake_info_comment_part(info)
 				end
@@ -245,7 +251,8 @@ module GetInfo
 	
 	def earthquake_info_comment_part info
 		info.elements
-			.collect("*/Text"){|c|cleanly_text(c.text)}
+			.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
+			.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
 			.join("\n")
 	end
 end
