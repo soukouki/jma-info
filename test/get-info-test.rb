@@ -16,6 +16,8 @@ test_group(false, "一般報") do
 	puts get_general_report("http://api.aitc.jp/jmardb/reports/2be7a5a8-11df-3fa4-954a-0b0b233884d2")
 	puts get_general_report("http://api.aitc.jp/jmardb/reports/2f1a794e-12c5-3538-a683-72db002c2b9a")
 	puts get_general_report("http://api.aitc.jp/jmardb/reports/7fa44ebf-64a1-32ab-9d99-379de6663211")
+	puts get_general_report("http://api.aitc.jp/jmardb/reports/9f849d49-7877-3e74-9dbd-c690c7187b19")
+	puts get_general_report("http://api.aitc.jp/jmardb/reports/f7166144-b3d6-3a3c-93da-e2e1fa8273a9")
 end
 
 test_group(false, "概況") do
