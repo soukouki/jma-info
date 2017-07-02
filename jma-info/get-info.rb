@@ -9,7 +9,8 @@ module GetInfo
 		uri = uri_and_title.uri
 		case title
 		when # 一般報
-			/^全般台風情報/, "全般気象情報", "地方気象情報", "府県気象情報", "天気概況",
+			"全般台風情報", "全般台風情報（定型）", "発達する熱帯低気圧に関する情報",
+			"全般気象情報", "地方気象情報", "府県気象情報", "天気概況",
 			"全般週間天気予報", "地方週間天気予報", "スモッグ気象情報", "全般スモッグ気象情報",
 			"全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報", "地方高温注意情報", "府県高温注意情報"
 			title+" : "+get_general_report(uri)
@@ -107,7 +108,7 @@ module GetInfo
 			.select{|x|x!="\n"}
 			.map do |a|
 				a.elements["Kind/Name"].text+"が"+
-				a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join(" ")+"に"
+				a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join("、")+"に"
 			end
 			.join("、")+"出ています。"
 	end
