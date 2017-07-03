@@ -22,6 +22,7 @@ module GetInfo
 			title+" : "+get_alerm(uri)
 		when "季節観測", "特殊気象報"
 			title+" : "+get_special_weather_report(uri)
+		when "地方海上警報（Ｈ２８）" # 無視
 		when "地方海上警報"
 			title+" : "+get_local_maritime_alert(uri)
 		when "生物季節観測"
@@ -40,7 +41,7 @@ module GetInfo
 	# 文章を綺麗にする
 	def cleanly_text text
 		cleanly_str(text)
-			.gsub(/\n(?!\n)/){""} # 全角スペースと単独の改行を消す
+			.gsub(/\n(?!\n)/){""} # 単独の改行を消す
 			.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
 			.gsub("  "){" "} # 連続した空白を一つにまとめる
 			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
@@ -174,30 +175,57 @@ module GetInfo
 	# 震源・震度に関する情報
 	# 地震の活動状況に関する情報
 	# 地震回数に関する情報
-	# メモ、津波関連のタイトルのあれは津波で検索するほうが良さそう。
+	# 津波情報a
+	# 津波警報・注意報・予報a
+	# 沖合の津波観測に関する情報
 	def earthquake_info uri
 		doc = get_doc(uri)
-		heading = cleanly_str(doc.elements["Report/Head/Headline/Text"].text)
-		text = doc
-			.elements
-			.collect("Report/Body/*") do |info|
-				case info.name
-				when "Earthquake"
-					earthquake_info_earthquake_paet(info)
-				when "Intensity"
-					#earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
-				when "Naming" # 地震の活動状況に関する情報
-					"\t"+info.text+"\n"
-				when "EarthquakeCount" # 地震回数に関する情報
-					earthquake_info_count_part(info)
-				when "NextAdvisory" # 地震回数に関する情報
-					cleanly_text(info.text)+"\n"
-				when "Text" # 地震の活動状況に関する情報+地震回数に関する情報
-					cleanly_text(info.text)
-				when "Comments"
-					earthquake_info_comment_part(info)
-				end
-			end.join
+		heading = cleanly_str(doc.elements["Report/Head/Headline/Text"].text).gsub("\n"){""}
+		text = doc.elements.collect("Report/Body/*") do |info|
+			case info.name
+			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
+				earthquake_info_earthquake_paet(info)
+			when "Intensity" # 震度速報 + 震源・震度に関する情報
+				earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+			when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
+				"\t"+info.elements.collect("*") do |tinfo|
+					case tinfo.name
+					when "Observation"
+						"津波観測"
+					when "Forecast"
+						times_to_tsunami_forecast_s = ->(times){
+							Time.parse(times).strftime("%d日%H時%m分")}
+						first_height_to_s = ->(fh, between_str){
+							((!fh.elements["FirstHeight"])? "" :
+								((fh.elements["FirstHeight/ArrivalTime"])?
+									between_str+"到達予想時刻:"+times_to_tsunami_forecast_s.call(fh.elements["FirstHeight/ArrivalTime"].text) : "")+
+								((fh.elements["FirstHeight/Condition"])? between_str+fh.elements["FirstHeight/Condition"].text : ""))}
+						
+						tinfo.elements.collect("Item") do |item|
+							item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
+							first_height_to_s.call(item, "、")+
+							((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
+								("、高さ:"+cleanly_str(item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value)) : "")+
+							((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
+									sta.elements["Name"].text+first_height_to_s.call(sta, "、")
+								}.join("\n\t\t"))
+						end.join("\n\t")
+					when "Estimation"
+						"津波の推定"
+					end
+				end.join("\n\t")+"\n"
+			when "Naming" # 地震の活動状況に関する情報
+				"\t"+info.text+"\n"
+			when "EarthquakeCount" # 地震回数に関する情報
+				earthquake_info_count_part(info)
+			when "NextAdvisory" # 地震回数に関する情報
+				cleanly_text(info.text)+"\n"
+			when "Text" # すべて
+				cleanly_text(info.text)
+			when "Comments" # すべて
+				earthquake_info_comment_part(info)
+			end
+		end.join
 		heading+"\n"+text
 	end
 	
@@ -275,9 +303,10 @@ module GetInfo
 	end
 	
 	def earthquake_info_comment_part info
-		info.elements
+		info
+			.elements
 			.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
 			.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
-			.join("\n")
+			.join("\n")+"\n"
 	end
 end
