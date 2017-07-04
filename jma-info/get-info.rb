@@ -199,6 +199,10 @@ module GetInfo extend self
 			when "Intensity" # 震度速報 + 震源・震度に関する情報
 				#earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
 			when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
+				times_to_hm_s = ->(times){
+					Time.parse(times).strftime("%H時%m分")}
+				times_to_dhm_s = ->(times){
+					Time.parse(times).strftime("%d日%H時%m分")}
 				"\t"+info.elements.collect("*") do |tinfo|
 					case tinfo.name
 					when "Observation"
@@ -206,13 +210,16 @@ module GetInfo extend self
 						tinfo.elements.collect("Item"){|item|
 							((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
 							item.elements.collect("Station"){|sta|
-								sta.elements["Name"]+"、"+((is_offing)? "、"+sta.elements["Sensor"] : "")+
-								((is_offing)? "沖合" : "沿岸")}}
+								sta.elements["Name"].text+
+								((sta.elements["MaxHeight/DateTime"])? "、"+times_to_hm_s.call(sta.elements["MaxHeight/DateTime"].text) : "")+
+								((sta.elements["MaxHeight/Condition"])? "、"+sta.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
+								((sta.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
+									"、"+cleanly_str(sta.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
+								((sta.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
+									"、"+sta.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")+
+								((is_offing)? "("+cleanly_str(sta.elements["Sensor"].text)+")" : "")
+							}.join("\n\t\t")}.join("\n\t")
 					when "Forecast"
-						times_to_tsunami_forecast_s_no_days = ->(times){
-							Time.parse(times).strftime("%H時%m分")}
-						times_to_tsunami_forecast_s = ->(times){
-							Time.parse(times).strftime("%d日%H時%m分")}
 						first_height_to_s = ->(fh, time_to_s){
 							((!fh.elements["FirstHeight"])? "" :
 								((fh.elements["FirstHeight/ArrivalTime"])?
@@ -221,11 +228,11 @@ module GetInfo extend self
 						
 						tinfo.elements.collect("Item") do |item|
 							item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
-							first_height_to_s.call(item, times_to_tsunami_forecast_s)+
+							first_height_to_s.call(item, times_to_dhm_s)+
 							((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
 								("、高さ:"+cleanly_str(item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value)) : "")+
 							((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
-									sta.elements["Name"].text+first_height_to_s.call(sta, times_to_tsunami_forecast_s_no_days)
+									sta.elements["Name"].text+first_height_to_s.call(sta, times_to_hm_s)
 								}.join("\n\t\t"))
 						end.join("\n\t")
 					when "Estimation"
