@@ -27,6 +27,11 @@ module GetInfo extend self
 			title+" : "+get_local_maritime_alert(uri)
 		when "生物季節観測"
 			title+" : "+creature_season_observation(uri)
+		when # 地震、津波
+			"震度速報", "震源に関する情報", "震源・震度に関する情報",
+			"地震の活動状況に関する情報", "地震回数に関する情報",
+			"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
+			title+" : "+earthquake_info(uri)
 		else
 			title
 		end
@@ -180,36 +185,47 @@ module GetInfo extend self
 	# 津波情報a
 	# 津波警報・注意報・予報a
 	# 沖合の津波観測に関する情報
+	# 地震・津波に関するお知らせ，火山に関するお知らせ <-まだ
+	#
+	# 警報のほうでも予想の方でも時刻行ってるけどちょっと冗長？
 	def earthquake_info uri
 		doc = get_doc(uri)
-		heading = cleanly_str(doc.elements["Report/Head/Headline/Text"].text).gsub("\n"){""}
+		heading = ((doc.elements["Report/Head/Headline/Text/text()"])?
+			(cleanly_str(doc.elements["Report/Head/Headline/Text"].text).gsub("\n"){""}) : "")
 		text = doc.elements.collect("Report/Body/*") do |info|
 			case info.name
 			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 				earthquake_info_earthquake_paet(info)
 			when "Intensity" # 震度速報 + 震源・震度に関する情報
-				earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+				#earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
 			when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 				"\t"+info.elements.collect("*") do |tinfo|
 					case tinfo.name
 					when "Observation"
-						"津波観測"
+						is_offing = tinfo.elements["Item/Area/Name/text()"].nil?
+						tinfo.elements.collect("Item"){|item|
+							((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
+							item.elements.collect("Station"){|sta|
+								sta.elements["Name"]+"、"+((is_offing)? "、"+sta.elements["Sensor"] : "")+
+								((is_offing)? "沖合" : "沿岸")}}
 					when "Forecast"
+						times_to_tsunami_forecast_s_no_days = ->(times){
+							Time.parse(times).strftime("%H時%m分")}
 						times_to_tsunami_forecast_s = ->(times){
 							Time.parse(times).strftime("%d日%H時%m分")}
-						first_height_to_s = ->(fh, between_str){
+						first_height_to_s = ->(fh, time_to_s){
 							((!fh.elements["FirstHeight"])? "" :
 								((fh.elements["FirstHeight/ArrivalTime"])?
-									between_str+"到達予想時刻:"+times_to_tsunami_forecast_s.call(fh.elements["FirstHeight/ArrivalTime"].text) : "")+
-								((fh.elements["FirstHeight/Condition"])? between_str+fh.elements["FirstHeight/Condition"].text : ""))}
+									"、到達予想:"+time_to_s.call(fh.elements["FirstHeight/ArrivalTime"].text) : "")+
+								((fh.elements["FirstHeight/Condition"])? "、"+fh.elements["FirstHeight/Condition"].text : ""))}
 						
 						tinfo.elements.collect("Item") do |item|
 							item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
-							first_height_to_s.call(item, "、")+
+							first_height_to_s.call(item, times_to_tsunami_forecast_s)+
 							((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
 								("、高さ:"+cleanly_str(item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value)) : "")+
 							((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
-									sta.elements["Name"].text+first_height_to_s.call(sta, "、")
+									sta.elements["Name"].text+first_height_to_s.call(sta, times_to_tsunami_forecast_s_no_days)
 								}.join("\n\t\t"))
 						end.join("\n\t")
 					when "Estimation"

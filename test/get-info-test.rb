@@ -159,6 +159,10 @@ test_group(true, "津波情報") do
 	puts earthquake_info("./test/samples/tsunami/32-39_11_10_120615_VTSE50.xml")
 	puts earthquake_info("./test/samples/tsunami/32-39_11_11_120615_VTSE40.xml")
 	puts earthquake_info("./test/samples/tsunami/32-39_11_13_120615_VTSE40.xml")
+	# なんで沖合の津波観測だけ別になってるんですか！！
+	puts earthquake_info("./test/samples/tsunami/61_11_01_120615_VTSE52.xml")
+	puts earthquake_info("./test/samples/tsunami/61_11_02_120615_VTSE52.xml")
+	puts earthquake_info("./test/samples/tsunami/61_11_03_120615_VTSE52.xml")
 end
 
 puts ""
