@@ -4,8 +4,8 @@ require "time"
 
 require "rexml/document"
 
-module GetInfo
-	def self.get_info(uri_and_title)
+module GetInfo extend self
+	def get_info(uri_and_title)
 		title = uri_and_title.title
 		uri = uri_and_title.uri
 		case title
@@ -45,6 +45,7 @@ module GetInfo
 			.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
 			.gsub("  "){" "} # 連続した空白を一つにまとめる
 			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
+			.gsub(/\n+\Z/){""} # 文章の最後の改行を削除
 	end
 	# 数字や、文字を置き換える
 	def cleanly_str text
@@ -78,14 +79,15 @@ module GetInfo
 	
 	def get_general_report uri
 		doc=get_doc(uri)
-		doc.elements["Report/Head/Title"].text+"\n"+
-		cleanly_text(doc.elements["Report/Body/Comment/Text"].text.gsub("。"){"。\n\n"})
+		cleanly_str(doc.elements["Report/Head/Title"].text)+"\n"+
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
+		cleanly_text(doc.elements["Report/Body/Comment/Text"].text.gsub("。"){"。\n\n"})+"\n"
 	end
 	
 	def get_general_weather_conditions uri
 		doc = get_doc(uri)
 		doc.elements["Report/Body/TargetArea/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Body/Comment/Text"].text)
+		cleanly_text(doc.elements["Report/Body/Comment/Text"].text)+"\n"
 	end
 	
 	def get_alerm uri
@@ -128,7 +130,7 @@ module GetInfo
 			"風"+"\n\t"+format_special_weather_report_wind(item)
 		when "特殊気象報（各種現象）"
 			item.elements["Kind/Name"].text+"\n"+
-			cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
+			cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))+"\n"
 		end
 	end
 	
@@ -221,7 +223,7 @@ module GetInfo
 			when "NextAdvisory" # 地震回数に関する情報
 				cleanly_text(info.text)+"\n"
 			when "Text" # すべて
-				cleanly_text(info.text)
+				cleanly_text(info.text)+"\n"
 			when "Comments" # すべて
 				earthquake_info_comment_part(info)
 			end
