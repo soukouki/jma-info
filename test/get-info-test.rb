@@ -1,9 +1,11 @@
 
 require_relative "../jma-info/get-info"
 
+# テスト側を変えないためにここでincludeしている
 def test_group execute, name, &block
+	include GetInfo
 	if execute
-		puts name
+		puts "\n"+name
 		block.call
 	else
 		print "s"
@@ -32,9 +34,9 @@ end
 test_group(false, "季節観測・特殊気象報") do
 	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/8c13276d-3962-39c4-9344-46416963cd73")
 	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/8ca44e6c-6e97-37e8-81d8-e6576f6752cb")
-	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/a61ce04e-be36-3864-8a41-2430a826d748")
 	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b5c0ab67-3e52-3ab3-adbf-395dcf848fa0")
-	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/b815b9a7-f1cb-32b4-a008-2dd25b9565ea")
+	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/abfc7ddd-4841-3ae3-9733-4de637a89da9")
+	puts get_special_weather_report("http://api.aitc.jp/jmardb/reports/a2b1a4b6-1091-31b8-aaa3-bc6c8a3e801b")
 end
 
 test_group(false, "地方海上警報") do
@@ -48,6 +50,119 @@ test_group(false, "生物季節観測") do
 	puts creature_season_observation("http://api.aitc.jp/jmardb/reports/f32f302b-b026-315c-ae6d-c223c81be44f")
 	puts creature_season_observation("http://api.aitc.jp/jmardb/reports/609ae627-07cf-3652-b43b-d60a884d58ca")
 	puts creature_season_observation("http://api.aitc.jp/jmardb/reports/e128161d-1306-3fbe-acff-24c34678edad")
+end
+
+test_group(false, "地震情報") do
+	puts earthquake_info("./test/samples/earthquake/32-35_01_01_100806_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_01_02_100514_VXSE52.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_01_03_100514_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_01_03_100806_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_02_01_100514_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_03_01_100514_VXSE60.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_03_02_100514_VXSE61.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_04_01_100831_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_04_02_100831_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_04_03_100831_VXSE52.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_04_04_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_04_05_100831_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_04_06_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_01_100915_VXSE52.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_02_100915_VXSE52.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_03_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_04_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_05_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_06_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_07_100915_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_08_100915_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_09_100915_VXSE61.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_10_100915_VXSE61.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_11_100915_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_12_100915_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_06_13_100915_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_01_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_02_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_03_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_04_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_05_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_06_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_07_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_08_100915_VXSE56.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_07_09_100915_VXSE61.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_01_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_02_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_03_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_04_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_05_100915_VXSE51.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_06_100915_VXSE52.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_07_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/32-35_08_08_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/earthquake/33_12_01_120615_VXSE41.xml")
+	puts earthquake_info("http://api.aitc.jp/jmardb/reports/59f85cd9-0045-3779-aa1a-e6a0f13a55f1")
+end
+
+test_group(false, "津波情報") do
+	puts earthquake_info("./test/samples/tsunami/38-39_01_01_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/38-39_01_02_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/38-39_01_03_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/38-39_01_04_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/38-39_01_05_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/38-39_01_06_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/38-39_01_07_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_01_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_02_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_03_100831_VXSE56.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_04_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_05_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_06_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_07_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_08_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_09_100831_VXSE56.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_10_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_11_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_12_100831_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_12_100915_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_13_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_14_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_15_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_16_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_17_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_18_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_19_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_20_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_21_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_22_100831_VXSE56.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_23_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_24_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_25_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_26_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_27_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_28_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_29_100831_VXSE56.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_30_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_31_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_32_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_33_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_34_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_35_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_36_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_37_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_38_100831_VXSE56.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_39_100831_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_05_40_100831_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_01_120615_VXSE51.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_02_120615_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_03_120615_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_05_120615_VXSE53.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_06_120615_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_08_120615_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_09_120615_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_10_120615_VTSE50.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_11_120615_VTSE40.xml")
+	puts earthquake_info("./test/samples/tsunami/32-39_11_13_120615_VTSE40.xml")
+	# なんで沖合の津波観測だけ別になってるんですか！！
+	puts earthquake_info("./test/samples/tsunami/61_11_01_120615_VTSE52.xml")
+	puts earthquake_info("./test/samples/tsunami/61_11_02_120615_VTSE52.xml")
+	puts earthquake_info("./test/samples/tsunami/61_11_03_120615_VTSE52.xml")
 end
 
 puts ""

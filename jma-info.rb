@@ -34,7 +34,7 @@ def puts_info(puts_lambdas, updated_uris, now_time)
 	end
 	text = now_time.to_s+"\n"+
 	updated_uris
-		.map{|u|get_info(u)}
+		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.nil?}
 		.join("\n")
 	multiple_puts(puts_lambdas, text)
@@ -52,7 +52,7 @@ def optparse argv
 			arg[:puts] << ->(s){file_appending(f, s)}
 		end
 		opt.on("-s", "--system=[PATH]", "外部コマンドを実行する") do |path|
-			arg[:puts] << ->(s){`#{path} #{s.gsub(/\s/){"。"}}`}
+			arg[:puts] << ->(s){`#{path} "#{s.gsub(/ /){"　"}.gsub(/\t/){"　　"}.gsub(/\n/){"　　　　"}.gsub(/\s+/){"_"}}"`}
 		end
 		opt.parse(argv)
 	end
@@ -60,13 +60,14 @@ def optparse argv
 end
 
 def error_process start_time, error_time, error
-	text = "#{error.backtrace.first}: #{error.message} (#{error.class})\n#{error.backtrace[1..-1].each{|m|"\tfrom #{m}"}.join("\n")}"
+	text = "#{Time.now}\n#{error.backtrace.first}: #{error.message} (#{error.class})\n#{error.backtrace[1..-1].each{|m|"\tfrom #{m}"}.join("\n")}"
 	STDERR.puts text
 	file_appending("./jma-info.debug.log", error.to_s+error.backtrace.join("\n"))
 	puts "起動時間 #{Time.now-start_time}"
-	if Time.now-start_time > 300
-		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
-		STDERR.puts "拾い漏れるデータがある可能性があります"
+	if Time.now-start_time > 60
+		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します。"
+		STDERR.puts "拾い漏れるデータがある可能性があります。"
+		STDERR.puts "プログラムを終了させるには、もう一度Ctrl+cを送ってください。"
 		return true
 	else
 		return false
