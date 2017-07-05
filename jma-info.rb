@@ -64,9 +64,10 @@ def error_process start_time, error_time, error
 	STDERR.puts text
 	file_appending("./jma-info.debug.log", error.to_s+error.backtrace.join("\n"))
 	puts "起動時間 #{Time.now-start_time}"
-	if Time.now-start_time > 300
-		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します"
-		STDERR.puts "拾い漏れるデータがある可能性があります"
+	if Time.now-start_time > 60
+		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します。"
+		STDERR.puts "拾い漏れるデータがある可能性があります。"
+		STDERR.puts "プログラムを終了させるには、もう一度Ctrl+cを送ってください。"
 		return true
 	else
 		return false

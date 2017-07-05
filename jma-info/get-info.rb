@@ -85,7 +85,7 @@ module GetInfo extend self
 	def get_general_report uri
 		doc=get_doc(uri)
 		cleanly_str(doc.elements["Report/Head/Title"].text)+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text||"")+"\n"+
 		cleanly_text(doc.elements["Report/Body/Comment/Text"].text.gsub("。"){"。\n\n"})+"\n"
 	end
 	
@@ -176,15 +176,8 @@ module GetInfo extend self
 		pos+"\n\t"+data+"\n\t"+daystext
 	end
 	
-	# タイトルで分けれないため、この関数内で地震情報と津波情報を処理する
-	# 震度速報
-	# 震源に関する情報
-	# 震源・震度に関する情報
-	# 地震の活動状況に関する情報
-	# 地震回数に関する情報
-	# 津波情報a
-	# 津波警報・注意報・予報a
-	# 沖合の津波観測に関する情報
+	# 一部の地震情報と津波情報は、違うタイトルで同じことをするものがあり、分けれないため、この関数内で地震情報と津波情報を処理する
+	# それ以外のやつも一緒になってるのはCommentsとかだったりノリ
 	# 地震・津波に関するお知らせ，火山に関するお知らせ <-まだ
 	#
 	# 警報のほうでも予想の方でも時刻行ってるけどちょっと冗長？
@@ -197,52 +190,9 @@ module GetInfo extend self
 			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 				earthquake_info_earthquake_paet(info)
 			when "Intensity" # 震度速報 + 震源・震度に関する情報
-				#earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+				earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
 			when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
-				times_to_hm_s = ->(times){
-					Time.parse(times).strftime("%H時%m分")}
-				times_to_dhm_s = ->(times){
-					Time.parse(times).strftime("%d日%H時%m分")}
-				max_height_xml_to_s = ->(doc){
-					((doc.elements["MaxHeight/DateTime"])? "、"+times_to_hm_s.call(doc.elements["MaxHeight/DateTime"].text) : "")+
-					((doc.elements["MaxHeight/Condition"])? "、"+doc.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
-					((doc.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
-						"、"+cleanly_str(doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
-					((doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
-						"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")}
-				"\t"+info.elements.collect("*") do |tinfo|
-					case tinfo.name
-					when "Observation"
-						is_offing = tinfo.elements["Item/Area/Name/text()"].nil?
-						tinfo.elements.collect("Item"){|item|
-							((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
-							item.elements.collect("Station"){|sta|
-								sta.elements["Name"].text+
-								max_height_xml_to_s.call(sta)+
-								((is_offing)? "("+cleanly_str(sta.elements["Sensor"].text)+")" : "")
-							}.join("\n\t\t")}.join("\n\t")
-					when "Forecast"
-						first_height_to_s = ->(fh, time_to_s){
-							((!fh.elements["FirstHeight"])? "" :
-								((fh.elements["FirstHeight/ArrivalTime"])?
-									"、到達予想:"+time_to_s.call(fh.elements["FirstHeight/ArrivalTime"].text) : "")+
-								((fh.elements["FirstHeight/Condition"])? "、"+fh.elements["FirstHeight/Condition"].text : ""))}
-						
-						tinfo.elements.collect("Item") do |item|
-							item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
-							first_height_to_s.call(item, times_to_dhm_s)+
-							((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
-								("、高さ:"+cleanly_str(item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value)) : "")+
-							((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
-									sta.elements["Name"].text+first_height_to_s.call(sta, times_to_hm_s)
-								}.join("\n\t\t"))
-						end.join("\n\t")
-					when "Estimation"
-						tinfo.elements.collect("Item"){|item|
-							item.elements["Area/Name"].text+"、"+max_height_xml_to_s.call(item)
-						}.join("\n\t")
-					end
-				end.join("\n\t")+"\n"
+				earthquake_info_tsunami_part(info)
 			when "Naming" # 地震の活動状況に関する情報
 				"\t"+info.text+"\n"
 			when "EarthquakeCount" # 地震回数に関する情報
@@ -308,6 +258,60 @@ module GetInfo extend self
 	end
 	def get_name_and_maxint doc
 		get_name(doc)+":"+get_maxint(doc)
+	end
+	
+	def earthquake_info_tsunami_part info
+		"\t"+info.elements.collect("*") do |tinfo|
+			case tinfo.name
+			when "Observation"
+				earthquake_info_tsunami_observation_part(tinfo)
+			when "Forecast"
+				earthquake_info_tsunami_forecast_part(tinfo)
+			when "Estimation"
+				tinfo.elements.collect("Item"){|item|item.elements["Area/Name"].text+"、"+max_height_xml_to_s(item)}.join("\n\t")
+			end
+		end.join("\n\t")+"\n"
+	end
+	def earthquake_info_tsunami_observation_part tinfo
+		is_offing = tinfo.elements["Item/Area/Name/text()"].nil?
+		tinfo.elements.collect("Item"){|item|
+			((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
+			item.elements.collect("Station"){|sta|
+				sta.elements["Name"].text+
+				max_height_xml_to_s(sta)+
+				((is_offing)? "("+cleanly_str(sta.elements["Sensor"].text)+")" : "")
+			}.join("\n\t\t")}.join("\n\t")
+	end
+	def earthquake_info_tsunami_forecast_part tinfo
+		tinfo.elements.collect("Item") do |item|
+			item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
+			first_height_to_s(item, ->(t){times_to_dhm_s(t)})+
+			((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
+				("、高さ:"+cleanly_str(item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value)) : "")+
+			((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
+					sta.elements["Name"].text+first_height_to_s(sta, ->(t){times_to_hm_s(t)})
+				}.join("\n\t\t"))
+		end.join("\n\t")
+	end
+	def first_height_to_s fh, time_to_s
+		((!fh.elements["FirstHeight"])? "" :
+			((fh.elements["FirstHeight/ArrivalTime"])?
+				"、到達予想:"+times_to_dhm_s(fh.elements["FirstHeight/ArrivalTime"].text) : "")+
+			((fh.elements["FirstHeight/Condition"])? "、"+fh.elements["FirstHeight/Condition"].text : ""))
+	end
+	def times_to_hm_s times
+		Time.parse(times).strftime("%H時%m分")
+	end
+	def times_to_dhm_s times
+		Time.parse(times).strftime("%d日%H時%m分")
+	end
+	def max_height_xml_to_s doc
+		((doc.elements["MaxHeight/DateTime"])? "、"+times_to_hm_s(doc.elements["MaxHeight/DateTime"].text) : "")+
+		((doc.elements["MaxHeight/Condition"])? "、"+doc.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
+		((doc.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
+			"、"+cleanly_str(doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
+		((doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
+			"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")
 	end
 	
 	def earthquake_info_count_part info
