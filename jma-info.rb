@@ -60,7 +60,7 @@ def optparse argv
 end
 
 def error_process start_time, error_time, error
-	text = "#{error.backtrace.first}: #{error.message} (#{error.class})\n#{error.backtrace[1..-1].each{|m|"\tfrom #{m}"}.join("\n")}"
+	text = "#{Time.now}\n#{error.backtrace.first}: #{error.message} (#{error.class})\n#{error.backtrace[1..-1].each{|m|"\tfrom #{m}"}.join("\n")}"
 	STDERR.puts text
 	file_appending("./jma-info.debug.log", error.to_s+error.backtrace.join("\n"))
 	puts "起動時間 #{Time.now-start_time}"

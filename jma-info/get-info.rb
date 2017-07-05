@@ -193,7 +193,7 @@ module GetInfo extend self
 		heading = ((doc.elements["Report/Head/Headline/Text/text()"])?
 			(cleanly_str(doc.elements["Report/Head/Headline/Text"].text).gsub("\n"){""}) : "")
 		text = doc.elements.collect("Report/Body/*") do |info|
-			case info.name
+			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所あるきがするので信じないように
 			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 				earthquake_info_earthquake_paet(info)
 			when "Intensity" # 震度速報 + 震源・震度に関する情報
@@ -203,6 +203,13 @@ module GetInfo extend self
 					Time.parse(times).strftime("%H時%m分")}
 				times_to_dhm_s = ->(times){
 					Time.parse(times).strftime("%d日%H時%m分")}
+				max_height_xml_to_s = ->(doc){
+					((doc.elements["MaxHeight/DateTime"])? "、"+times_to_hm_s.call(doc.elements["MaxHeight/DateTime"].text) : "")+
+					((doc.elements["MaxHeight/Condition"])? "、"+doc.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
+					((doc.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
+						"、"+cleanly_str(doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
+					((doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
+						"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")}
 				"\t"+info.elements.collect("*") do |tinfo|
 					case tinfo.name
 					when "Observation"
@@ -211,12 +218,7 @@ module GetInfo extend self
 							((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
 							item.elements.collect("Station"){|sta|
 								sta.elements["Name"].text+
-								((sta.elements["MaxHeight/DateTime"])? "、"+times_to_hm_s.call(sta.elements["MaxHeight/DateTime"].text) : "")+
-								((sta.elements["MaxHeight/Condition"])? "、"+sta.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
-								((sta.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
-									"、"+cleanly_str(sta.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
-								((sta.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
-									"、"+sta.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")+
+								max_height_xml_to_s.call(sta)+
 								((is_offing)? "("+cleanly_str(sta.elements["Sensor"].text)+")" : "")
 							}.join("\n\t\t")}.join("\n\t")
 					when "Forecast"
@@ -236,7 +238,9 @@ module GetInfo extend self
 								}.join("\n\t\t"))
 						end.join("\n\t")
 					when "Estimation"
-						"津波の推定"
+						tinfo.elements.collect("Item"){|item|
+							item.elements["Area/Name"].text+"、"+max_height_xml_to_s.call(item)
+						}.join("\n\t")
 					end
 				end.join("\n\t")+"\n"
 			when "Naming" # 地震の活動状況に関する情報
