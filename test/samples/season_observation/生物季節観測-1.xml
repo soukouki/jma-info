@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>生物季節観測</Title>
+    <DateTime>2017-03-30T06:40:45Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>大阪管区気象台</EditorialOffice>
+    <PublishingOffice>大阪管区気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>生物季節観測</Title>
+    <ReportDateTime>2017-03-30T15:37:00+09:00</ReportDateTime>
+    <TargetDateTime>2017-03-30T00:00:00+09:00</TargetDateTime>
+    <EventID>20170330153700_04</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>生物季節観測報告気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='生物季節観測'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-dd'>2017-03-30T00:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>さくらの開花日</Name>
+            <Code>04</Code>
+            <ClassName>ソメイヨシノ</ClassName>
+            <Condition>通常</Condition>
+          </Kind>
+          <Station>
+            <Name>大阪管区気象台</Name>
+            <Code type='国際地点番号'>47772</Code>
+            <Location>大阪市中央区大手前</Location>
+            <Status>付近</Status>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <DeviationFromNormal>2</DeviationFromNormal>
+        <DeviationFromLastYear>7</DeviationFromLastYear>
+        <Text>大阪城公園西の丸庭園（オオサカジョウコウエンニシノマルテイエン）</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

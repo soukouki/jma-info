@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>生物季節観測</Title>
+    <DateTime>2017-03-30T07:05:33Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>高知地方気象台</EditorialOffice>
+    <PublishingOffice>高知地方気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>生物季節観測</Title>
+    <ReportDateTime>2017-03-30T16:04:00+09:00</ReportDateTime>
+    <TargetDateTime>2017-03-30T00:00:00+09:00</TargetDateTime>
+    <EventID>20170330160400_63</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>生物季節観測報告気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='生物季節観測'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-dd'>2017-03-30T00:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>とかげの初見日</Name>
+            <Code>63</Code>
+            <ClassName>トカゲ</ClassName>
+            <Condition>通常</Condition>
+          </Kind>
+          <Station>
+            <Name>高知地方気象台</Name>
+            <Code type='国際地点番号'>47893</Code>
+            <Location>高知市比島町</Location>
+            <Status>付近</Status>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <DeviationFromNormal>4</DeviationFromNormal>
+        <Text>高知公園（コウチコウエン）</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

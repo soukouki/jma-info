@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns:jmx_add='http://xml.kishou.go.jp/jmaxml1/addition1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>全般台風情報（定型）</Title>
+<DateTime>2016-12-21T19:05:36Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>気象庁本庁</EditorialOffice>
+<PublishingOffice>気象庁予報部</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>平成２８年　台風第２６号に関する情報</Title>
+<ReportDateTime>2016-12-22T04:10:00+09:00</ReportDateTime>
+<TargetDateTime>2016-12-22T04:10:00+09:00</TargetDateTime>
+<EventID>TC1637</EventID>
+<InfoType>発表</InfoType>
+<Serial/>
+<InfoKind>同一現象用平文情報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text>　台風第２６号が発生しました。</Text>
+</Headline>
+</Head>
+<Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+<Notice/>
+<Comment>
+<Text type='本文'>　２２日３時、カロリン諸島の
+北緯７度３５分、東経１４０度０５分において、
+熱帯低気圧が台風第２６号になりました。
+台風は１時間におよそ２０キロの速さで北西へ進んでいます。
+中心の気圧は１０００ヘクトパスカル
+中心付近の最大風速は１８メートル、
+最大瞬間風速は２５メートルで
+中心から半径１１０キロ以内では
+風速１５メートル以上の強い風が吹いています。
+
+　台風の中心は、１２時間後の２２日１５時には
+カロリン諸島の
+北緯９度００分、東経１３７度３０分を中心とする
+半径７０キロの円内に達する見込みです。
+中心の気圧は９９８ヘクトパスカル
+中心付近の最大風速は１８メートル、
+最大瞬間風速は２５メートルが予想されます。
+　２４時間後の２３日３時には
+フィリピンの東の
+北緯１０度３０分、東経１３４度２０分を中心とする
+半径１１０キロの円内に達する見込みです。
+中心の気圧は９９４ヘクトパスカル
+中心付近の最大風速は２３メートル、
+最大瞬間風速は３５メートルが予想されます。
+　４８時間後の２４日３時には
+フィリピンの東の
+北緯１２度１０分、東経１２９度３０分を中心とする
+半径２００キロの円内に達する見込みです。
+中心の気圧は９９０ヘクトパスカル
+中心付近の最大風速は２５メートル、
+最大瞬間風速は３５メートルが予想されます。
+　７２時間後の２５日３時には
+フィリピンの東の
+北緯１３度２０分、東経１２５度４０分を中心とする
+半径２４０キロの円内に達する見込みです。
+中心の気圧は９９０ヘクトパスカル
+中心付近の最大風速は２５メートル、
+最大瞬間風速は３５メートルが予想されます。
+　なお、台風の中心が予報円に入る確率は７０％です。
+
+この方面の船舶は十分警戒してください。
+なお、台風に関する位置等の情報は、海上警報等により発表します。</Text>
+</Comment>
+</Body>
+</Report>

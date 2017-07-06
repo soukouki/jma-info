@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>特殊気象報</Title>
+    <DateTime>2017-04-15T06:39:57Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>水戸地方気象台</EditorialOffice>
+    <PublishingOffice>水戸地方気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>特殊気象報（各種現象）</Title>
+    <ReportDateTime>2017-04-15T15:39:00+09:00</ReportDateTime>
+    <TargetDateTime>2017-04-15T15:30:00+09:00</TargetDateTime>
+    <EventID>20170415153900_ひょう</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>特殊気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='特殊気象報（各種現象）'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-ddThh:mm'>2017-04-15T15:30:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>ひょう</Name>
+          </Kind>
+          <Station>
+            <Name>水戸地方気象台</Name>
+            <Code type='国際地点番号'>47629</Code>
+            <Location>水戸市金町</Location>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <Text>径１０ミリ（ケイ１０ミリ）</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

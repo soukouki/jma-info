@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns:jmx_add='http://xml.kishou.go.jp/jmaxml1/addition1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>地方海上警報</Title>
+<DateTime>2017-01-02T02:32:22Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>函館地方気象台</EditorialOffice>
+<PublishingOffice>札幌管区気象台</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>函館海上気象</Title>
+<ReportDateTime>2017-01-02T11:35:00+09:00</ReportDateTime>
+<TargetDateTime>2017-01-02T11:35:00+09:00</TargetDateTime>
+<EventID/>
+<InfoType>発表</InfoType>
+<Serial/>
+<InfoKind>地方海上警報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text/>
+<Information type='地方海上警報'>
+<Item>
+<Kind>
+<Name>海上警報解除</Name>
+<Code>00</Code>
+</Kind>
+<Areas codeType='地方海上予報区'>
+<Area>
+<Name>北海道南方及び東方海上</Name>
+<Code>1100</Code>
+</Area>
+</Areas>
+</Item>
+</Information>
+</Headline>
+</Head>
+<Body xmlns:jmx_eb='http://xml.kishou.go.jp/jmaxml1/elementBasis1/' xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+<Warning type='地方海上警報'>
+<Item>
+<Kind>
+<Name>海上警報解除</Name>
+<Code>00</Code>
+</Kind>
+<Area>
+<Name>北海道南方及び東方海上</Name>
+<Code>1100</Code>
+</Area>
+</Item>
+</Warning>
+<MeteorologicalInfos type='気象要因'>
+<MeteorologicalInfo>
+<DateTime>2017-01-02T09:00:00+09:00</DateTime>
+<Name>０２日０９時</Name>
+<Item>
+<Kind>
+<Property>
+<Type>概況</Type>
+<SynopsisPart>
+<jmx_eb:Synopsis type='気象要因'/>
+</SynopsisPart>
+</Property>
+</Kind>
+<Area>
+<Name>北海道南方及び東方海上</Name>
+<Code>1100</Code>
+</Area>
+</Item>
+</MeteorologicalInfo>
+</MeteorologicalInfos>
+</Body>
+</Report>

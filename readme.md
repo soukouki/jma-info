@@ -1,8 +1,21 @@
 
+jma-info
+=====
+
+入れ方
+-----
+
+適当なフォルダに`./jma-info`フォルダと`./jma-info.rb`を入れればOK
+
+メモ
+-----
+
+- あれ、これもうタイトル送らなくてよくね・・？
 - `.elements` `[]` `.select{|i|i.class==REXML::Element && i.name=="Pref"}` `.map` を `.elements` `collect` にまとめる
 	- 変更箇所多いので更新分だけでも
 
-残り
+### 残り
+
 - 火山関連
 - 東海地震
 - 竜巻注意

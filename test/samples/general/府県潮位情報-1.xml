@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns:jmx_add='http://xml.kishou.go.jp/jmaxml1/addition1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>府県潮位情報</Title>
+<DateTime>2017-06-22T02:00:52Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>松山地方気象台</EditorialOffice>
+<PublishingOffice>松山地方気象台</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>大潮による高い潮位に関する愛媛県潮位情報</Title>
+<ReportDateTime>2017-06-22T11:00:00+09:00</ReportDateTime>
+<TargetDateTime>2017-06-22T11:00:00+09:00</TargetDateTime>
+<EventID>JPMA170016</EventID>
+<InfoType>発表</InfoType>
+<Serial>1</Serial>
+<InfoKind>同一現象用平文情報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text>６月２４日の新月の前後は大潮の時期にあたり、愛媛県の沿岸では満潮の時間帯を中心に潮位が高くなります。海岸や河口付近の低い土地で浸水や冠水のおそれがありますので注意してください。</Text>
+</Headline>
+</Head>
+<Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+<Notice/>
+<Comment>
+<Text type='本文'>　６月２４日の新月の前後は大潮の時期にあたるため、満潮の時間帯を中心
+に潮位が高くなる所があります。
+　このため、愛媛県の沿岸では、６月２３日から６月２７日にかけて満潮の
+時間帯を中心に、海岸や河口付近の低い土地で浸水や冠水のおそれがありま
+すので注意してください。
+　また、この期間中に台風や低気圧の通過等があった場合や、短時間に海面
+が昇降を繰り返す副振動の発生等があった場合は、さらに潮位が上昇する可
+能性があります。
+
+　各地の６月２３日から６月２７日までの満潮時刻は次のとおりです。
+
+　松山港　　　６月　２３日　　０７時５２分、２０時５９分
+　　　　　　　　　　２４日　　０８時３８分、２１時４８分
+　　　　　　　　　　２５日　　０９時２５分、２２時３５分
+　　　　　　　　　　２６日　　１０時１２分、２３時２１分
+　　　　　　　　　　２７日　　１１時００分、
+
+　新居浜港　　６月　２３日　　０９時４８分、２２時５５分
+　　　　　　　　　　２４日　　１０時３５分、２３時４４分
+　　　　　　　　　　２５日　　１１時２２分、
+　　　　　　　　　　２６日　　００時３０分、１２時０７分
+　　　　　　　　　　２７日　　０１時１４分、１２時５３分
+
+　宇和島港　　６月　２３日　　０５時５０分、１９時１１分
+　　　　　　　　　　２４日　　０６時３６分、２０時００分
+　　　　　　　　　　２５日　　０７時２２分、２０時４７分
+　　　　　　　　　　２６日　　０８時０９分、２１時３３分
+　　　　　　　　　　２７日　　０８時５６分、２２時１９分
+
+　被害が発生するおそれがある場合には、気象台から高潮警報、注意報や潮
+位情報を発表しますので、それらの情報に十分留意してください。
+
+「大潮による高い潮位に関する愛媛県潮位情報」は本号のみとします。</Text>
+</Comment>
+</Body>
+</Report>

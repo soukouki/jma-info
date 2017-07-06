@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns:jmx_add='http://xml.kishou.go.jp/jmaxml1/addition1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>府県高温注意情報</Title>
+<DateTime>2017-07-02T01:45:11Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>静岡地方気象台</EditorialOffice>
+<PublishingOffice>静岡地方気象台</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>静岡県高温注意情報</Title>
+<ReportDateTime>2017-07-02T10:45:00+09:00</ReportDateTime>
+<TargetDateTime>2017-07-02T10:45:00+09:00</TargetDateTime>
+<EventID>JPGA170025</EventID>
+<InfoType>発表</InfoType>
+<Serial>1</Serial>
+<InfoKind>同一現象用平文情報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text/>
+</Headline>
+</Head>
+<Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+<Notice/>
+<Comment>
+<Text type='本文'>静岡県では、２日の日中は気温が３５度以上となるところがあるでしょう。
+熱中症など健康管理に注意してください。
+
+予想最高気温（前日の最高気温）
+　静岡　　３４度（３３．４度）
+　浜松　　３４度（３１．２度）
+　三島　　３３度（３１．５度）
+　網代　　３０度（２９．３度）
+　御前崎　２８度（２６．３度）
+　石廊崎　２７度（２４．９度）
+
+静岡で３０度以上の時間帯は、１７時頃まで。
+浜松で３０度以上の時間帯は、１５時頃まで。
+三島で３０度以上の時間帯は、１６時頃まで。
+
+熱中症の危険が特に高くなります。
+特に、外出時や屋外での作業時、高齢者、乳幼児、体調のすぐれない方がお
+られるご家庭などにおいては、水分をこまめに補給し多量に汗をかいた場合
+は塩分も補給する、カーテンで日射を遮る、冷房を適切に利用し室温に留意
+するなど、熱中症に対して充分な対策をとってください。</Text>
+</Comment>
+</Body>
+</Report>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>生物季節観測</Title>
+    <DateTime>2017-03-30T02:38:17Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>徳島地方気象台</EditorialOffice>
+    <PublishingOffice>徳島地方気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>生物季節観測</Title>
+    <ReportDateTime>2017-03-30T11:32:00+09:00</ReportDateTime>
+    <TargetDateTime>2017-03-30T00:00:00+09:00</TargetDateTime>
+    <EventID>20170330113200_19</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>生物季節観測報告気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='生物季節観測'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-dd'>2017-03-30T00:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>つばめの初見日</Name>
+            <Code>19</Code>
+            <ClassName>ツバメ</ClassName>
+            <Condition>通常</Condition>
+          </Kind>
+          <Station>
+            <Name>徳島地方気象台</Name>
+            <Code type='国際地点番号'>47895</Code>
+            <Location>徳島市大和町</Location>
+            <Status>付近</Status>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <DeviationFromNormal>6</DeviationFromNormal>
+        <DeviationFromLastYear>0</DeviationFromLastYear>
+        <Text>北常三島町（キタジョウサンジマチョウ）</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

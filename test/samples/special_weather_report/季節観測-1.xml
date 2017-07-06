@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>季節観測</Title>
+    <DateTime>2017-01-02T00:07:22Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>松山地方気象台</EditorialOffice>
+    <PublishingOffice>松山地方気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>季節観測</Title>
+    <ReportDateTime>2017-01-02T09:06:00+09:00</ReportDateTime>
+    <TargetDateTime>2017-01-02T00:00:00+09:00</TargetDateTime>
+    <EventID>20170102090600_初霜</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>特殊気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='季節観測'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-dd'>2017-01-02T00:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>初霜</Name>
+          </Kind>
+          <Station>
+            <Name>松山地方気象台</Name>
+            <Code type='国際地点番号'>47887</Code>
+            <Location>松山市北持田町</Location>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <DeviationFromNormal>32</DeviationFromNormal>
+        <DeviationFromLastYear>1</DeviationFromLastYear>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

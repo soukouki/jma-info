@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>特殊気象報</Title>
+    <DateTime>2016-12-29T15:02:01Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>気象庁本庁</EditorialOffice>
+    <PublishingOffice>東京管区気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>特殊気象報（風）</Title>
+    <ReportDateTime>2016-12-30T00:02:00+09:00</ReportDateTime>
+    <TargetDateTime>2016-12-29T23:20:00+09:00</TargetDateTime>
+    <EventID>20161230000200_風_47677</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>特殊気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns:jmx_eb='http://xml.kishou.go.jp/jmaxml1/elementBasis1/' xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='特殊気象報（風）'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-ddThh:mm'>2016-12-29T23:20:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Property>
+              <Type>風</Type>
+              <WindPart>
+                <Base>
+                  <jmx_eb:WindDegree description='27/36度' type='風向' unit='３６方位数字'>27</jmx_eb:WindDegree>
+                  <jmx_eb:WindSpeed description='最大風速17.3m/s' type='最大風速' unit='m/s'>17.3</jmx_eb:WindSpeed>
+                  <Time>2016-12-29T23:20:00+09:00</Time>
+                </Base>
+                <Temporary>
+                  <jmx_eb:WindDegree description='28/36度' type='風向' unit='３６方位数字'>28</jmx_eb:WindDegree>
+                  <jmx_eb:WindSpeed description='最大瞬間風速25.1m/s' type='最大瞬間風速' unit='m/s'>25.1</jmx_eb:WindSpeed>
+                  <Time>2016-12-29T23:20:00+09:00</Time>
+                </Temporary>
+              </WindPart>
+            </Property>
+          </Kind>
+          <Station>
+            <Name>三宅島特別地域気象観測所</Name>
+            <Code type='国際地点番号'>47677</Code>
+            <Location>三宅島三宅村神着</Location>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <Text>自動処理</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

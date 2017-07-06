@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>季節観測</Title>
+    <DateTime>2016-12-27T23:25:30Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>高知地方気象台</EditorialOffice>
+    <PublishingOffice>高知地方気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>季節観測</Title>
+    <ReportDateTime>2016-12-28T08:24:00+09:00</ReportDateTime>
+    <TargetDateTime>2016-12-28T00:00:00+09:00</TargetDateTime>
+    <EventID>20161228082400_初冠雪</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>特殊気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='季節観測'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-dd'>2016-12-28T00:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>初冠雪</Name>
+          </Kind>
+          <Station>
+            <Name>高知地方気象台</Name>
+            <Code type='国際地点番号'>47893</Code>
+            <Location>高知市比島町</Location>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <DeviationFromNormal>-9</DeviationFromNormal>
+        <DeviationFromLastYear>31</DeviationFromLastYear>
+        <Text>国見山（クニミヤマ）</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>

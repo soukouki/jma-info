@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns:jmx_add='http://xml.kishou.go.jp/jmaxml1/addition1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>府県天気概況</Title>
+<DateTime>2016-12-31T01:59:08Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>仙台管区気象台</EditorialOffice>
+<PublishingOffice>仙台管区気象台</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>天気概況</Title>
+<ReportDateTime>2016-12-31T10:59:00+09:00</ReportDateTime>
+<TargetDateTime>2016-12-31T10:59:00+09:00</TargetDateTime>
+<EventID/>
+<InfoType>発表</InfoType>
+<Serial/>
+<InfoKind>平文情報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text/>
+</Headline>
+</Head>
+<Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+<TargetArea codeType='気象情報／府県予報区・細分区域等'>
+<Name>宮城県</Name>
+<Code>040000</Code>
+</TargetArea>
+<Notice/>
+<Comment>
+<Text type='本文'>気圧の谷が東北地方を通過しています。一方、高気圧が黄海付近にあって、
+西日本を覆っています。
+
+【宮城県】
+宮城県は曇りで、西部では雨や雪の降っている所があります。
+
+３１日は、気圧の谷の影響により、曇りで西部では雨や雪の降る所がありま
+すが、夕方から次第に晴れるでしょう。
+
+１月１日は、気圧の谷の影響により、曇りや晴れで、山沿いでは雪の降る所
+がある見込みです。
+
+＜天気変化等の留意点＞
+３１日は、空気の乾燥した状態が続くため、火の取り扱いに注意してくださ
+い。
+
+【東北地方】
+東北地方は曇りや晴れで、南部を中心に雪や雨の降っている所があります。
+
+３１日は、気圧の谷の影響により、曇りや晴れで、南部を中心に雪や雨の降
+る所がある見込みです。
+
+１月１日は、気圧の谷の影響により、日本海側では曇りで、雪や雨の降る所
+があるでしょう。太平洋側では、曇りや晴れの見込みです。</Text>
+</Comment>
+</Body>
+</Report>

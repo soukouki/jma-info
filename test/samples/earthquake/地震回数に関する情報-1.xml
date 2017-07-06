@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>地震回数に関する情報</Title>
+<DateTime>2016-04-26T09:03:19Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>気象庁本庁</EditorialOffice>
+<PublishingOffice>気象庁</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>地震回数に関する情報</Title>
+<ReportDateTime>2016-04-26T18:03:00+09:00</ReportDateTime>
+<TargetDateTime>2016-04-26T18:03:00+09:00</TargetDateTime>
+<EventID>20160414212638</EventID>
+<InfoType>発表</InfoType>
+<Serial>97</Serial>
+<InfoKind>地震回数情報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text>地震回数に関する情報をお知らせします。</Text>
+</Headline>
+</Head>
+<Body xmlns:jmx_eb='http://xml.kishou.go.jp/jmaxml1/elementBasis1/' xmlns='http://xml.kishou.go.jp/jmaxml1/body/seismology1/'>
+<EarthquakeCount>
+<Item type='地震回数'>
+<StartTime>2016-04-14T21:00:00+09:00</StartTime>
+<EndTime>2016-04-20T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>652</FeltNumber>
+</Item>
+<Item type='地震回数'>
+<StartTime>2016-04-20T00:00:00+09:00</StartTime>
+<EndTime>2016-04-21T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>74</FeltNumber>
+</Item>
+<Item type='地震回数'>
+<StartTime>2016-04-21T00:00:00+09:00</StartTime>
+<EndTime>2016-04-22T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>48</FeltNumber>
+</Item>
+<Item type='地震回数'>
+<StartTime>2016-04-22T00:00:00+09:00</StartTime>
+<EndTime>2016-04-23T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>41</FeltNumber>
+</Item>
+<Item type='地震回数'>
+<StartTime>2016-04-23T00:00:00+09:00</StartTime>
+<EndTime>2016-04-24T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>28</FeltNumber>
+</Item>
+<Item type='地震回数'>
+<StartTime>2016-04-24T00:00:00+09:00</StartTime>
+<EndTime>2016-04-25T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>30</FeltNumber>
+</Item>
+<Item type='地震回数'>
+<StartTime>2016-04-25T00:00:00+09:00</StartTime>
+<EndTime>2016-04-26T00:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>24</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T00:00:00+09:00</StartTime>
+<EndTime>2016-04-26T01:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>1</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T01:00:00+09:00</StartTime>
+<EndTime>2016-04-26T02:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>1</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T02:00:00+09:00</StartTime>
+<EndTime>2016-04-26T03:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>0</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T03:00:00+09:00</StartTime>
+<EndTime>2016-04-26T04:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>2</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T04:00:00+09:00</StartTime>
+<EndTime>2016-04-26T05:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>1</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T05:00:00+09:00</StartTime>
+<EndTime>2016-04-26T06:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>3</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T06:00:00+09:00</StartTime>
+<EndTime>2016-04-26T07:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>2</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T07:00:00+09:00</StartTime>
+<EndTime>2016-04-26T08:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>2</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T08:00:00+09:00</StartTime>
+<EndTime>2016-04-26T09:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>1</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T09:00:00+09:00</StartTime>
+<EndTime>2016-04-26T10:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>0</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T10:00:00+09:00</StartTime>
+<EndTime>2016-04-26T11:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>2</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T11:00:00+09:00</StartTime>
+<EndTime>2016-04-26T12:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>0</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T12:00:00+09:00</StartTime>
+<EndTime>2016-04-26T13:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>2</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T13:00:00+09:00</StartTime>
+<EndTime>2016-04-26T14:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>2</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T14:00:00+09:00</StartTime>
+<EndTime>2016-04-26T15:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>1</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T15:00:00+09:00</StartTime>
+<EndTime>2016-04-26T16:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>0</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T16:00:00+09:00</StartTime>
+<EndTime>2016-04-26T17:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>5</FeltNumber>
+</Item>
+<Item type='１時間地震回数'>
+<StartTime>2016-04-26T17:00:00+09:00</StartTime>
+<EndTime>2016-04-26T18:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>0</FeltNumber>
+</Item>
+<Item type='累積地震回数'>
+<StartTime>2016-04-14T21:00:00+09:00</StartTime>
+<EndTime>2016-04-26T18:00:00+09:00</EndTime>
+<Number>-1</Number>
+<FeltNumber>922</FeltNumber>
+</Item>
+</EarthquakeCount>
+<Text>熊本県熊本地方、熊本県阿蘇地方、大分県西部、大分県中部の震度１以上の時間別地震回数は次のとおりです。
+
+  ４月１４日から  ４月１９日まで
+総回数６５２回 震度７：２回　震度６強：２回　震度６弱：３回　震度５強：３回　震度５弱：７回　震度４：７２回　震度３：１６２回　震度２：２６７回　震度１：１３４回   
+  ４月２０日
+総回数　７４回 震度４：１回　震度３：１５回　震度２：４０回　震度１：１８回   
+  ４月２１日
+総回数　４８回 震度４：２回　震度３：１１回　震度２：２６回　震度１：９回   
+  ４月２２日
+総回数　４１回 震度４：１回　震度３：４回　震度２：２４回　震度１：１２回   
+  ４月２３日
+総回数　２８回 震度３：１回　震度２：１３回　震度１：１４回   
+  ４月２４日
+総回数　３０回 震度３：７回　震度２：８回　震度１：１５回   
+  ４月２５日
+総回数　２４回 震度４：１回　震度３：０回　震度２：１４回　震度１：９回   
+  ４月２６日
+００時から０１時 総回数　　１回 震度３：１回　震度２：０回　震度１：０回  
+０１時から０２時 総回数　　１回 震度１：１回  
+０２時から０３時 総回数　　０回   
+０３時から０４時 総回数　　２回 震度３：２回　震度２：０回　震度１：０回  
+０４時から０５時 総回数　　１回 震度１：１回  
+０５時から０６時 総回数　　３回 震度２：３回　震度１：０回  
+０６時から０７時 総回数　　２回 震度１：２回  
+０７時から０８時 総回数　　２回 震度１：２回  
+０８時から０９時 総回数　　１回 震度１：１回  
+０９時から１０時 総回数　　０回   
+１０時から１１時 総回数　　２回 震度２：１回　震度１：１回  
+１１時から１２時 総回数　　０回   
+１２時から１３時 総回数　　２回 震度１：２回  
+１３時から１４時 総回数　　２回 震度１：２回  
+１４時から１５時 総回数　　１回 震度１：１回  
+１５時から１６時 総回数　　０回   
+１６時から１７時 総回数　　５回 震度３：１回　震度２：１回　震度１：３回  
+１７時から１８時 総回数　　０回</Text>
+<Comments>
+<FreeFormComment>なお、今後は「地震回数に関する情報」にかえて、「各地の震度に関する情報」において震度１以上の情報を発表します。</FreeFormComment>
+</Comments>
+</Body>
+</Report>

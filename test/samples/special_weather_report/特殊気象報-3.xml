@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+  <Control>
+    <Title>特殊気象報</Title>
+    <DateTime>2017-04-14T06:25:15Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>新潟地方気象台</EditorialOffice>
+    <PublishingOffice>新潟地方気象台</PublishingOffice>
+  </Control>
+  <Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+    <Title>特殊気象報（各種現象）</Title>
+    <ReportDateTime>2017-04-14T15:24:00+09:00</ReportDateTime>
+    <TargetDateTime>2017-04-14T13:00:00+09:00</TargetDateTime>
+    <EventID>20170414152400_風じん</EventID>
+    <InfoType>発表</InfoType>
+    <Serial/>
+    <InfoKind>特殊気象報</InfoKind>
+    <InfoKindVersion>1.0_0</InfoKindVersion>
+    <Headline>
+      <Text/>
+    </Headline>
+  </Head>
+  <Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+    <MeteorologicalInfos type='特殊気象報（各種現象）'>
+      <MeteorologicalInfo>
+        <DateTime significant='yyyy-mm-ddThh:mm'>2017-04-14T13:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Name>風じん</Name>
+          </Kind>
+          <Station>
+            <Name>新潟地方気象台</Name>
+            <Code type='国際地点番号'>47604</Code>
+            <Location>新潟市中央区美咲町</Location>
+          </Station>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+    <AdditionalInfo>
+      <ObservationAddition>
+        <Text>視程８ｋｍ（シテイ８キロメートル）</Text>
+      </ObservationAddition>
+    </AdditionalInfo>
+  </Body>
+</Report>
