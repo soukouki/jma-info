@@ -17,8 +17,6 @@ class UrisCache
 		[new_uris-@uris, UrisCache.new(@uris | new_uris, @cache_time)]
 	end
 	
-	UriAndTitle = Struct.new(:uri, :title)
-	
 	class << self
 		def time_to_s time
 			time.strftime("%FT%T")
@@ -45,8 +43,7 @@ class UrisCache
 			uri =
 				"http://api.aitc.jp/jmardb-api/search?"+
 				"datetime=#{time_to_s(old_time)}&datetime=#{time_to_s(now_time)}&limit=100"
-			get_items(uri)
-				.map{|h|UriAndTitle.new(h["link"], h["title"])}
+			get_items(uri).map{|h|h["link"]}
 		end
 	end
 end

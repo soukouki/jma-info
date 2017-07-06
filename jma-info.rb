@@ -23,15 +23,12 @@ def app arg
 	loop do
 		time = Time.now
 		updated_uris, uris_cache = uris_cache.updated_uris(time)
-		puts_info(arg[:puts], updated_uris, time)
+		puts_info(arg[:puts], updated_uris, time) unless updated_uris.empty?
 		sleep(15)
 	end
 end
 
 def puts_info(puts_lambdas, updated_uris, now_time)
-	if updated_uris.empty?
-		return
-	end
 	text = updated_uris
 		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.nil?}

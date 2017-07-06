@@ -5,9 +5,9 @@ require "time"
 require "rexml/document"
 
 module GetInfo extend self
-	def get_info(uri_and_title)
-		title = uri_and_title.title
-		doc = get_doc(uri_and_title.uri)
+	def get_info(uri)
+		doc = get_doc(uri)
+		title = doc.elements["Report/Control/Title"].text
 		status = doc.elements["Report/Control/Status"].text
 		info_type = doc.elements["Report/Head/InfoType"].text
 		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text)
