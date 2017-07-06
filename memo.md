@@ -1,4 +1,4 @@
-- InfoTypeを扱ったほうがいいと思う。
+
 - `.elements` `[]` `.select{|i|i.class==REXML::Element && i.name=="Pref"}` `.map` を `.elements` `collect` にまとめる
 	- 変更箇所多いので更新分だけでも
 
@@ -16,4 +16,3 @@
 - 台風情報
 - 海上予報
 - 季節予報
--

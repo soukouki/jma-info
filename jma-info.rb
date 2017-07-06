@@ -18,7 +18,7 @@ def file_open name, open_type="r", &open_block
 end
 
 def app arg
-	multiple_puts(arg[:puts], "#{Time.now}\n	起動しました。")
+	multiple_puts(arg[:puts], "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。")
 	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
@@ -32,11 +32,11 @@ def puts_info(puts_lambdas, updated_uris, now_time)
 	if updated_uris.empty?
 		return
 	end
-	text = now_time.to_s+"\n"+
-	updated_uris
+	text = updated_uris
 		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.nil?}
 		.join("\n")
+	return if text==""
 	multiple_puts(puts_lambdas, text)
 end
 
