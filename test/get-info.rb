@@ -18,6 +18,8 @@ test_group(false, "一般報") do
 	puts get_general_report("http://api.aitc.jp/jmardb/reports/7fa44ebf-64a1-32ab-9d99-379de6663211")
 	puts get_general_report("http://api.aitc.jp/jmardb/reports/9f849d49-7877-3e74-9dbd-c690c7187b19")
 	puts get_general_report("http://api.aitc.jp/jmardb/reports/f7166144-b3d6-3a3c-93da-e2e1fa8273a9")
+	puts get_general_report("./test/samples/general/42_01_01_100514_VZSE40.xml")
+	puts get_general_report("./test/samples/general/42_02_01_100831_VZVO40.xml")
 end
 
 test_group(false, "概況") do

@@ -13,11 +13,12 @@ module GetInfo extend self
 			"全般台風情報", "全般台風情報（定型）", "発達する熱帯低気圧に関する情報",
 			"全般気象情報", "地方気象情報", "府県気象情報", "天気概況",
 			"全般週間天気予報", "地方週間天気予報", "スモッグ気象情報", "全般スモッグ気象情報",
-			"全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報", "地方高温注意情報", "府県高温注意情報"
+			"全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報", "地方高温注意情報", "府県高温注意情報",
+			"火山に関するお知らせ", "地震・津波に関するお知らせ"
 			title+" : "+get_general_report(uri)
 		when "府県天気概況"
 			title+" : "+get_general_weather_conditions(uri)
-		when "気象警報・注意報（Ｈ２７）" # 無視
+		when "気象警報・注意報", "気象特別警報報知" # 無視
 		when "気象特別警報・警報・注意報"
 			title+" : "+get_alerm(uri)
 		when "季節観測", "特殊気象報"
@@ -84,22 +85,24 @@ module GetInfo extend self
 	
 	def get_general_report uri
 		doc=get_doc(uri)
-		cleanly_str(doc.elements["Report/Head/Title"].text)+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text||"")+"\n"+
-		cleanly_text(doc.elements["Report/Body/Comment/Text"].text.gsub("。"){"。\n\n"})+"\n"
+		head = doc.elements["Report/Head"]
+		body = doc.elements["Report/Body"]
+		cleanly_str(head.elements["Title"].text)+"\n"+
+		((head.elements["Headline/Text[.!='']"])? cleanly_text(head.elements["Headline/Text"].text+"\n") : "")+
+		cleanly_text(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
 	end
 	
 	def get_general_weather_conditions uri
 		doc = get_doc(uri)
-		doc.elements["Report/Body/TargetArea/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Body/Comment/Text"].text)+"\n"
+		body = doc.elements["Report/Body"]
+		body.elements["TargetArea/Name"].text+"\n"+
+		cleanly_text(body.elements["Report/Body/Comment/Text"].text)+"\n"
 	end
 	
 	def get_alerm uri
 		doc = get_doc(uri)
 		doc.elements[
-			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]"+
-			"/Item/Areas/Area/Name"].text+"\n\t"+
+			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n\t"+
 		doc.elements["Report/Head/Headline/Text"].text.gsub(/。(?=\n)/){"。\n\t"}+
 		alerm_info(doc)
 	end
@@ -178,15 +181,13 @@ module GetInfo extend self
 	
 	# 一部の地震情報と津波情報は、違うタイトルで同じことをするものがあり、分けれないため、この関数内で地震情報と津波情報を処理する
 	# それ以外のやつも一緒になってるのはCommentsとかだったりノリ
-	# 地震・津波に関するお知らせ，火山に関するお知らせ <-まだ
-	#
-	# 警報のほうでも予想の方でも時刻行ってるけどちょっと冗長？
+	# 警報のほうでも予想の方でも時刻つなげてるのはちょっと冗長かも知れない
 	def earthquake_info uri
 		doc = get_doc(uri)
 		heading = ((doc.elements["Report/Head/Headline/Text/text()"])?
 			(cleanly_str(doc.elements["Report/Head/Headline/Text"].text).gsub("\n"){""}) : "")
 		text = doc.elements.collect("Report/Body/*") do |info|
-			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所あるきがするので信じないように
+			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所あるきがするので信じすぎないように
 			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 				earthquake_info_earthquake_paet(info)
 			when "Intensity" # 震度速報 + 震源・震度に関する情報
