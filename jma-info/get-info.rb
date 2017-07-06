@@ -10,7 +10,7 @@ module GetInfo extend self
 		doc = get_doc(uri_and_title.uri)
 		status = doc.elements["Report/Control/Status"].text
 		info_type = doc.elements["Report/Head/InfoType"].text
-		target_time = Time.parse(doc.elements["Report/Head/TargetDateTime"].text)
+		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text)
 		repo_title = time_to_ymdhms_s(target_time)+" "+info_type+" "+title+((status!="通常")? " **"+status+"**" : "")
 		case title
 		when # 一般報
