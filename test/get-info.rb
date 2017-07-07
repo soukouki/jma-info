@@ -13,7 +13,7 @@ def test_group execute, name, &block
 	end
 end
 
-test_group(true, "一般報") do
+test_group(false, "一般報") do
 	puts get_info("./test/samples/general/府県海氷予報-1.xml")
 	puts get_info("./test/samples/general/全般台風情報（定型）-1.xml")
 	puts get_info("./test/samples/general/全般気象情報-1.xml")
@@ -23,19 +23,19 @@ test_group(true, "一般報") do
 	puts get_info("./test/samples/general/42_02_01_100831_VZVO40.xml")
 end
 
-test_group(true, "概況") do
+test_group(false, "概況") do
 	# 単独だしファイル作らなくていい気がする
 	puts get_info("./test/samples/府県天気概況-1.xml")
 end
 
-test_group(true, "注意報") do
+test_group(false, "注意報") do
 	puts get_info("./test/samples/alert/気象特別警報・警報・注意報-1.xml")
 	puts get_info("./test/samples/alert/気象特別警報・警報・注意報-2.xml")
 	# 解除
 	puts get_info("./test/samples/alert/気象特別警報・警報・注意報-3.xml")
 end
 
-test_group(true, "季節観測・特殊気象報") do
+test_group(false, "季節観測・特殊気象報") do
 	puts get_info("./test/samples/special_weather_report/季節観測-1.xml")
 	puts get_info("./test/samples/special_weather_report/季節観測-2.xml")
 	puts get_info("./test/samples/special_weather_report/特殊気象報-1.xml")
@@ -43,20 +43,20 @@ test_group(true, "季節観測・特殊気象報") do
 	puts get_info("./test/samples/special_weather_report/特殊気象報-3.xml")
 end
 
-test_group(true, "地方海上警報") do
+test_group(false, "地方海上警報") do
 	puts get_info("./test/samples/local_maritime_alert/地方海上警報-1.xml")
 	puts get_info("./test/samples/local_maritime_alert/地方海上警報-2.xml")
 	puts get_info("./test/samples/local_maritime_alert/地方海上警報-3.xml")
 end
 
-test_group(true, "生物季節観測") do
+test_group(false, "生物季節観測") do
 	puts get_info("./test/samples/season_observation/生物季節観測-1.xml")
 	puts get_info("./test/samples/season_observation/生物季節観測-2.xml")
 	puts get_info("./test/samples/season_observation/生物季節観測-3.xml")
 	puts get_info("./test/samples/season_observation/生物季節観測-4.xml")
 end
 
-test_group(true, "地震情報") do
+test_group(false, "地震情報") do
 	puts get_info("./test/samples/earthquake/32-35_01_01_100806_VXSE51.xml")
 	puts get_info("./test/samples/earthquake/32-35_01_02_100514_VXSE52.xml")
 	puts get_info("./test/samples/earthquake/32-35_01_03_100514_VXSE53.xml")
@@ -104,7 +104,7 @@ test_group(true, "地震情報") do
 	puts get_info("./test/samples/earthquake/地震回数に関する情報-1.xml")
 end
 
-test_group(true, "津波情報") do
+test_group(false, "津波情報") do
 	puts get_info("./test/samples/tsunami/38-39_01_01_100831_VTSE40.xml")
 	puts get_info("./test/samples/tsunami/38-39_01_02_100831_VTSE50.xml")
 	puts get_info("./test/samples/tsunami/38-39_01_03_100831_VTSE50.xml")

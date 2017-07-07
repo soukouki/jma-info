@@ -19,7 +19,7 @@ end
 
 def app arg
 	multiple_puts(arg[:puts], "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。")
-	uris_cache = UrisCache.NewCache(60*10, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
+	uris_cache = UrisCache.NewCache(60*5, Time.now) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
 		updated_uris, uris_cache = uris_cache.updated_uris(time)
@@ -62,7 +62,7 @@ def error_process start_time, error_time, error
 	file_appending("./jma-info.debug.log", error.to_s+error.backtrace.join("\n"))
 	puts "起動時間 #{Time.now-start_time}"
 	if Time.now-start_time > 60
-		STDERR.puts "300秒以上起動した後にエラーが発生したので、もう一度やり直します。"
+		STDERR.puts "60秒以上起動した後にエラーが発生したので、もう一度やり直します。"
 		STDERR.puts "拾い漏れるデータがある可能性があります。"
 		STDERR.puts "プログラムを終了させるには、もう一度Ctrl+cを送ってください。"
 		return true
