@@ -2,19 +2,23 @@
 require "open-uri"
 require "json"
 
+# @uris すでに取得しているuri
+# @get_back aitc側の更新が2-3分遅れるので、その分の設定と、起動時に少し遡って表示する時間
 class UrisCache
-	private def initialize(uris, cache_time)
+	private def initialize(uris, get_back)
 		@uris = uris
-		@cache_time = cache_time
+		@get_back = get_back
 	end
 	
-	def self.NewCache(cache_time, now_time)
-		UrisCache.new(UrisCache::get_uri_list(now_time-cache_time, now_time), cache_time)
+	def self::NewCache(get_back)
+		UrisCache.new([], get_back)
 	end
 	
+	# return [0] 取得したuri
+	# return [1] 新しいUrisCache
 	def updated_uris(now_time)
-		new_uris = UrisCache::get_uri_list(now_time-@cache_time, now_time)
-		[new_uris-@uris, UrisCache.new(@uris | new_uris, @cache_time)]
+		new_uris = UrisCache::get_uri_list(now_time-@get_back, now_time)
+		[new_uris-@uris, UrisCache.new(@uris | new_uris, @get_back)]
 	end
 	
 	class << self

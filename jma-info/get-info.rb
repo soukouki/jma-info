@@ -37,14 +37,23 @@ module GetInfo extend self
 			"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
 			repo_title+" : "+earthquake_info(doc)
 		else
-			repo_title
+			repo_title+"\n"
 		end
 	end
 	
 	private
 	
-	def get_doc uri
-		REXML::Document.new(open(uri))
+	def get_doc uri, try_count=0
+		begin
+			REXML::Document.new(open(uri))
+		rescue
+			if try_count > 10
+				raise "GetInfo#get_docでのエラー #{uri} へのアクセスを11回失敗しました。インターネット環境を確認してください。"
+			else
+				sleep(10) # 長めのsleepで1分以内に同じようなエラーが出ないように
+				get_doc(uri, try_count+1)
+			end
+		end
 	end
 	
 	# 文章を綺麗にする
