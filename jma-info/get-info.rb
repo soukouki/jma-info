@@ -1,4 +1,4 @@
-
+﻿
 require "open-uri"
 require "time"
 
@@ -12,33 +12,33 @@ module GetInfo extend self
 		info_type = doc.elements["Report/Head/InfoType"].text
 		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
 		repo_title = time_to_ymdhms_s(target_time)+" "+info_type+" "+title+((status!="通常")? " **"+status+"**" : "")
-		cleanly_str(repo_title+case title
+		cleanly_str(case title
 			when # 一般報
 				"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
 				"全般気象情報", "地方気象情報", "府県気象情報", "天気概況", "全般週間天気予報", "地方週間天気予報",
 				"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
 				"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
-				" : "+get_general_report(doc)+"\n"
+				repo_title+" : "+get_general_report(doc)+"\n"
 			when "府県天気概況"
-				" : "+get_general_weather_conditions(doc)+"\n"
+				repo_title+" : "+get_general_weather_conditions(doc)+"\n"
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
 			when "気象特別警報・警報・注意報"
-				" : "+get_alerm(doc)+"\n"
+				repo_title+" : "+get_alerm(doc)+"\n"
 			when "季節観測", "特殊気象報"
-				" : "+get_special_weather_report(doc)+"\n"
+				repo_title+" : "+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
 			when "地方海上警報"
-				" : "+get_local_maritime_alert(doc)+"\n"
+				repo_title+" : "+get_local_maritime_alert(doc)+"\n"
 			when "生物季節観測"
-				" : "+creature_season_observation(doc)+"\n"
+				repo_title+" : "+creature_season_observation(doc)+"\n"
 			when # 地震、津波
 				"震度速報", "震源に関する情報", "震源・震度に関する情報",
 				"地震の活動状況に関する情報", "地震回数に関する情報",
 				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
-				" : "+earthquake_info(doc)
+				repo_title+" : "+earthquake_info(doc)
 			else
 				"\n"
-			end
+			end || ""
 		)
 	end
 	
