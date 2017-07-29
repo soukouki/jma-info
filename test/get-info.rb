@@ -29,10 +29,20 @@ test_group(false, "概況") do
 end
 
 test_group(false, "注意報") do
-	puts get_info("./test/samples/alert/気象特別警報・警報・注意報-1.xml")
-	puts get_info("./test/samples/alert/気象特別警報・警報・注意報-2.xml")
-	# 解除
-	puts get_info("./test/samples/alert/気象特別警報・警報・注意報-3.xml")
+	puts get_info("./test/samples/alert/15_08_01_130412_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_08_02_130412_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_08_03_160628_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_08_04_160628_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_08_05_130412_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_09_01_160628_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_09_02_160628_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_09_03_130826_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_10_03_160628_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_12_01_161130_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_12_02_161130_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_12_03_161130_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_13_01_161226_VPWW53.xml")
+	puts get_info("./test/samples/alert/15_14_01_170216_VPWW53.xml")
 end
 
 test_group(false, "季節観測・特殊気象報") do

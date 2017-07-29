@@ -12,33 +12,34 @@ module GetInfo extend self
 		info_type = doc.elements["Report/Head/InfoType"].text
 		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
 		repo_title = time_to_ymdhms_s(target_time)+" "+info_type+" "+title+((status!="通常")? " **"+status+"**" : "")
-		case title
-		when # 一般報
-			"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
-			"全般気象情報", "地方気象情報", "府県気象情報", "天気概況", "全般週間天気予報", "地方週間天気予報",
-			"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
-			"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
-			repo_title+" : "+get_general_report(doc)+"\n"
-		when "府県天気概況"
-			repo_title+" : "+get_general_weather_conditions(doc)+"\n"
-		when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
-		when "気象特別警報・警報・注意報"
-			repo_title+" : "+get_alerm(doc)+"\n"
-		when "季節観測", "特殊気象報"
-			repo_title+" : "+get_special_weather_report(doc)+"\n"
-		when "地方海上警報（Ｈ２８）" # 無視
-		when "地方海上警報"
-			repo_title+" : "+get_local_maritime_alert(doc)+"\n"
-		when "生物季節観測"
-			repo_title+" : "+creature_season_observation(doc)+"\n"
-		when # 地震、津波
-			"震度速報", "震源に関する情報", "震源・震度に関する情報",
-			"地震の活動状況に関する情報", "地震回数に関する情報",
-			"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
-			repo_title+" : "+earthquake_info(doc)
-		else
-			repo_title+"\n"
-		end
+		cleanly_str(repo_title+case title
+			when # 一般報
+				"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
+				"全般気象情報", "地方気象情報", "府県気象情報", "天気概況", "全般週間天気予報", "地方週間天気予報",
+				"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
+				"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
+				" : "+get_general_report(doc)+"\n"
+			when "府県天気概況"
+				" : "+get_general_weather_conditions(doc)+"\n"
+			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
+			when "気象特別警報・警報・注意報"
+				" : "+get_alerm(doc)+"\n"
+			when "季節観測", "特殊気象報"
+				" : "+get_special_weather_report(doc)+"\n"
+			when "地方海上警報（Ｈ２８）" # 無視
+			when "地方海上警報"
+				" : "+get_local_maritime_alert(doc)+"\n"
+			when "生物季節観測"
+				" : "+creature_season_observation(doc)+"\n"
+			when # 地震、津波
+				"震度速報", "震源に関する情報", "震源・震度に関する情報",
+				"地震の活動状況に関する情報", "地震回数に関する情報",
+				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
+				" : "+earthquake_info(doc)
+			else
+				"\n"
+			end
+		)
 	end
 	
 	private
@@ -61,7 +62,8 @@ module GetInfo extend self
 		cleanly_str(text)
 			.gsub(/\n(?!\n)/){""} # 単独の改行を消す
 			.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
-			.gsub("  "){" "} # 連続した空白を一つにまとめる
+			.gsub(/  /){" "} # 連続した空白を一つにまとめる
+			.gsub(/^ +/){""} # 行の始めの連続したスペースを消す
 			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
 			.gsub(/\n+\Z/){""} # 文章の最後の改行を削除
 	end
@@ -116,8 +118,8 @@ module GetInfo extend self
 	def get_general_report doc
 		head = doc.elements["Report/Head"]
 		body = doc.elements["Report/Body"]
-		cleanly_str(head.elements["Title"].text)+"\n"+
-		((head.elements["Headline/Text[.!='']"])? cleanly_text(head.elements["Headline/Text"].text+"\n") : "")+
+		head.elements["Title"].text+"\n"+
+		cleanly_text((head.elements["Headline/Text[.!='']"])? (head.elements["Headline/Text"].text+"\n") : "")+
 		cleanly_text(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
 	end
 	
@@ -130,25 +132,25 @@ module GetInfo extend self
 	def get_alerm doc
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n\t"+
-		cleanly_str(doc.elements["Report/Head/Headline/Text"].text.gsub(/。(?=\n)/){"。\n\t"})+
+		doc.elements["Report/Head/Headline/Text"].text.gsub(/。[^\n]/){"。\n\t"}+
 		alerm_info(doc)
 	end
 	
 	def alerm_info doc
 		if doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
-			"\n\t"+format_alerm_info(doc)
+			"\n\t"+cleanly_text(format_alerm_info(doc))
 		else # 解除時
 			""
 		end
 	end
 	
 	def format_alerm_info doc
-		doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
-			.select{|x|x!="\n"}
-			.map do |a|
-				a.elements["Kind/Name"].text+"が"+
-				a.elements["Areas"].select{|x|x!="\n"}.map{|b|b.elements["Name"].text}.join("、")+"に"
-			end
+		doc
+			.elements
+			.collect("Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]/Item"){|info|
+				info.elements["Kind/Name"].text+"が"+
+				info.elements.collect("Areas"){|a|a.elements["Area/Name"].text}.join("、")+"に"
+			}
 			.join("、")+"出ています。"
 	end
 	
@@ -182,7 +184,7 @@ module GetInfo extend self
 		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+
 		item.map do |it|
 			sentence = it.elements["Kind/Property/*/SubArea/Sentence"]
-			((sentence.nil?)? "" : "\n"+cleanly_text(sentence.text).gsub(" "){"、"})
+			cleanly_text((sentence.nil?)? "" : "\n"+sentence.text.gsub("  "){"、"})
 		end.join("")+"\n\t"+
 		item
 			.map{|a|a.elements["Kind/Name"].text}.uniq
@@ -208,7 +210,7 @@ module GetInfo extend self
 	# 警報のほうでも予想の方でも時刻つなげてるのはちょっと冗長かも知れない
 	def earthquake_info doc
 		heading = ((doc.elements["Report/Head/Headline/Text/text()"])?
-			(cleanly_str(doc.elements["Report/Head/Headline/Text"].text).gsub("\n"){""}) : "")
+			(doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){""}) : "")
 		text = doc.elements.collect("Report/Body/*") do |info|
 			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所あるきがするので信じすぎないように
 			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
@@ -236,10 +238,10 @@ module GetInfo extend self
 		area = info.elements["Hypocenter/Area"]
 		"\t震源地:"+area.elements["Name/text()"].value+
 		((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
-		((area.elements["NameFromMark"])? "("+cleanly_str(area.elements["NameFromMark/text()"].value)+")" : "")+"\n\t"+
-		"\t"+cleanly_str(area.elements["jmx_eb:Coordinate/@description"].value)+"\n\t"+
-		"マグニチュード:"+cleanly_str(info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){})+"\n"+
-		((info.elements["Hypocenter/Source"])? "\t情報元:"+cleanly_str(info.elements["Hypocenter/Source/text()"].value)+"\n" :  "")
+		((area.elements["NameFromMark"])? "("+area.elements["NameFromMark/text()"].value+")" : "")+"\n\t"+
+		"\t"+area.elements["jmx_eb:Coordinate/@description"].value+"\n\t"+
+		"マグニチュード:"+info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){}+"\n"+
+		((info.elements["Hypocenter/Source"])? "\t情報元:"+info.elements["Hypocenter/Source/text()"].value+"\n" :  "")
 	end
 	
 	def earthquake_info_intensity_part info, is_detail_info
@@ -267,12 +269,12 @@ module GetInfo extend self
 	end
 	def intensity_station_xml_to_s city
 		city.elements
-			.collect("IntensityStation"){|is|cleanly_str(get_name(is))+":"+sint_to_s(is.elements["Int/text()"].value)}
+			.collect("IntensityStation"){|is|get_name(is)+":"+sint_to_s(is.elements["Int/text()"].value)}
 			.join("、")
 	end
 	def sint_to_s si
 		# 震度のgsubは、震度5弱以上未入電のときの最初の震度を消すため。
-		cleanly_str("震度"+si.gsub("震度"){""}.gsub("+"){"強"}.gsub("-"){"弱"})
+		"震度"+si.gsub("震度"){""}.gsub("+"){"強"}.gsub("-"){"弱"}
 	end
 	def get_maxint doc
 		sint_to_s(doc.elements["MaxInt/text()"].to_s)
@@ -303,7 +305,7 @@ module GetInfo extend self
 			item.elements.collect("Station"){|sta|
 				sta.elements["Name"].text+
 				max_height_xml_to_s(sta)+
-				((is_offing)? "("+cleanly_str(sta.elements["Sensor"].text)+")" : "")
+				((is_offing)? "("+sta.elements["Sensor"].text+")" : "")
 			}.join("\n\t\t")}.join("\n\t")
 	end
 	def earthquake_info_tsunami_forecast_part tinfo
@@ -311,7 +313,7 @@ module GetInfo extend self
 			item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
 			first_height_to_s(item, ->(t){time_to_dhm_s(t)})+
 			((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
-				("、高さ:"+cleanly_str(item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value)) : "")+
+				("、高さ:"+item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
 			((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
 					sta.elements["Name"].text+first_height_to_s(sta, ->(t){time_to_hm_s(t)})
 				}.join("\n\t\t"))
@@ -327,7 +329,7 @@ module GetInfo extend self
 		((doc.elements["MaxHeight/DateTime"])? "、"+time_to_hm_s(Time.parse(doc.elements["MaxHeight/DateTime"].text)) : "")+
 		((doc.elements["MaxHeight/Condition"])? "、"+doc.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
 		((doc.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
-			"、"+cleanly_str(doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
+			"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value : "")+
 		((doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
 			"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")
 	end
