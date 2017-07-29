@@ -130,7 +130,7 @@ module GetInfo extend self
 	def get_alerm doc
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n\t"+
-		doc.elements["Report/Head/Headline/Text"].text.gsub(/。(?=\n)/){"。\n\t"}+
+		cleanly_str(doc.elements["Report/Head/Headline/Text"].text.gsub(/。(?=\n)/){"。\n\t"})+
 		alerm_info(doc)
 	end
 	
