@@ -32,7 +32,7 @@ def puts_info(puts_lambdas, updated_uris, now_time)
 	text = updated_uris
 		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.nil?}
-		.join("\n")
+		.join("")
 	return if text==""
 	multiple_puts(puts_lambdas, text)
 end

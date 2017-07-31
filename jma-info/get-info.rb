@@ -11,7 +11,7 @@ module GetInfo extend self
 		status = doc.elements["Report/Control/Status"].text
 		info_type = doc.elements["Report/Head/InfoType"].text
 		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
-		repo_title = time_to_ymdhms_s(target_time)+" "+info_type+" "+title+((status!="通常")? " **"+status+"**" : "")
+		repo_title = "#{time_to_ymdhms_s(target_time)} #{info_type} #{title}#{((status!="通常")? " **#{status}**" : "")}"
 		cleanly_str(case title
 			when # 一般報
 				"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
@@ -37,7 +37,7 @@ module GetInfo extend self
 				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
 				repo_title+" : "+earthquake_info(doc)
 			else
-				"\n"
+				repo_title+"\n"
 			end || ""
 		)
 	end
@@ -46,7 +46,7 @@ module GetInfo extend self
 	
 	def get_doc uri, try_count=0
 		begin
-			REXML::Document.new(open(uri))
+			text = open(uri)
 		rescue
 			if try_count > 10
 				raise "GetInfo#get_docでのエラー #{uri} へのアクセスを11回失敗しました。インターネット環境を確認してください。"
@@ -55,6 +55,7 @@ module GetInfo extend self
 				get_doc(uri, try_count+1)
 			end
 		end
+		REXML::Document.new(text)
 	end
 	
 	# 文章を綺麗にする
@@ -180,19 +181,83 @@ module GetInfo extend self
 	end
 	
 	def get_local_maritime_alert doc
-		item = doc.elements["Report/Body/Warning"].select{|a|a.kind_of?(REXML::Element)}
-		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+
-		item.map do |it|
-			sentence = it.elements["Kind/Property/*/SubArea/Sentence"]
-			cleanly_text((sentence.nil?)? "" : "\n"+sentence.text.gsub("  "){"、"})
-		end.join("")+"\n\t"+
-		item
-			.map{|a|a.elements["Kind/Name"].text}.uniq
-			.map do |k|
-				k+"が"+item
-					.select{|a|a.elements["Kind/Name"].text==k}.
-					map{|a|a.elements["Area/Name"].text}.join(" ")+"に"
-			end.join("、")+"出ています。"
+		title = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"
+		alert_text =
+			array_to_hash(doc
+				.elements
+				.collect("Report/Body/Warning/Item"){|item|
+					[item.elements["Kind/Name"].text, item]})
+			.map{|(name, items)|
+				"\t"+name+"\n\t\t"+
+				items
+					.map{|item|GetLocalMaritimeAlert::item_to_text(item)}
+					.join("\n\t\t")}
+			.join("\n")
+		title+alert_text
+	end
+	
+	module GetLocalMaritimeAlert extend self
+		def item_to_text item
+			property = item.elements["Kind/Property"]
+			text = property
+				.elements
+				.collect("WindPart|VisibilityPart|WaveHeightPart|IcingPart)"){|part|
+					base = part.elements["SubArea/Base"]
+					becoming = part.elements["SubArea/Becoming"]
+					((part.elements["SubArea/AreaName"])? part.elements["SubArea/AreaName"].text+" " : "")+
+					case part.name
+					when "WindPart"
+						wind_part(base, becoming, part)
+					when "VisibilityPart"
+						visibility_part(base, becoming)
+					when "WaveHeightPart"
+						part.elements["Sentence"].text
+					when "IcingPart"
+						icing_part(base, becoming)
+					end}[0] if property
+			item.elements["Area/Name"].text+((text)? (" ("+text+")") : "")
+		end
+		
+		def wind_part base, becoming, part
+			wind_doc_to_text(base).gsub(/まる$/){"まり"}+
+			((becoming)?
+				"、"+wind_doc_to_text(becoming) : "")+
+			((part.elements["SubArea/Remark"])? " "+part.elements["SubArea/Remark"].text : "")
+		end
+		
+		def wind_doc_to_text doc
+			((doc.elements["jmx_eb:WindDirection"])? doc.elements["jmx_eb:WindDirection"].text+"の風" : "")+
+				doc.elements["jmx_eb:WindSpeed[not(@unit=\"ノット\")]/@description"].value
+		end
+		
+		def visibility_part base, becoming
+			visibility_doc_to_text(base)+
+			((becoming)? "、"+becoming.elements["TimeModifier"].text+visibility_doc_to_text(becoming) : "")
+		end
+		
+		def visibility_doc_to_text doc
+			"視程"+doc.elements["jmx_eb:Visibility[not(@unit=\"海里\")]/@description"].value
+		end
+		
+		def icing_part base, becoming
+			icing_doc_to_text(base)+((becoming)? "、"+becoming.elements["TimeModifier"]+icing_doc_to_text(becoming) : "")
+		end
+		
+		def icing_doc_to_text doc
+			((doc)? doc.elements["jmx_eb:Icing/@description"].value : "")
+		end
+	end
+	
+	# [[:a, 1], [:a, 2], [:b, 3]]を{a:[1, 2], b:[2]}に変換する
+	def array_to_hash arr
+		arr.inject(Hash.new){|res, (key, item)|
+			if res.key?(key)
+				res[key] = res[key] << item
+				res
+			else
+				res[key] = [item]
+				res
+			end}
 	end
 	
 	def creature_season_observation doc

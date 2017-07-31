@@ -57,6 +57,10 @@ test_group(false, "地方海上警報") do
 	puts get_info("./test/samples/local_maritime_alert/地方海上警報-1.xml")
 	puts get_info("./test/samples/local_maritime_alert/地方海上警報-2.xml")
 	puts get_info("./test/samples/local_maritime_alert/地方海上警報-3.xml")
+	puts get_info("./test/samples/local_maritime_alert/地方海上警報-4.xml")
+	puts get_info("./test/samples/local_maritime_alert/地方海上警報-5.xml")
+	puts get_info("./test/samples/local_maritime_alert/地方海上警報-6.xml")
+	puts get_info("./test/samples/local_maritime_alert/地方海上警報-7.xml")
 end
 
 test_group(false, "生物季節観測") do
