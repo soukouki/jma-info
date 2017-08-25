@@ -12,6 +12,7 @@ jma-info
 
 - `.elements` `[]` `.select{|i|i.class==REXML::Element && i.name=="Pref"}` `.map` を `.elements` `collect` にまとめる
 	- 変更箇所多いので更新分だけでも
+- get_nameメソッド関連
 - 表示部分だったりをクラスで纏めたい
 - 構文エラーで落ちないように(get-infoのメイン部分をrequireにする)
 - さらにアクセスする回数を減らしたい
@@ -23,7 +24,6 @@ jma-info
 - 東海地震
 - 竜巻注意
 - 土砂災害
-- 記録的短時間大雨
 - 指定河川洪水予報
 - 紫外線観測データ
 - 降灰予報（定時）

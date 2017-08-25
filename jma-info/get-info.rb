@@ -36,6 +36,8 @@ module GetInfo extend self
 				"地震の活動状況に関する情報", "地震回数に関する情報",
 				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
 				repo_title+" : "+earthquake_info(doc)
+			when "記録的短時間大雨情報"
+				repo_title+" : "+rare_rain(doc)
 			else
 				repo_title+"\n"
 			end || ""
@@ -418,5 +420,10 @@ module GetInfo extend self
 			.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
 			.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
 			.join("\n")+"\n"
+	end
+	
+	def rare_rain doc
+		doc.elements["Report/Head/Headline/Information/Item/Areas/Area/Name"].text+"\n\t"+
+		doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}
 	end
 end

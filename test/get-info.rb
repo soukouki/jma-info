@@ -183,4 +183,10 @@ test_group(false, "津波情報") do
 	puts get_info("./test/samples/tsunami/61_11_03_120615_VTSE52.xml")
 end
 
+test_group(false, "記録的短時間大雨情報") do
+	puts get_info("./test/samples/rare_rain/18_01_01_100806_VPOA50.xml")
+	puts get_info("./test/samples/rare_rain/18_02_01_111226_VPOA50.xml")
+	puts get_info("./test/samples/rare_rain/18_03_01_130906_VPOA50.xml")
+end
+
 puts ""
