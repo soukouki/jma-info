@@ -45,7 +45,7 @@ test_group(false, "注意報") do
 	puts get_info("./test/samples/alert/15_14_01_170216_VPWW53.xml")
 end
 
-test_group(false, "季節観測・特殊気象報") do
+test_group(1, "季節観測・特殊気象報") do
 	puts get_info("./test/samples/special_weather_report/季節観測-1.xml")
 	puts get_info("./test/samples/special_weather_report/季節観測-2.xml")
 	puts get_info("./test/samples/special_weather_report/特殊気象報-1.xml")

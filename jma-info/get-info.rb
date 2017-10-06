@@ -169,7 +169,7 @@ module GetInfo extend self
 			"風"+"\n\t"+format_special_weather_report_wind(item)
 		when "特殊気象報（各種現象）"
 			item.elements["Kind/Name"].text+"\n"+
-			cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))+"\n"
+			cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
 		end
 	end
 	
