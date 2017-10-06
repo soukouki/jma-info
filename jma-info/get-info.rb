@@ -182,8 +182,11 @@ module GetInfo extend self
 	end
 	
 	def get_local_maritime_alert doc
-		title = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"
-		alert_text =
+		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+GetLocalMaritimeAlert::alert_text(doc)
+	end
+	
+	module GetLocalMaritimeAlert extend self
+		def alert_text doc
 			array_to_hash(doc
 				.elements
 				.collect("Report/Body/Warning/Item"){|item|
@@ -191,13 +194,11 @@ module GetInfo extend self
 			.map{|(name, items)|
 				"\t"+name+"\n\t\t"+
 				items
-					.map{|item|GetLocalMaritimeAlert::item_to_text(item)}
+					.map{|item|item_to_text(item)}
 					.join("\n\t\t")}
 			.join("\n")
-		title+alert_text
-	end
-	
-	module GetLocalMaritimeAlert extend self
+		end
+		
 		def item_to_text item
 			property = item.elements["Kind/Property"]
 			text = property
@@ -278,7 +279,7 @@ module GetInfo extend self
 		heading = ((doc.elements["Report/Head/Headline/Text/text()"])?
 			(doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){""}) : "")
 		text = doc.elements.collect("Report/Body/*") do |info|
-			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所あるきがするので信じすぎないように
+			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
 			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 				earthquake_info_earthquake_paet(info)
 			when "Intensity" # 震度速報 + 震源・震度に関する情報
