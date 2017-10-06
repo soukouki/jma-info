@@ -127,6 +127,7 @@ test_group(false, "地震情報") do
 	puts get_info("http://api.aitc.jp/jmardb/reports/9428d661-d555-3e25-902d-d36ccaad2afc")
 end
 
+# 津波情報がget_infoで止められて一部実行できてない。
 test_group(false, "津波情報") do
 	puts get_info("./test/samples/tsunami/38-39_01_01_100831_VTSE40.xml")
 	puts get_info("./test/samples/tsunami/38-39_01_02_100831_VTSE50.xml")
