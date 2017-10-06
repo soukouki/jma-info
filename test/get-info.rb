@@ -46,8 +46,10 @@ test_group(false, "注意報") do
 end
 
 test_group(1, "季節観測・特殊気象報") do
+	puts get_info("./test/samples/special_weather_report/01_01_01_091210_VGSK50.xml")
 	puts get_info("./test/samples/special_weather_report/季節観測-1.xml")
 	puts get_info("./test/samples/special_weather_report/季節観測-2.xml")
+	puts get_info("./test/samples/special_weather_report/03_01_01_091210_VGSK60.xml")
 	puts get_info("./test/samples/special_weather_report/特殊気象報-1.xml")
 	puts get_info("./test/samples/special_weather_report/特殊気象報-2.xml")
 	puts get_info("./test/samples/special_weather_report/特殊気象報-3.xml")
@@ -116,6 +118,7 @@ test_group(false, "地震情報") do
 	puts get_info("./test/samples/earthquake/32-35_08_08_100915_VXSE53.xml")
 	puts get_info("./test/samples/earthquake/33_12_01_120615_VXSE41.xml")
 	puts get_info("./test/samples/earthquake/地震回数に関する情報-1.xml")
+	puts get_info("http://api.aitc.jp/jmardb/reports/9428d661-d555-3e25-902d-d36ccaad2afc")
 end
 
 test_group(false, "津波情報") do

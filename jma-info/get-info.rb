@@ -25,7 +25,7 @@ module GetInfo extend self
 			when "気象特別警報・警報・注意報"
 				repo_title+" : "+get_alerm(doc)+"\n"
 			when "季節観測", "特殊気象報"
-				repo_title+" : "+get_special_weather_report(doc)+"\n"
+				repo_title+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
 			when "地方海上警報"
 				repo_title+" : "+get_local_maritime_alert(doc)+"\n"
@@ -33,7 +33,7 @@ module GetInfo extend self
 				repo_title+" : "+creature_season_observation(doc)+"\n"
 			when # 地震、津波
 				"震度速報", "震源に関する情報", "震源・震度に関する情報",
-				"地震の活動状況に関する情報", "地震回数に関する情報",
+				"地震の活動状況に関する情報", "地震回数に関する情報", "顕著な地震の震源要素更新のお知らせ",
 				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
 				repo_title+" : "+earthquake_info(doc)
 			when "記録的短時間大雨情報"
@@ -160,26 +160,25 @@ module GetInfo extend self
 	def get_special_weather_report doc
 		item = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item"]
 		add_info = doc.elements["Report/Body/AdditionalInfo/ObservationAddition"]
-		item.elements["Station/Name"].text+" "+
+		station = item.elements["Station"]
+		loc = station.elements["Name"].text+((station.elements["Location"])? "("+station.elements["Location"].text+")" : "")
+		"\n\t"+
 		case doc.elements["Report/Head/Title"].text
 		when "季節観測"
-			item_text = ((add_info.elements["Text"].nil?)? "" : delete_parentheses(add_info.elements["Text"].text))
-			item.elements["Kind/Name"].text+" "+item_text+"\n\t"+last_year_and_normal_year_text(add_info)
+			item_text = ((add_info.elements["Text"].nil?)? "" : " "+delete_parentheses(add_info.elements["Text"].text))
+			item.elements["Kind/Name"].text+item_text+" "+loc+"\n\t\t"+last_year_and_normal_year_text(add_info)
 		when "特殊気象報（風）"
-			"風"+"\n\t"+format_special_weather_report_wind(item)
+			"風 "+loc+"\n\t\t"+format_special_weather_report_wind(item)
 		when "特殊気象報（各種現象）"
-			item.elements["Kind/Name"].text+"\n"+
-			cleanly_text(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
+			item.elements["Kind/Name"].text+" "+loc+"\n\t\t"+
+			cleanly_str(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
 		end
 	end
 	
 	def format_special_weather_report_wind item
-		item.elements["Kind/Property/WindPart"]
-			.select{|a|a.kind_of?(REXML::Element)}
-			.map do |w|
-				w.elements["jmx_eb:WindDegree"].attributes["description"]+" "
-				w.elements["jmx_eb:WindSpeed"].attributes["description"]
-			end.join(", ")
+		item.elements.collect("Kind/Property/WindPart/*/") do |w|
+				w.elements["jmx_eb:WindSpeed"].attributes["description"]+"  "+w.elements["jmx_eb:WindDegree"].attributes["description"]
+			end.join("\n\t\t")
 	end
 	
 	def get_local_maritime_alert doc
