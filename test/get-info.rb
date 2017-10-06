@@ -72,6 +72,12 @@ test_group(false, "生物季節観測") do
 	puts get_info("./test/samples/season_observation/生物季節観測-4.xml")
 end
 
+test_group(false, "記録的短時間大雨情報") do
+	puts get_info("./test/samples/rare_rain/18_01_01_100806_VPOA50.xml")
+	puts get_info("./test/samples/rare_rain/18_02_01_111226_VPOA50.xml")
+	puts get_info("./test/samples/rare_rain/18_03_01_130906_VPOA50.xml")
+end
+
 test_group(false, "地震情報") do
 	puts get_info("./test/samples/earthquake/32-35_01_01_100806_VXSE51.xml")
 	puts get_info("./test/samples/earthquake/32-35_01_02_100514_VXSE52.xml")
@@ -184,12 +190,6 @@ test_group(false, "津波情報") do
 	puts get_info("./test/samples/tsunami/61_11_01_120615_VTSE52.xml")
 	puts get_info("./test/samples/tsunami/61_11_02_120615_VTSE52.xml")
 	puts get_info("./test/samples/tsunami/61_11_03_120615_VTSE52.xml")
-end
-
-test_group(false, "記録的短時間大雨情報") do
-	puts get_info("./test/samples/rare_rain/18_01_01_100806_VPOA50.xml")
-	puts get_info("./test/samples/rare_rain/18_02_01_111226_VPOA50.xml")
-	puts get_info("./test/samples/rare_rain/18_03_01_130906_VPOA50.xml")
 end
 
 puts ""

@@ -96,7 +96,7 @@ module GetInfo extend self
 		time.strftime("%H時%m分")
 	end
 	def time_to_dhm_s time
-		time.strftime("%d日%H時%m分")
+		time.strftime("%d日%H時%M分")
 	end
 	def time_to_mdh_s time
 		time.strftime("%m月%d日%H時")
@@ -273,7 +273,8 @@ module GetInfo extend self
 	end
 	
 	def earthquake_info doc
-		"\n\t"+((doc.elements["Report/Head/Headline/Text/text()"])? (doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}) : "")+"\n"+
+		"\n\t"+((doc.elements["Report/Body/*/OriginTime"])? time_to_dhm_s(Time.parse(doc.elements["Report/Body/*/OriginTime"].text))+"発生\n\t" : "")+
+		((doc.elements["Report/Head/Headline/Text/text()"])? (doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}) : "")+"\n"+
 		EarthquakeInfo::earthquake_info(doc)
 	end
 	
