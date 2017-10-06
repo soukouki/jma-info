@@ -49,7 +49,7 @@ def optparse argv
 			arg[:puts] << ->(s){file_appending(f, s)}
 		end
 		opt.on("-s", "--system=[PATH]", "外部コマンドを実行する") do |path|
-			arg[:puts] << ->(s){`#{path} "#{s.gsub(/ /){"　"}.gsub(/\t/){"　　"}.gsub(/\n/){"　　　　"}.gsub(/\s+/){"_"}}"`}
+			arg[:puts] << ->(s){`#{path} "#{s.gsub(/\t/){"        "}.gsub(/ /){"　"}.gsub(/\n/){"\\n"}.gsub(/\s+/){"_"}}"`}
 		end
 		opt.parse(argv)
 	end
