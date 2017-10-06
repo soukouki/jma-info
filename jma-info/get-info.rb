@@ -28,14 +28,14 @@ module GetInfo extend self
 				repo_title+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
 			when "地方海上警報"
-				repo_title+" : "+get_local_maritime_alert(doc)+"\n"
+				repo_title+" : "+local_maritime_alert_info(doc)+"\n"
 			when "生物季節観測"
 				repo_title+" : "+creature_season_observation(doc)+"\n"
 			when # 地震、津波
 				"震度速報", "震源に関する情報", "震源・震度に関する情報",
 				"地震の活動状況に関する情報", "地震回数に関する情報", "顕著な地震の震源要素更新のお知らせ",
 				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
-				repo_title+" : "+earthquake_info(doc)
+				repo_title+earthquake_info(doc)
 			when "記録的短時間大雨情報"
 				repo_title+" : "+rare_rain(doc)
 			else
@@ -181,11 +181,21 @@ module GetInfo extend self
 			end.join("\n\t\t")
 	end
 	
-	def get_local_maritime_alert doc
-		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+GetLocalMaritimeAlert::alert_text(doc)
+	def creature_season_observation doc
+		item = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item"]
+		pos = item.elements["Station/Location"].text
+		data = item.elements["Kind/Name"].text+
+			"("+item.elements["Kind/ClassName"].text+", "+item.elements["Kind/Condition"].text+")"
+		daystext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
+		
+		pos+"\n\t"+data+"\n\t"+daystext
 	end
 	
-	module GetLocalMaritimeAlert extend self
+	def local_maritime_alert_info doc
+		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+LocalMaritimeAlertInfo::alert_text(doc)
+	end
+	
+	module LocalMaritimeAlertInfo extend self
 		def alert_text doc
 			array_to_hash(doc
 				.elements
@@ -248,182 +258,177 @@ module GetInfo extend self
 		def icing_doc_to_text doc
 			((doc)? doc.elements["jmx_eb:Icing/@description"].value : "")
 		end
-	end
-	
-	# [[:a, 1], [:a, 2], [:b, 3]]を{a:[1, 2], b:[2]}に変換する
-	def array_to_hash arr
-		arr.inject(Hash.new){|res, (key, item)|
-			if res.key?(key)
-				res[key] = res[key] << item
-				res
-			else
-				res[key] = [item]
-				res
-			end}
-	end
-	
-	def creature_season_observation doc
-		item = doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item"]
-		pos = item.elements["Station/Location"].text
-		data = item.elements["Kind/Name"].text+
-			"("+item.elements["Kind/ClassName"].text+", "+item.elements["Kind/Condition"].text+")"
-		daystext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
 		
-		pos+"\n\t"+data+"\n\t"+daystext
+		# [[:a, 1], [:a, 2], [:b, 3]]を{a:[1, 2], b:[2]}に変換する
+		def array_to_hash arr
+			arr.inject(Hash.new){|res, (key, item)|
+				if res.key?(key)
+					res[key] = res[key] << item
+					res
+				else
+					res[key] = [item]
+					res
+				end}
+		end
+	end
+	
+	def earthquake_info doc
+		"\n\t"+((doc.elements["Report/Head/Headline/Text/text()"])? (doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}) : "")+"\n"+
+		EarthquakeInfo::earthquake_info(doc)
 	end
 	
 	# 一部の地震情報と津波情報は、違うタイトルで同じことをするものがあり、分けれないため、この関数内で地震情報と津波情報を処理する
 	# それ以外のやつも一緒になってるのはCommentsとかだったりノリ
-	# 警報のほうでも予想の方でも時刻つなげてるのはちょっと冗長かも知れない
-	def earthquake_info doc
-		heading = ((doc.elements["Report/Head/Headline/Text/text()"])?
-			(doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){""}) : "")
-		text = doc.elements.collect("Report/Body/*") do |info|
-			case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
-			when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
-				earthquake_info_earthquake_paet(info)
-			when "Intensity" # 震度速報 + 震源・震度に関する情報
-				earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
-			when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
-				earthquake_info_tsunami_part(info)
-			when "Naming" # 地震の活動状況に関する情報
-				"\t"+info.text+"\n"
-			when "EarthquakeCount" # 地震回数に関する情報
-				earthquake_info_count_part(info)
-			when "NextAdvisory" # 地震回数に関する情報
-				cleanly_text(info.text)+"\n"
-			when "Text" # すべて
-				cleanly_text(info.text)+"\n"
-			when "Comments" # すべて
-				earthquake_info_comment_part(info)
-			end
-		end.join
-		heading+"\n"+text
+	module EarthquakeInfo extend self
+		def earthquake_info doc
+			doc.elements.collect("Report/Body/*") do |info|
+				case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
+				when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
+					earthquake_info_earthquake_paet(info)
+				when "Intensity" # 震度速報 + 震源・震度に関する情報
+					earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+				when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
+					earthquake_info_tsunami_part(info)
+				when "Naming" # 地震の活動状況に関する情報
+					"\t"+info.text+"\n"
+				when "EarthquakeCount" # 地震回数に関する情報
+					earthquake_info_count_part(info)
+				when "NextAdvisory" # 地震回数に関する情報
+					cleanly_text(info.text)+"\n"
+				when "Text" # すべて
+					cleanly_text(info.text)+"\n"
+				when "Comments" # すべて
+					earthquake_info_comment_part(info)
+				end
+			end.join
+		end
+		
+		def earthquake_info_earthquake_paet info
+			area = info.elements["Hypocenter/Area"]
+			"\t震源地:"+area.elements["Name/text()"].value+
+			((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
+			((area.elements["NameFromMark"])? "("+area.elements["NameFromMark/text()"].value+")" : "")+"\n\t"+
+			"\t"+area.elements["jmx_eb:Coordinate/@description"].value+"\n\t"+
+			"マグニチュード:"+info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){}+"\n"+
+			((info.elements["Hypocenter/Source"])? "\t情報元:"+info.elements["Hypocenter/Source/text()"].value+"\n" :  "")
+		end
+		
+		def earthquake_info_intensity_part info, is_detail_info
+			"\t最大震度:"+get_maxint(info.elements["Observation"])+"\n\t"+intensity_pref_xml_to_s(info, is_detail_info)
+		end
+		def intensity_pref_xml_to_s info, is_detail_info
+			info.elements
+				.collect("Observation/Pref"){|pref|
+					get_name(pref)+((is_detail_info)? ":"+get_maxint(pref)+"\n\t" : "、")+
+						intensity_area_xml_to_s(pref, is_detail_info)}
+				.join("\n\t")+"\n"
+		end
+		def intensity_area_xml_to_s pref, is_detail_info
+			# こっから先(city IS)は震源・震度に関する情報のときだけ
+			pref.elements
+				.collect("Area"){|area|
+					(!is_detail_info)? get_name_and_maxint(area) :
+						(get_name(area)+":"+get_maxint(area)+"\n\t\t"+intensity_city_xml_to_s(area))}
+				.join((is_detail_info)? "\n\t" : "、")
+		end
+		def intensity_city_xml_to_s area
+			area.elements
+				.collect("City"){|city|get_name(city)+"、"+intensity_station_xml_to_s(city)}
+				.join("\n\t\t")
+		end
+		def intensity_station_xml_to_s city
+			city.elements
+				.collect("IntensityStation"){|is|get_name(is)+":"+sint_to_s(is.elements["Int/text()"].value)}
+				.join("、")
+		end
+		def sint_to_s si
+			# 震度のgsubは、震度5弱以上未入電のときの最初の震度を消すため。
+			"震度"+si.gsub("震度"){""}.gsub("+"){"強"}.gsub("-"){"弱"}
+		end
+		def get_maxint doc
+			sint_to_s(doc.elements["MaxInt/text()"].to_s)
+		end
+		def get_name doc
+			doc.elements["Name/text()"].value
+		end
+		def get_name_and_maxint doc
+			get_name(doc)+":"+get_maxint(doc)
+		end
+		
+		def earthquake_info_tsunami_part info
+			"\t"+info.elements.collect("*") do |tinfo|
+				case tinfo.name
+				when "Observation"
+					earthquake_info_tsunami_observation_part(tinfo)
+				when "Forecast"
+					earthquake_info_tsunami_forecast_part(tinfo)
+				when "Estimation"
+					tinfo.elements.collect("Item"){|item|item.elements["Area/Name"].text+"、"+max_height_xml_to_s(item)}.join("\n\t")
+				end
+			end.join("\n\t")+"\n"
+		end
+		def earthquake_info_tsunami_observation_part tinfo
+			is_offing = tinfo.elements["Item/Area/Name/text()"].nil?
+			tinfo.elements.collect("Item"){|item|
+				((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
+				item.elements.collect("Station"){|sta|
+					sta.elements["Name"].text+
+					max_height_xml_to_s(sta)+
+					((is_offing)? "("+sta.elements["Sensor"].text+")" : "")
+				}.join("\n\t\t")}.join("\n\t")
+		end
+		def earthquake_info_tsunami_forecast_part tinfo
+			tinfo.elements.collect("Item") do |item|
+				item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
+				first_height_to_s(item, ->(t){time_to_dhm_s(t)})+
+				((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
+					("、高さ:"+item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
+				((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
+						sta.elements["Name"].text+first_height_to_s(sta, ->(t){time_to_hm_s(t)})
+					}.join("\n\t\t"))
+			end.join("\n\t")
+		end
+		def first_height_to_s fh, time_to_s
+			((!fh.elements["FirstHeight"])? "" :
+				((fh.elements["FirstHeight/ArrivalTime"])?
+					"、到達予想:"+time_to_dhm_s(Time.parse(fh.elements["FirstHeight/ArrivalTime"].text)) : "")+
+				((fh.elements["FirstHeight/Condition"])? "、"+fh.elements["FirstHeight/Condition"].text : ""))
+		end
+		def max_height_xml_to_s doc
+			((doc.elements["MaxHeight/DateTime"])? "、"+time_to_hm_s(Time.parse(doc.elements["MaxHeight/DateTime"].text)) : "")+
+			((doc.elements["MaxHeight/Condition"])? "、"+doc.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
+			((doc.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
+				"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value : "")+
+			((doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
+				"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")
+		end
+		
+		def earthquake_info_count_part info
+			"\t"+info
+				.elements.collect("Item"){|item|
+					s = Time.parse(item.elements["StartTime"].text)
+					e = Time.parse(item.elements["EndTime"].text)
+					time_to_mdh_s(s)+"から"+
+					time_to_mdh_s(e)+"までの"+
+					time_diff_to_count_s(e-s)+"で、"+
+					((item.elements["Number"].text!="-1")? (num=true; "回数:"+item.elements["Number"].text+"回") : "")+
+					((item.elements["FeltNumber"].text!="-1")? ((num)? "、" : "")+"有感:"+item.elements["FeltNumber"].text+"回" : "")}
+				.join("\n\t")+"\n"
+		end
+		
+		def earthquake_info_comment_part info
+			info
+				.elements
+				.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
+				.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
+				.join("\n")+"\n"
+		end
+		
+		def rare_rain doc
+			doc.elements["Report/Head/Headline/Information/Item/Areas/Area/Name"].text+"\n\t"+
+			doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}
+		end
+
 	end
 	
-	def earthquake_info_earthquake_paet info
-		area = info.elements["Hypocenter/Area"]
-		"\t震源地:"+area.elements["Name/text()"].value+
-		((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
-		((area.elements["NameFromMark"])? "("+area.elements["NameFromMark/text()"].value+")" : "")+"\n\t"+
-		"\t"+area.elements["jmx_eb:Coordinate/@description"].value+"\n\t"+
-		"マグニチュード:"+info.elements["jmx_eb:Magnitude/@description"].value.sub("Ｍ"){}+"\n"+
-		((info.elements["Hypocenter/Source"])? "\t情報元:"+info.elements["Hypocenter/Source/text()"].value+"\n" :  "")
-	end
-	
-	def earthquake_info_intensity_part info, is_detail_info
-		"\t最大震度:"+get_maxint(info.elements["Observation"])+"\n\t"+intensity_pref_xml_to_s(info, is_detail_info)
-	end
-	def intensity_pref_xml_to_s info, is_detail_info
-		info.elements
-			.collect("Observation/Pref"){|pref|
-				get_name(pref)+((is_detail_info)? ":"+get_maxint(pref)+"\n\t" : "、")+
-					intensity_area_xml_to_s(pref, is_detail_info)}
-			.join("\n\t")+"\n"
-	end
-	def intensity_area_xml_to_s pref, is_detail_info
-		# こっから先(city IS)は震源・震度に関する情報のときだけ
-		pref.elements
-			.collect("Area"){|area|
-				(!is_detail_info)? get_name_and_maxint(area) :
-					(get_name(area)+":"+get_maxint(area)+"\n\t\t"+intensity_city_xml_to_s(area))}
-			.join((is_detail_info)? "\n\t" : "、")
-	end
-	def intensity_city_xml_to_s area
-		area.elements
-			.collect("City"){|city|get_name(city)+"、"+intensity_station_xml_to_s(city)}
-			.join("\n\t\t")
-	end
-	def intensity_station_xml_to_s city
-		city.elements
-			.collect("IntensityStation"){|is|get_name(is)+":"+sint_to_s(is.elements["Int/text()"].value)}
-			.join("、")
-	end
-	def sint_to_s si
-		# 震度のgsubは、震度5弱以上未入電のときの最初の震度を消すため。
-		"震度"+si.gsub("震度"){""}.gsub("+"){"強"}.gsub("-"){"弱"}
-	end
-	def get_maxint doc
-		sint_to_s(doc.elements["MaxInt/text()"].to_s)
-	end
-	def get_name doc
-		doc.elements["Name/text()"].value
-	end
-	def get_name_and_maxint doc
-		get_name(doc)+":"+get_maxint(doc)
-	end
-	
-	def earthquake_info_tsunami_part info
-		"\t"+info.elements.collect("*") do |tinfo|
-			case tinfo.name
-			when "Observation"
-				earthquake_info_tsunami_observation_part(tinfo)
-			when "Forecast"
-				earthquake_info_tsunami_forecast_part(tinfo)
-			when "Estimation"
-				tinfo.elements.collect("Item"){|item|item.elements["Area/Name"].text+"、"+max_height_xml_to_s(item)}.join("\n\t")
-			end
-		end.join("\n\t")+"\n"
-	end
-	def earthquake_info_tsunami_observation_part tinfo
-		is_offing = tinfo.elements["Item/Area/Name/text()"].nil?
-		tinfo.elements.collect("Item"){|item|
-			((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
-			item.elements.collect("Station"){|sta|
-				sta.elements["Name"].text+
-				max_height_xml_to_s(sta)+
-				((is_offing)? "("+sta.elements["Sensor"].text+")" : "")
-			}.join("\n\t\t")}.join("\n\t")
-	end
-	def earthquake_info_tsunami_forecast_part tinfo
-		tinfo.elements.collect("Item") do |item|
-			item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
-			first_height_to_s(item, ->(t){time_to_dhm_s(t)})+
-			((item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description!=\"\""])? # ""になっている場合がある
-				("、高さ:"+item.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value) : "")+
-			((!item.elements["Station"])? "" : "\n\t\t"+item.elements.collect("Station"){|sta|
-					sta.elements["Name"].text+first_height_to_s(sta, ->(t){time_to_hm_s(t)})
-				}.join("\n\t\t"))
-		end.join("\n\t")
-	end
-	def first_height_to_s fh, time_to_s
-		((!fh.elements["FirstHeight"])? "" :
-			((fh.elements["FirstHeight/ArrivalTime"])?
-				"、到達予想:"+time_to_dhm_s(Time.parse(fh.elements["FirstHeight/ArrivalTime"].text)) : "")+
-			((fh.elements["FirstHeight/Condition"])? "、"+fh.elements["FirstHeight/Condition"].text : ""))
-	end
-	def max_height_xml_to_s doc
-		((doc.elements["MaxHeight/DateTime"])? "、"+time_to_hm_s(Time.parse(doc.elements["MaxHeight/DateTime"].text)) : "")+
-		((doc.elements["MaxHeight/Condition"])? "、"+doc.elements["MaxHeight/Condition"].text.gsub(/。$/){""} : "")+
-		((doc.elements["MaxHeight/jmx_eb:TsunamiHeight"])?
-			"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@description"].value : "")+
-		((doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"])?
-			"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")
-	end
-	
-	def earthquake_info_count_part info
-		"\t"+info
-			.elements.collect("Item"){|item|
-				s = Time.parse(item.elements["StartTime"].text)
-				e = Time.parse(item.elements["EndTime"].text)
-				time_to_mdh_s(s)+"から"+
-				time_to_mdh_s(e)+"までの"+
-				time_diff_to_count_s(e-s)+"で、"+
-				((item.elements["Number"].text!="-1")? (num=true; "回数:"+item.elements["Number"].text+"回") : "")+
-				((item.elements["FeltNumber"].text!="-1")? ((num)? "、" : "")+"有感:"+item.elements["FeltNumber"].text+"回" : "")}
-			.join("\n\t")+"\n"
-	end
-	
-	def earthquake_info_comment_part info
-		info
-			.elements
-			.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
-			.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
-			.join("\n")+"\n"
-	end
-	
-	def rare_rain doc
-		doc.elements["Report/Head/Headline/Information/Item/Areas/Area/Name"].text+"\n\t"+
-		doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}
-	end
 end
