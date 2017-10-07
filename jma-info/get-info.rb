@@ -44,21 +44,7 @@ module GetInfo extend self
 		)
 	end
 	
-	private
-	
-	def get_doc uri, try_count=0
-		begin
-			text = open(uri)
-		rescue
-			if try_count > 10
-				raise "GetInfo#get_docでのエラー #{uri} へのアクセスを11回失敗しました。インターネット環境を確認してください。"
-			else
-				sleep(10) # 長めのsleepで1分以内に同じようなエラーが出ないように
-				get_doc(uri, try_count+1)
-			end
-		end
-		REXML::Document.new(text)
-	end
+	# 以下、分類分けしたEarthquakeInfoなどから呼ばれる可能性があるもの。
 	
 	# 文章を綺麗にする
 	def cleanly_text text
@@ -116,6 +102,22 @@ module GetInfo extend self
 		normal = (xmlitem.elements["DeviationFromNormal"]||xnil.new).text
 		lastyear = (xmlitem.elements["DeviationFromLastYear"]||xnil.new).text
 		"昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
+	end
+	
+	private
+	
+	def get_doc uri, try_count=0
+		begin
+			text = open(uri)
+		rescue
+			if try_count > 10
+				raise "GetInfo#get_docでのエラー #{uri} へのアクセスを11回失敗しました。インターネット環境を確認してください。"
+			else
+				sleep(10) # 長めのsleepで1分以内に同じようなエラーが出ないように
+				get_doc(uri, try_count+1)
+			end
+		end
+		REXML::Document.new(text)
 	end
 	
 	def get_general_report doc
@@ -196,8 +198,6 @@ module GetInfo extend self
 	end
 	
 	module LocalMaritimeAlertInfo extend self
-		include GetInfo
-		
 		def alert_text doc
 			array_to_hash(doc
 				.elements
@@ -283,8 +283,6 @@ module GetInfo extend self
 	# 一部の地震情報と津波情報は、違うタイトルで同じことをするものがあり、分けれないため、この関数内で地震情報と津波情報を処理する
 	# それ以外のやつも一緒になってるのはCommentsとかだったりノリ
 	module EarthquakeInfo extend self
-		include GetInfo
-		
 		def earthquake_info doc
 			doc.elements.collect("Report/Body/*") do |info|
 				case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
@@ -424,7 +422,7 @@ module GetInfo extend self
 		def earthquake_info_comment_part info
 			info
 				.elements
-				.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
+				.collect("*/Text||FreeFormComment"){|c|GetInfo::cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
 				.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
 				.join("\n")+"\n"
 		end
