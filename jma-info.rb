@@ -19,7 +19,7 @@ end
 
 def app arg
 	multiple_puts(arg[:puts], "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。")
-	uris_cache = UrisCache.NewCache(60*5) # 10分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
+	uris_cache = UrisCache.NewCache(60*5) # 5分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
 		updated_uris, uris_cache = uris_cache.updated_uris(time)
@@ -29,12 +29,21 @@ def app arg
 end
 
 def puts_info(puts_lambdas, updated_uris, now_time)
-	text = updated_uris
+	q = Thread::Queue.new
+	updated_uris
 		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.empty?}
-		.join("\n")
-	return if text==""
-	multiple_puts(puts_lambdas, text+"\n")
+		.each{|s|q.push(s)}
+	8.times
+		.map{
+			Thread.new{
+				begin
+					loop{
+						multiple_puts(puts_lambdas, q.pop(true)+"\n")
+					}
+				rescue ThreadError # popの部分でこのエラーを起こしているので、握りつぶす
+				end}}
+		.each{|t|t.join}
 end
 
 def file_appending f, s
