@@ -136,27 +136,27 @@ module GetInfo extend self
 	
 	def get_alerm doc
 		doc.elements[
-			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n\t"+
-		doc.elements["Report/Head/Headline/Text"].text.gsub(/。[^\n]/){"。\n\t"}+
+			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text).gsub(/。(?!$)/){"。\n\t"}+
 		alerm_info(doc)
 	end
 	
 	def alerm_info doc
 		if doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
-			"\n\t"+cleanly_text(format_alerm_info(doc))
+			format_alerm_info(doc)
 		else # 解除時
 			""
 		end
 	end
 	
 	def format_alerm_info doc
-		doc
+		"\n\t\t"+doc
 			.elements
 			.collect("Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]/Item"){|info|
-				info.elements["Kind/Name"].text+"が"+
-				info.elements.collect("Areas"){|a|a.elements["Area/Name"].text}.join("、")+"に"
+				info.elements["Kind/Name"].text+" : "+
+				info.elements.collect("Areas"){|a|a.elements["Area/Name"].text}.join(" ")
 			}
-			.join("、")+"出ています。"
+			.join("\n\t\t")
 	end
 	
 	def get_special_weather_report doc

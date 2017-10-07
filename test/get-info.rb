@@ -28,7 +28,7 @@ test_group(false, "概況") do
 	puts get_info("./test/samples/府県天気概況-1.xml")
 end
 
-test_group(false, "注意報") do
+test_group(1, "注意報") do
 	puts get_info("./test/samples/alert/15_08_01_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_02_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_03_160628_VPWW53.xml")
