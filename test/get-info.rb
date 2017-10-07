@@ -25,10 +25,11 @@ end
 
 test_group(false, "概況") do
 	# 単独だしファイル作らなくていい気がする
-	puts get_info("./test/samples/府県天気概況-1.xml")
+	puts get_info("./test/samples/general_weather_conditions/府県天気概況-1.xml")
+	puts get_info("./test/samples/general_weather_conditions/府県天気概況-1.xml")
 end
 
-test_group(1, "注意報") do
+test_group(false, "注意報") do
 	puts get_info("./test/samples/alert/15_08_01_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_02_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_03_160628_VPWW53.xml")
@@ -125,7 +126,7 @@ test_group(false, "地震情報") do
 	puts get_info("./test/samples/earthquake/32-35_08_08_100915_VXSE53.xml")
 	puts get_info("./test/samples/earthquake/33_12_01_120615_VXSE41.xml")
 	puts get_info("./test/samples/earthquake/地震回数に関する情報-1.xml")
-	puts get_info("http://api.aitc.jp/jmardb/reports/9428d661-d555-3e25-902d-d36ccaad2afc")
+	puts get_info("./test/samples/earthquake/顕著な地震の震源要素更新のお知らせ-1.xml")
 end
 
 # 津波情報がget_infoで止められて一部実行できてない。

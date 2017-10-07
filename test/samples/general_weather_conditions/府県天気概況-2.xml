@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?><Report xmlns:jmx='http://xml.kishou.go.jp/jmaxml1/' xmlns:jmx_add='http://xml.kishou.go.jp/jmaxml1/addition1/' xmlns='http://xml.kishou.go.jp/jmaxml1/'>
+<Control>
+<Title>府県天気概況</Title>
+<DateTime>2017-10-07T16:17:45Z</DateTime>
+<Status>通常</Status>
+<EditorialOffice>静岡地方気象台</EditorialOffice>
+<PublishingOffice>静岡地方気象台</PublishingOffice>
+</Control>
+<Head xmlns='http://xml.kishou.go.jp/jmaxml1/informationBasis1/'>
+<Title>天気概況</Title>
+<ReportDateTime>2017-10-08T01:17:00+09:00</ReportDateTime>
+<TargetDateTime>2017-10-08T01:17:00+09:00</TargetDateTime>
+<EventID/>
+<InfoType>発表</InfoType>
+<Serial/>
+<InfoKind>平文情報</InfoKind>
+<InfoKindVersion>1.0_0</InfoKindVersion>
+<Headline>
+<Text>静岡県では、８日朝から８日昼前まで高潮に注意してください。</Text>
+</Headline>
+</Head>
+<Body xmlns='http://xml.kishou.go.jp/jmaxml1/body/meteorology1/'>
+<TargetArea codeType='気象情報／府県予報区・細分区域等'>
+<Name>静岡県</Name>
+<Code>220000</Code>
+</TargetArea>
+<Notice/>
+<Comment>
+<Text type='本文'>　西から次第に高気圧に覆われてきています。
+　静岡県は、おおむね晴れています。
+　今日は、高気圧に覆われますが、湿った空気の影響により、曇り時々晴れ
+となるでしょう。</Text>
+</Comment>
+</Body>
+</Report>
