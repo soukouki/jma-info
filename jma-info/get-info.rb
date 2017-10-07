@@ -196,6 +196,8 @@ module GetInfo extend self
 	end
 	
 	module LocalMaritimeAlertInfo extend self
+		include GetInfo
+		
 		def alert_text doc
 			array_to_hash(doc
 				.elements
@@ -281,6 +283,8 @@ module GetInfo extend self
 	# 一部の地震情報と津波情報は、違うタイトルで同じことをするものがあり、分けれないため、この関数内で地震情報と津波情報を処理する
 	# それ以外のやつも一緒になってるのはCommentsとかだったりノリ
 	module EarthquakeInfo extend self
+		include GetInfo
+		
 		def earthquake_info doc
 			doc.elements.collect("Report/Body/*") do |info|
 				case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
