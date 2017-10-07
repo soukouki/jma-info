@@ -43,6 +43,7 @@ test_group(1, "注意報") do
 	puts get_info("./test/samples/alert/15_12_03_161130_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_13_01_161226_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_14_01_170216_VPWW53.xml")
+	puts get_info("http://api.aitc.jp/jmardb/reports/ca2b3c28-46d3-352a-a112-30da55097941")
 end
 
 test_group(false, "季節観測・特殊気象報") do
