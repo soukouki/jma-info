@@ -26,9 +26,10 @@ end
 test_group(false, "概況") do
 	# 単独だしファイル作らなくていい気がする
 	puts get_info("./test/samples/府県天気概況-1.xml")
+	puts get_info("http://api.aitc.jp/jmardb/reports/762b850a-530a-3e04-9dc1-5e008579c678")
 end
 
-test_group(1, "注意報") do
+test_group(false, "注意報") do
 	puts get_info("./test/samples/alert/15_08_01_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_02_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_03_160628_VPWW53.xml")

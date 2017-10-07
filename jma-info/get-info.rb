@@ -18,9 +18,9 @@ module GetInfo extend self
 				"全般気象情報", "地方気象情報", "府県気象情報", "天気概況", "全般週間天気予報", "地方週間天気予報",
 				"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
 				"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
-				repo_title+" : "+get_general_report(doc)+"\n"
+				repo_title+"\n"+get_general_report(doc)
 			when "府県天気概況"
-				repo_title+" : "+get_general_weather_conditions(doc)+"\n"
+				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
 			when "気象特別警報・警報・注意報"
 				repo_title+" : "+get_alerm(doc)+"\n"
@@ -52,6 +52,7 @@ module GetInfo extend self
 			.gsub(/\n(?!\n)/){""} # 単独の改行を消す
 			.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
 			.gsub(/  /){" "} # 連続した空白を一つにまとめる
+			.gsub(/。(?!$)/){"。\n"} # `。`の後に改行をつける
 			.gsub(/^ +/){""} # 行の始めの連続したスペースを消す
 			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
 			.gsub(/\n+\Z/){""} # 文章の最後の改行を削除
@@ -123,8 +124,7 @@ module GetInfo extend self
 	def get_general_report doc
 		head = doc.elements["Report/Head"]
 		body = doc.elements["Report/Body"]
-		head.elements["Title"].text+"\n"+
-		cleanly_text((head.elements["Headline/Text[.!='']"])? (head.elements["Headline/Text"].text+"\n") : "")+
+		((head.elements["Headline/Text[.!='']"])? cleanly_text(head.elements["Headline/Text"].text) : "")+"\n"+
 		cleanly_text(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
 	end
 	
@@ -137,8 +137,7 @@ module GetInfo extend self
 	def get_alerm doc
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text).gsub(/。(?!$)/){"。\n\t"}+
-		alerm_info(doc)
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alerm_info(doc)
 	end
 	
 	def alerm_info doc
