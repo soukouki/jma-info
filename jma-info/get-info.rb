@@ -24,7 +24,7 @@ module GetInfo extend self
 				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
 			when "気象特別警報・警報・注意報"
-				repo_title+" : "+get_alerm(doc)+"\n"
+				repo_title+" : "+alerm_info(doc)+"\n"
 			when "季節観測", "特殊気象報"
 				repo_title+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
@@ -137,28 +137,19 @@ module GetInfo extend self
 	
 	ALERT_DIVISION = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
 	
-	def get_alerm doc
+	def alerm_info doc
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alerm_info(doc)
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+
+		doc.elements.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|alerm_info_item_part(i)}.join("")
 	end
 	
-	def alerm_info doc
-		if doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
-			format_alerm_info(doc)
-		else # 解除時
-			""
+	def alerm_info_item_part item
+		if item.elements["Kind/Status"].text=="発表警報・注意報はなし"
+		else
+			"\n\t\t"+item.elements["Area/Name"].text+"\n\t\t\t"+
+			item.elements.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}.join(" ")
 		end
-	end
-	
-	def format_alerm_info doc
-		"\n\t\t"+doc
-			.elements
-			.collect("Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]/Item"){|info|
-				info.elements["Kind/Name"].text+" : "+
-				info.elements.collect("Areas"){|a|a.elements["Area/Name"].text}.join(" ")
-			}
-			.join("\n\t\t")
 	end
 	
 	def get_special_weather_report doc
