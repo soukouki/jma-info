@@ -1,0 +1,4691 @@
+
+- :name: 宗谷地方
+  :value:
+  - :name: 宗谷地方
+    :value:
+    - :name: 宗谷北部
+      :value:
+      - :name: 稚内市
+        :sea: true
+      - :name: 猿払村
+        :sea: true
+      - :name: 豊富町
+        :sea: true
+      - :name: 幌延町
+        :sea: true
+    - :name: 宗谷南部
+      :value:
+      - :name: 浜頓別町
+        :sea: true
+      - :name: 中頓別町
+        :sea: false
+      - :name: 枝幸町
+        :sea: true
+    - :name: 利尻・礼文
+      :value:
+      - :name: 礼文町
+        :sea: true
+      - :name: 利尻町
+        :sea: true
+      - :name: 利尻富士町
+        :sea: true
+- :name: 上川・留萌地方
+  :value:
+  - :name: 上川地方
+    :value:
+    - :name: 上川北部
+      :value:
+      - :name: 士別市
+        :sea: false
+      - :name: 名寄市
+        :sea: false
+      - :name: 和寒町
+        :sea: false
+      - :name: 剣淵町
+        :sea: false
+      - :name: 下川町
+        :sea: false
+      - :name: 美深町
+        :sea: false
+      - :name: 音威子府村
+        :sea: false
+      - :name: 中川町
+        :sea: false
+      - :name: 幌加内町
+        :sea: false
+    - :name: 上川中部
+      :value:
+      - :name: 旭川市
+        :sea: false
+      - :name: 鷹栖町
+        :sea: false
+      - :name: 東神楽町
+        :sea: false
+      - :name: 当麻町
+        :sea: false
+      - :name: 比布町
+        :sea: false
+      - :name: 愛別町
+        :sea: false
+      - :name: 上川町
+        :sea: false
+      - :name: 東川町
+        :sea: false
+      - :name: 美瑛町
+        :sea: false
+    - :name: 上川南部
+      :value:
+      - :name: 富良野市
+        :sea: false
+      - :name: 上富良野町
+        :sea: false
+      - :name: 中富良野町
+        :sea: false
+      - :name: 南富良野町
+        :sea: false
+      - :name: 占冠村
+        :sea: false
+  - :name: 留萌地方
+    :value:
+    - :name: 留萌北部
+      :value:
+      - :name: 遠別町
+        :sea: true
+      - :name: 天塩町
+        :sea: true
+    - :name: 留萌中部
+      :value:
+      - :name: 苫前町
+        :sea: true
+      - :name: 羽幌町
+        :sea: true
+      - :name: 天売焼尻
+        :sea: true
+      - :name: 初山別村
+        :sea: true
+    - :name: 留萌南部
+      :value:
+      - :name: 留萌市
+        :sea: true
+      - :name: 増毛町
+        :sea: true
+      - :name: 小平町
+        :sea: true
+- :name: 網走・北見・紋別地方
+  :value:
+  - :name: 網走地方
+    :value:
+    - :name: 網走西部
+      :value:
+      - :name: 北見市常呂
+        :sea: true
+      - :name: 網走市
+        :sea: true
+      - :name: 佐呂間町
+        :sea: false
+      - :name: 大空町
+        :sea: false
+    - :name: 網走東部
+      :value:
+      - :name: 斜里町
+        :sea: true
+      - :name: 清里町
+        :sea: false
+      - :name: 小清水町
+        :sea: true
+    - :name: 網走南部
+      :value:
+      - :name: 美幌町
+        :sea: false
+      - :name: 津別町
+        :sea: false
+  - :name: 北見地方
+    :value:
+    - :name: 北見地方
+      :value:
+      - :name: 北見市北見
+        :sea: false
+      - :name: 訓子府町
+        :sea: false
+      - :name: 置戸町
+        :sea: false
+  - :name: 紋別地方
+    :value:
+    - :name: 紋別北部
+      :value:
+      - :name: 紋別市
+        :sea: true
+      - :name: 滝上町
+        :sea: false
+      - :name: 興部町
+        :sea: true
+      - :name: 西興部村
+        :sea: false
+      - :name: 雄武町
+        :sea: true
+    - :name: 紋別南部
+      :value:
+      - :name: 遠軽町
+        :sea: false
+      - :name: 湧別町
+        :sea: true
+- :name: 釧路・根室・十勝地方
+  :value:
+  - :name: 根室地方
+    :value:
+    - :name: 根室北部
+      :value:
+      - :name: 中標津町
+        :sea: false
+      - :name: 標津町
+        :sea: true
+      - :name: 羅臼町
+        :sea: true
+    - :name: 根室中部
+      :value:
+      - :name: 別海町
+        :sea: true
+    - :name: 根室南部
+      :value:
+      - :name: 根室市
+        :sea: true
+  - :name: 釧路地方
+    :value:
+    - :name: 釧路北部
+      :value:
+      - :name: 弟子屈町
+        :sea: false
+    - :name: 釧路中部
+      :value:
+      - :name: 釧路市阿寒
+        :sea: false
+      - :name: 標茶町
+        :sea: false
+      - :name: 鶴居村
+        :sea: false
+    - :name: 釧路南東部
+      :value:
+      - :name: 厚岸町
+        :sea: true
+      - :name: 浜中町
+        :sea: true
+    - :name: 釧路南西部
+      :value:
+      - :name: 釧路市釧路
+        :sea: true
+      - :name: 釧路市音別
+        :sea: true
+      - :name: 釧路町
+        :sea: true
+      - :name: 白糠町
+        :sea: true
+  - :name: 十勝地方
+    :value:
+    - :name: 十勝北部
+      :value:
+      - :name: 上士幌町
+        :sea: false
+      - :name: 鹿追町
+        :sea: false
+      - :name: 新得町
+        :sea: false
+      - :name: 足寄町
+        :sea: false
+      - :name: 陸別町
+        :sea: false
+    - :name: 十勝中部
+      :value:
+      - :name: 帯広市
+        :sea: false
+      - :name: 音更町
+        :sea: false
+      - :name: 士幌町
+        :sea: false
+      - :name: 清水町
+        :sea: false
+      - :name: 芽室町
+        :sea: false
+      - :name: 幕別町
+        :sea: false
+      - :name: 池田町
+        :sea: false
+      - :name: 豊頃町
+        :sea: true
+      - :name: 本別町
+        :sea: false
+      - :name: 浦幌町
+        :sea: true
+    - :name: 十勝南部
+      :value:
+      - :name: 中札内村
+        :sea: false
+      - :name: 更別村
+        :sea: false
+      - :name: 大樹町
+        :sea: true
+      - :name: 広尾町
+        :sea: true
+- :name: 胆振・日高地方
+  :value:
+  - :name: 胆振地方
+    :value:
+    - :name: 胆振西部
+      :value:
+      - :name: 伊達市伊達
+        :sea: true
+      - :name: 伊達市大滝
+        :sea: false
+      - :name: 豊浦町
+        :sea: true
+      - :name: 壮瞥町
+        :sea: false
+      - :name: 洞爺湖町
+        :sea: true
+    - :name: 胆振中部
+      :value:
+      - :name: 室蘭市
+        :sea: true
+      - :name: 苫小牧市
+        :sea: true
+      - :name: 登別市
+        :sea: true
+      - :name: 白老町
+        :sea: true
+    - :name: 胆振東部
+      :value:
+      - :name: 厚真町
+        :sea: true
+      - :name: 安平町
+        :sea: false
+      - :name: むかわ町
+        :sea: true
+  - :name: 日高地方
+    :value:
+    - :name: 日高西部
+      :value:
+      - :name: 日高町日高
+        :sea: false
+      - :name: 日高町門別
+        :sea: true
+      - :name: 平取町
+        :sea: false
+    - :name: 日高中部
+      :value:
+      - :name: 新冠町
+        :sea: true
+      - :name: 新ひだか町
+        :sea: true
+    - :name: 日高東部
+      :value:
+      - :name: 浦河町
+        :sea: true
+      - :name: 様似町
+        :sea: true
+      - :name: えりも町
+        :sea: true
+- :name: 石狩・空知・後志地方
+  :value:
+  - :name: 石狩地方
+    :value:
+    - :name: 石狩北部
+      :value:
+      - :name: 石狩市
+        :sea: true
+      - :name: 当別町
+        :sea: false
+      - :name: 新篠津村
+        :sea: false
+    - :name: 石狩中部
+      :value:
+      - :name: 札幌市
+        :sea: false
+      - :name: 江別市
+        :sea: false
+    - :name: 石狩南部
+      :value:
+      - :name: 千歳市
+        :sea: false
+      - :name: 恵庭市
+        :sea: false
+      - :name: 北広島市
+        :sea: false
+  - :name: 空知地方
+    :value:
+    - :name: 北空知
+      :value:
+      - :name: 深川市
+        :sea: false
+      - :name: 妹背牛町
+        :sea: false
+      - :name: 秩父別町
+        :sea: false
+      - :name: 北竜町
+        :sea: false
+      - :name: 沼田町
+        :sea: false
+    - :name: 中空知
+      :value:
+      - :name: 芦別市
+        :sea: false
+      - :name: 赤平市
+        :sea: false
+      - :name: 滝川市
+        :sea: false
+      - :name: 砂川市
+        :sea: false
+      - :name: 歌志内市
+        :sea: false
+      - :name: 奈井江町
+        :sea: false
+      - :name: 上砂川町
+        :sea: false
+      - :name: 浦臼町
+        :sea: false
+      - :name: 新十津川町
+        :sea: false
+      - :name: 雨竜町
+        :sea: false
+    - :name: 南空知
+      :value:
+      - :name: 夕張市
+        :sea: false
+      - :name: 岩見沢市
+        :sea: false
+      - :name: 美唄市
+        :sea: false
+      - :name: 三笠市
+        :sea: false
+      - :name: 南幌町
+        :sea: false
+      - :name: 由仁町
+        :sea: false
+      - :name: 長沼町
+        :sea: false
+      - :name: 栗山町
+        :sea: false
+      - :name: 月形町
+        :sea: false
+  - :name: 後志地方
+    :value:
+    - :name: 後志北部
+      :value:
+      - :name: 小樽市
+        :sea: true
+      - :name: 積丹町
+        :sea: true
+      - :name: 古平町
+        :sea: true
+      - :name: 仁木町
+        :sea: false
+      - :name: 余市町
+        :sea: true
+      - :name: 赤井川村
+        :sea: false
+    - :name: 羊蹄山麓
+      :value:
+      - :name: ニセコ町
+        :sea: false
+      - :name: 真狩村
+        :sea: false
+      - :name: 留寿都村
+        :sea: false
+      - :name: 喜茂別町
+        :sea: false
+      - :name: 京極町
+        :sea: false
+      - :name: 倶知安町
+        :sea: false
+    - :name: 後志西部
+      :value:
+      - :name: 島牧村
+        :sea: true
+      - :name: 寿都町
+        :sea: true
+      - :name: 黒松内町
+        :sea: false
+      - :name: 蘭越町
+        :sea: true
+      - :name: 共和町
+        :sea: true
+      - :name: 岩内町
+        :sea: true
+      - :name: 泊村
+        :sea: true
+      - :name: 神恵内村
+        :sea: true
+- :name: 渡島・檜山地方
+  :value:
+  - :name: 渡島地方
+    :value:
+    - :name: 渡島北部
+      :value:
+      - :name: 八雲町八雲
+        :sea: true
+      - :name: 長万部町
+        :sea: true
+    - :name: 渡島東部
+      :value:
+      - :name: 函館市
+        :sea: true
+      - :name: 北斗市
+        :sea: true
+      - :name: 七飯町
+        :sea: false
+      - :name: 鹿部町
+        :sea: true
+      - :name: 森町
+        :sea: true
+    - :name: 渡島西部
+      :value:
+      - :name: 松前町
+        :sea: true
+      - :name: 福島町
+        :sea: true
+      - :name: 知内町
+        :sea: true
+      - :name: 木古内町
+        :sea: true
+  - :name: 檜山地方
+    :value:
+    - :name: 檜山北部
+      :value:
+      - :name: 八雲町熊石
+        :sea: true
+      - :name: 今金町
+        :sea: false
+      - :name: せたな町
+        :sea: true
+    - :name: 檜山南部
+      :value:
+      - :name: 江差町
+        :sea: true
+      - :name: 上ノ国町
+        :sea: true
+      - :name: 厚沢部町
+        :sea: false
+      - :name: 乙部町
+        :sea: true
+    - :name: 檜山奥尻島
+      :value:
+      - :name: 奥尻町
+        :sea: true
+- :name: 青森県
+  :value:
+  - :name: 津軽
+    :value:
+    - :name: 東青津軽
+      :value:
+      - :name: 青森市
+        :sea: true
+      - :name: 平内町
+        :sea: true
+      - :name: 今別町
+        :sea: true
+      - :name: 蓬田村
+        :sea: true
+      - :name: 外ヶ浜町
+        :sea: true
+    - :name: 北五津軽
+      :value:
+      - :name: 五所川原市
+        :sea: true
+      - :name: 板柳町
+        :sea: false
+      - :name: 鶴田町
+        :sea: false
+      - :name: 中泊町
+        :sea: true
+    - :name: 西津軽
+      :value:
+      - :name: つがる市
+        :sea: true
+      - :name: 鰺ヶ沢町
+        :sea: true
+      - :name: 深浦町
+        :sea: true
+    - :name: 中南津軽
+      :value:
+      - :name: 弘前市
+        :sea: false
+      - :name: 黒石市
+        :sea: false
+      - :name: 平川市
+        :sea: false
+      - :name: 西目屋村
+        :sea: false
+      - :name: 藤崎町
+        :sea: false
+      - :name: 大鰐町
+        :sea: false
+      - :name: 田舎館村
+        :sea: false
+  - :name: 下北
+    :value:
+    - :name: 下北
+      :value:
+      - :name: むつ市
+        :sea: true
+      - :name: 大間町
+        :sea: true
+      - :name: 東通村
+        :sea: true
+      - :name: 風間浦村
+        :sea: true
+      - :name: 佐井村
+        :sea: true
+  - :name: 三八上北
+    :value:
+    - :name: 三八
+      :value:
+      - :name: 八戸市
+        :sea: true
+      - :name: 三沢市
+        :sea: true
+      - :name: 六戸町
+        :sea: false
+      - :name: おいらせ町
+        :sea: true
+      - :name: 三戸町
+        :sea: false
+      - :name: 五戸町
+        :sea: false
+      - :name: 田子町
+        :sea: false
+      - :name: 南部町
+        :sea: false
+      - :name: 階上町
+        :sea: true
+      - :name: 新郷村
+        :sea: false
+    - :name: 上北
+      :value:
+      - :name: 十和田市
+        :sea: false
+      - :name: 野辺地町
+        :sea: true
+      - :name: 七戸町
+        :sea: false
+      - :name: 横浜町
+        :sea: true
+      - :name: 東北町
+        :sea: false
+      - :name: 六ヶ所村
+        :sea: true
+- :name: 秋田県
+  :value:
+  - :name: 沿岸
+    :value:
+    - :name: 秋田中央地域
+      :value:
+      - :name: 秋田市
+        :sea: true
+      - :name: 男鹿市
+        :sea: true
+      - :name: 潟上市
+        :sea: true
+      - :name: 五城目町
+        :sea: false
+      - :name: 八郎潟町
+        :sea: false
+      - :name: 井川町
+        :sea: false
+      - :name: 大潟村
+        :sea: false
+    - :name: 能代山本地域
+      :value:
+      - :name: 能代市
+        :sea: true
+      - :name: 藤里町
+        :sea: false
+      - :name: 三種町
+        :sea: true
+      - :name: 八峰町
+        :sea: true
+    - :name: 本荘由利地域
+      :value:
+      - :name: 由利本荘市
+        :sea: true
+      - :name: にかほ市
+        :sea: true
+  - :name: 内陸
+    :value:
+    - :name: 北秋鹿角地域
+      :value:
+      - :name: 大館市
+        :sea: false
+      - :name: 鹿角市
+        :sea: false
+      - :name: 北秋田市
+        :sea: false
+      - :name: 小坂町
+        :sea: false
+      - :name: 上小阿仁村
+        :sea: false
+    - :name: 仙北平鹿地域
+      :value:
+      - :name: 横手市
+        :sea: false
+      - :name: 大仙市
+        :sea: false
+      - :name: 仙北市
+        :sea: false
+      - :name: 美郷町
+        :sea: false
+    - :name: 湯沢雄勝地域
+      :value:
+      - :name: 湯沢市
+        :sea: false
+      - :name: 羽後町
+        :sea: false
+      - :name: 東成瀬村
+        :sea: false
+- :name: 岩手県
+  :value:
+  - :name: 内陸
+    :value:
+    - :name: 盛岡地域
+      :value:
+      - :name: 盛岡市
+        :sea: false
+      - :name: 八幡平市
+        :sea: false
+      - :name: 滝沢市
+        :sea: false
+      - :name: 雫石町
+        :sea: false
+      - :name: 葛巻町
+        :sea: false
+      - :name: 岩手町
+        :sea: false
+      - :name: 紫波町
+        :sea: false
+      - :name: 矢巾町
+        :sea: false
+    - :name: 二戸地域
+      :value:
+      - :name: 二戸市
+        :sea: false
+      - :name: 軽米町
+        :sea: false
+      - :name: 九戸村
+        :sea: false
+      - :name: 一戸町
+        :sea: false
+    - :name: 花北地域
+      :value:
+      - :name: 花巻市
+        :sea: false
+      - :name: 北上市
+        :sea: false
+      - :name: 西和賀町
+        :sea: false
+    - :name: 遠野地域
+      :value:
+      - :name: 遠野市
+        :sea: false
+    - :name: 奥州金ケ崎地域
+      :value:
+      - :name: 奥州市
+        :sea: false
+      - :name: 金ケ崎町
+        :sea: false
+    - :name: 両磐地域
+      :value:
+      - :name: 一関市
+        :sea: false
+      - :name: 平泉町
+        :sea: false
+  - :name: 沿岸北部
+    :value:
+    - :name: 久慈地域
+      :value:
+      - :name: 久慈市
+        :sea: true
+      - :name: 普代村
+        :sea: true
+      - :name: 野田村
+        :sea: true
+      - :name: 洋野町
+        :sea: true
+    - :name: 宮古地域
+      :value:
+      - :name: 宮古市
+        :sea: true
+      - :name: 山田町
+        :sea: true
+      - :name: 岩泉町
+        :sea: true
+      - :name: 田野畑村
+        :sea: true
+  - :name: 沿岸南部
+    :value:
+    - :name: 釜石地域
+      :value:
+      - :name: 釜石市
+        :sea: true
+      - :name: 大槌町
+        :sea: true
+    - :name: 大船渡地域
+      :value:
+      - :name: 大船渡市
+        :sea: true
+      - :name: 陸前高田市
+        :sea: true
+      - :name: 住田町
+        :sea: false
+- :name: 山形県
+  :value:
+  - :name: 村山
+    :value:
+    - :name: 東南村山
+      :value:
+      - :name: 山形市
+        :sea: false
+      - :name: 上山市
+        :sea: false
+      - :name: 天童市
+        :sea: false
+      - :name: 山辺町
+        :sea: false
+      - :name: 中山町
+        :sea: false
+    - :name: 北村山
+      :value:
+      - :name: 村山市
+        :sea: false
+      - :name: 東根市
+        :sea: false
+      - :name: 尾花沢市
+        :sea: false
+      - :name: 大石田町
+        :sea: false
+    - :name: 西村山
+      :value:
+      - :name: 寒河江市
+        :sea: false
+      - :name: 河北町
+        :sea: false
+      - :name: 西川町
+        :sea: false
+      - :name: 朝日町
+        :sea: false
+      - :name: 大江町
+        :sea: false
+  - :name: 置賜
+    :value:
+    - :name: 東南置賜
+      :value:
+      - :name: 米沢市
+        :sea: false
+      - :name: 南陽市
+        :sea: false
+      - :name: 高畠町
+        :sea: false
+      - :name: 川西町
+        :sea: false
+    - :name: 西置賜
+      :value:
+      - :name: 長井市
+        :sea: false
+      - :name: 小国町
+        :sea: false
+      - :name: 白鷹町
+        :sea: false
+      - :name: 飯豊町
+        :sea: false
+  - :name: 庄内
+    :value:
+    - :name: 庄内北部
+      :value:
+      - :name: 酒田市
+        :sea: true
+      - :name: 遊佐町
+        :sea: true
+    - :name: 庄内南部
+      :value:
+      - :name: 鶴岡市
+        :sea: true
+      - :name: 三川町
+        :sea: false
+      - :name: 庄内町
+        :sea: false
+  - :name: 最上
+    :value:
+    - :name: 最上
+      :value:
+      - :name: 新庄市
+        :sea: false
+      - :name: 金山町
+        :sea: false
+      - :name: 最上町
+        :sea: false
+      - :name: 舟形町
+        :sea: false
+      - :name: 真室川町
+        :sea: false
+      - :name: 大蔵村
+        :sea: false
+      - :name: 鮭川村
+        :sea: false
+      - :name: 戸沢村
+        :sea: false
+- :name: 宮城県
+  :value:
+  - :name: 東部
+    :value:
+    - :name: 東部仙台
+      :value:
+      - :name: 仙台市東部
+        :sea: true
+      - :name: 塩竈市
+        :sea: true
+      - :name: 名取市
+        :sea: true
+      - :name: 多賀城市
+        :sea: true
+      - :name: 岩沼市
+        :sea: true
+      - :name: 富谷市
+        :sea: false
+      - :name: 亘理町
+        :sea: true
+      - :name: 山元町
+        :sea: true
+      - :name: 松島町
+        :sea: true
+      - :name: 七ヶ浜町
+        :sea: true
+      - :name: 利府町
+        :sea: true
+      - :name: 大和町東部
+        :sea: false
+      - :name: 大郷町
+        :sea: false
+    - :name: 石巻地域
+      :value:
+      - :name: 石巻市
+        :sea: true
+      - :name: 東松島市
+        :sea: true
+      - :name: 女川町
+        :sea: true
+    - :name: 東部大崎
+      :value:
+      - :name: 大崎市東部
+        :sea: false
+      - :name: 涌谷町
+        :sea: false
+      - :name: 美里町
+        :sea: false
+    - :name: 気仙沼地域
+      :value:
+      - :name: 気仙沼市
+        :sea: true
+      - :name: 南三陸町
+        :sea: true
+    - :name: 東部仙南
+      :value:
+      - :name: 角田市
+        :sea: false
+      - :name: 大河原町
+        :sea: false
+      - :name: 村田町
+        :sea: false
+      - :name: 柴田町
+        :sea: false
+      - :name: 丸森町
+        :sea: false
+    - :name: 登米・東部栗原
+      :value:
+      - :name: 登米市
+        :sea: false
+      - :name: 栗原市東部
+        :sea: false
+  - :name: 西部
+    :value:
+    - :name: 西部仙台
+      :value:
+      - :name: 仙台市西部
+        :sea: false
+      - :name: 大和町西部
+        :sea: false
+      - :name: 大衡村
+        :sea: false
+    - :name: 西部仙南
+      :value:
+      - :name: 白石市
+        :sea: false
+      - :name: 蔵王町
+        :sea: false
+      - :name: 七ヶ宿町
+        :sea: false
+      - :name: 川崎町
+        :sea: false
+    - :name: 西部大崎
+      :value:
+      - :name: 大崎市西部
+        :sea: false
+      - :name: 色麻町
+        :sea: false
+      - :name: 加美町
+        :sea: false
+    - :name: 西部栗原
+      :value:
+      - :name: 栗原市西部
+        :sea: false
+- :name: 福島県
+  :value:
+  - :name: 中通り
+    :value:
+    - :name: 中通り北部
+      :value:
+      - :name: 福島市
+        :sea: false
+      - :name: 伊達市
+        :sea: false
+      - :name: 桑折町
+        :sea: false
+      - :name: 国見町
+        :sea: false
+      - :name: 川俣町
+        :sea: false
+    - :name: 中通り中部
+      :value:
+      - :name: 郡山市
+        :sea: false
+      - :name: 須賀川市
+        :sea: false
+      - :name: 二本松市
+        :sea: false
+      - :name: 田村市
+        :sea: false
+      - :name: 本宮市
+        :sea: false
+      - :name: 大玉村
+        :sea: false
+      - :name: 鏡石町
+        :sea: false
+      - :name: 天栄村
+        :sea: false
+      - :name: 三春町
+        :sea: false
+      - :name: 小野町
+        :sea: false
+    - :name: 中通り南部
+      :value:
+      - :name: 白河市
+        :sea: false
+      - :name: 西郷村
+        :sea: false
+      - :name: 泉崎村
+        :sea: false
+      - :name: 中島村
+        :sea: false
+      - :name: 矢吹町
+        :sea: false
+      - :name: 棚倉町
+        :sea: false
+      - :name: 矢祭町
+        :sea: false
+      - :name: 塙町
+        :sea: false
+      - :name: 鮫川村
+        :sea: false
+      - :name: 石川町
+        :sea: false
+      - :name: 玉川村
+        :sea: false
+      - :name: 平田村
+        :sea: false
+      - :name: 浅川町
+        :sea: false
+      - :name: 古殿町
+        :sea: false
+  - :name: 浜通り
+    :value:
+    - :name: 浜通り北部
+      :value:
+      - :name: 相馬市
+        :sea: true
+      - :name: 南相馬市
+        :sea: true
+      - :name: 新地町
+        :sea: true
+      - :name: 飯舘村
+        :sea: false
+    - :name: 浜通り中部
+      :value:
+      - :name: 広野町
+        :sea: true
+      - :name: 楢葉町
+        :sea: true
+      - :name: 富岡町
+        :sea: true
+      - :name: 川内村
+        :sea: false
+      - :name: 大熊町
+        :sea: true
+      - :name: 双葉町
+        :sea: true
+      - :name: 浪江町
+        :sea: true
+      - :name: 葛尾村
+        :sea: false
+    - :name: 浜通り南部
+      :value:
+      - :name: いわき市
+        :sea: true
+  - :name: 会津
+    :value:
+    - :name: 会津北部
+      :value:
+      - :name: 喜多方市
+        :sea: false
+      - :name: 北塩原村
+        :sea: false
+      - :name: 西会津町
+        :sea: false
+      - :name: 磐梯町
+        :sea: false
+      - :name: 猪苗代町
+        :sea: false
+    - :name: 会津中部
+      :value:
+      - :name: 会津若松市
+        :sea: false
+      - :name: 郡山市湖南
+        :sea: false
+      - :name: 会津坂下町
+        :sea: false
+      - :name: 湯川村
+        :sea: false
+      - :name: 柳津町
+        :sea: false
+      - :name: 三島町
+        :sea: false
+      - :name: 金山町
+        :sea: false
+      - :name: 昭和村
+        :sea: false
+      - :name: 会津美里町
+        :sea: false
+    - :name: 会津南部
+      :value:
+      - :name: 天栄村湯本
+        :sea: false
+      - :name: 下郷町
+        :sea: false
+      - :name: 檜枝岐村
+        :sea: false
+      - :name: 只見町
+        :sea: false
+      - :name: 南会津町
+        :sea: false
+- :name: 茨城県
+  :value:
+  - :name: 北部
+    :value:
+    - :name: 県央地域
+      :value:
+      - :name: 水戸市
+        :sea: false
+      - :name: 笠間市
+        :sea: false
+      - :name: 小美玉市
+        :sea: false
+      - :name: 茨城町
+        :sea: false
+      - :name: 大洗町
+        :sea: true
+      - :name: 城里町
+        :sea: false
+    - :name: 県北地域
+      :value:
+      - :name: 日立市
+        :sea: true
+      - :name: 常陸太田市
+        :sea: false
+      - :name: 高萩市
+        :sea: true
+      - :name: 北茨城市
+        :sea: true
+      - :name: ひたちなか市
+        :sea: true
+      - :name: 常陸大宮市
+        :sea: false
+      - :name: 那珂市
+        :sea: false
+      - :name: 東海村
+        :sea: true
+      - :name: 大子町
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 鹿行地域
+      :value:
+      - :name: 鹿嶋市
+        :sea: true
+      - :name: 潮来市
+        :sea: false
+      - :name: 神栖市
+        :sea: true
+      - :name: 行方市
+        :sea: false
+      - :name: 鉾田市
+        :sea: true
+    - :name: 県南地域
+      :value:
+      - :name: 土浦市
+        :sea: false
+      - :name: 石岡市
+        :sea: false
+      - :name: 龍ケ崎市
+        :sea: false
+      - :name: 取手市
+        :sea: false
+      - :name: 牛久市
+        :sea: false
+      - :name: つくば市
+        :sea: false
+      - :name: 守谷市
+        :sea: false
+      - :name: 稲敷市
+        :sea: false
+      - :name: かすみがうら市
+        :sea: false
+      - :name: つくばみらい市
+        :sea: false
+      - :name: 美浦村
+        :sea: false
+      - :name: 阿見町
+        :sea: false
+      - :name: 河内町
+        :sea: false
+      - :name: 利根町
+        :sea: false
+    - :name: 県西地域
+      :value:
+      - :name: 古河市
+        :sea: false
+      - :name: 結城市
+        :sea: false
+      - :name: 下妻市
+        :sea: false
+      - :name: 常総市
+        :sea: false
+      - :name: 筑西市
+        :sea: false
+      - :name: 坂東市
+        :sea: false
+      - :name: 桜川市
+        :sea: false
+      - :name: 八千代町
+        :sea: false
+      - :name: 五霞町
+        :sea: false
+      - :name: 境町
+        :sea: false
+- :name: 群馬県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 前橋・桐生地域
+      :value:
+      - :name: 前橋市
+        :sea: false
+      - :name: 桐生市
+        :sea: false
+      - :name: 渋川市
+        :sea: false
+      - :name: みどり市
+        :sea: false
+      - :name: 榛東村
+        :sea: false
+      - :name: 吉岡町
+        :sea: false
+    - :name: 伊勢崎・太田地域
+      :value:
+      - :name: 伊勢崎市
+        :sea: false
+      - :name: 太田市
+        :sea: false
+      - :name: 館林市
+        :sea: false
+      - :name: 玉村町
+        :sea: false
+      - :name: 板倉町
+        :sea: false
+      - :name: 明和町
+        :sea: false
+      - :name: 千代田町
+        :sea: false
+      - :name: 大泉町
+        :sea: false
+      - :name: 邑楽町
+        :sea: false
+    - :name: 高崎・藤岡地域
+      :value:
+      - :name: 高崎市
+        :sea: false
+      - :name: 藤岡市
+        :sea: false
+      - :name: 富岡市
+        :sea: false
+      - :name: 安中市
+        :sea: false
+      - :name: 上野村
+        :sea: false
+      - :name: 神流町
+        :sea: false
+      - :name: 下仁田町
+        :sea: false
+      - :name: 南牧村
+        :sea: false
+      - :name: 甘楽町
+        :sea: false
+  - :name: 北部
+    :value:
+    - :name: 利根・沼田地域
+      :value:
+      - :name: 沼田市
+        :sea: false
+      - :name: 片品村
+        :sea: false
+      - :name: 川場村
+        :sea: false
+      - :name: 昭和村
+        :sea: false
+      - :name: みなかみ町
+        :sea: false
+    - :name: 吾妻地域
+      :value:
+      - :name: 中之条町
+        :sea: false
+      - :name: 長野原町
+        :sea: false
+      - :name: 嬬恋村
+        :sea: false
+      - :name: 草津町
+        :sea: false
+      - :name: 高山村
+        :sea: false
+      - :name: 東吾妻町
+        :sea: false
+- :name: 栃木県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 県央部
+      :value:
+      - :name: 宇都宮市
+        :sea: false
+      - :name: さくら市
+        :sea: false
+      - :name: 上三川町
+        :sea: false
+      - :name: 高根沢町
+        :sea: false
+    - :name: 南東部
+      :value:
+      - :name: 真岡市
+        :sea: false
+      - :name: 那須烏山市
+        :sea: false
+      - :name: 益子町
+        :sea: false
+      - :name: 茂木町
+        :sea: false
+      - :name: 市貝町
+        :sea: false
+      - :name: 芳賀町
+        :sea: false
+      - :name: 那珂川町
+        :sea: false
+    - :name: 南西部
+      :value:
+      - :name: 足利市
+        :sea: false
+      - :name: 栃木市
+        :sea: false
+      - :name: 佐野市
+        :sea: false
+      - :name: 鹿沼市
+        :sea: false
+      - :name: 小山市
+        :sea: false
+      - :name: 下野市
+        :sea: false
+      - :name: 壬生町
+        :sea: false
+      - :name: 野木町
+        :sea: false
+  - :name: 北部
+    :value:
+    - :name: 那須地域
+      :value:
+      - :name: 大田原市
+        :sea: false
+      - :name: 矢板市
+        :sea: false
+      - :name: 那須塩原市
+        :sea: false
+      - :name: 塩谷町
+        :sea: false
+      - :name: 那須町
+        :sea: false
+    - :name: 日光地域
+      :value:
+      - :name: 日光市
+        :sea: false
+- :name: 埼玉県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 南中部
+      :value:
+      - :name: さいたま市
+        :sea: false
+      - :name: 川越市
+        :sea: false
+      - :name: 川口市
+        :sea: false
+      - :name: 所沢市
+        :sea: false
+      - :name: 狭山市
+        :sea: false
+      - :name: 上尾市
+        :sea: false
+      - :name: 蕨市
+        :sea: false
+      - :name: 戸田市
+        :sea: false
+      - :name: 朝霞市
+        :sea: false
+      - :name: 志木市
+        :sea: false
+      - :name: 和光市
+        :sea: false
+      - :name: 新座市
+        :sea: false
+      - :name: 桶川市
+        :sea: false
+      - :name: 北本市
+        :sea: false
+      - :name: 富士見市
+        :sea: false
+      - :name: ふじみ野市
+        :sea: false
+      - :name: 伊奈町
+        :sea: false
+      - :name: 三芳町
+        :sea: false
+      - :name: 川島町
+        :sea: false
+    - :name: 南東部
+      :value:
+      - :name: 春日部市
+        :sea: false
+      - :name: 草加市
+        :sea: false
+      - :name: 越谷市
+        :sea: false
+      - :name: 八潮市
+        :sea: false
+      - :name: 三郷市
+        :sea: false
+      - :name: 蓮田市
+        :sea: false
+      - :name: 幸手市
+        :sea: false
+      - :name: 吉川市
+        :sea: false
+      - :name: 白岡市
+        :sea: false
+      - :name: 宮代町
+        :sea: false
+      - :name: 杉戸町
+        :sea: false
+      - :name: 松伏町
+        :sea: false
+    - :name: 南西部
+      :value:
+      - :name: 飯能市
+        :sea: false
+      - :name: 入間市
+        :sea: false
+      - :name: 坂戸市
+        :sea: false
+      - :name: 鶴ヶ島市
+        :sea: false
+      - :name: 日高市
+        :sea: false
+      - :name: 毛呂山町
+        :sea: false
+      - :name: 越生町
+        :sea: false
+  - :name: 北部
+    :value:
+    - :name: 北東部
+      :value:
+      - :name: 行田市
+        :sea: false
+      - :name: 加須市
+        :sea: false
+      - :name: 羽生市
+        :sea: false
+      - :name: 鴻巣市
+        :sea: false
+      - :name: 久喜市
+        :sea: false
+    - :name: 北西部
+      :value:
+      - :name: 熊谷市
+        :sea: false
+      - :name: 本庄市
+        :sea: false
+      - :name: 東松山市
+        :sea: false
+      - :name: 深谷市
+        :sea: false
+      - :name: 滑川町
+        :sea: false
+      - :name: 嵐山町
+        :sea: false
+      - :name: 小川町
+        :sea: false
+      - :name: 吉見町
+        :sea: false
+      - :name: 鳩山町
+        :sea: false
+      - :name: ときがわ町
+        :sea: false
+      - :name: 東秩父村
+        :sea: false
+      - :name: 美里町
+        :sea: false
+      - :name: 神川町
+        :sea: false
+      - :name: 上里町
+        :sea: false
+      - :name: 寄居町
+        :sea: false
+  - :name: 秩父地方
+    :value:
+    - :name: 秩父地方
+      :value:
+      - :name: 秩父市
+        :sea: false
+      - :name: 横瀬町
+        :sea: false
+      - :name: 皆野町
+        :sea: false
+      - :name: 長瀞町
+        :sea: false
+      - :name: 小鹿野町
+        :sea: false
+- :name: 千葉県
+  :value:
+  - :name: 北西部
+    :value:
+    - :name: 千葉中央
+      :value:
+      - :name: 千葉市
+        :sea: true
+      - :name: 市原市
+        :sea: true
+    - :name: 印旛
+      :value:
+      - :name: 成田市
+        :sea: false
+      - :name: 佐倉市
+        :sea: false
+      - :name: 四街道市
+        :sea: false
+      - :name: 八街市
+        :sea: false
+      - :name: 印西市
+        :sea: false
+      - :name: 白井市
+        :sea: false
+      - :name: 富里市
+        :sea: false
+      - :name: 酒々井町
+        :sea: false
+      - :name: 栄町
+        :sea: false
+    - :name: 東葛飾
+      :value:
+      - :name: 市川市
+        :sea: true
+      - :name: 船橋市
+        :sea: true
+      - :name: 松戸市
+        :sea: false
+      - :name: 野田市
+        :sea: false
+      - :name: 習志野市
+        :sea: true
+      - :name: 柏市
+        :sea: false
+      - :name: 流山市
+        :sea: false
+      - :name: 八千代市
+        :sea: false
+      - :name: 我孫子市
+        :sea: false
+      - :name: 鎌ケ谷市
+        :sea: false
+      - :name: 浦安市
+        :sea: true
+  - :name: 北東部
+    :value:
+    - :name: 香取・海匝
+      :value:
+      - :name: 銚子市
+        :sea: true
+      - :name: 旭市
+        :sea: true
+      - :name: 匝瑳市
+        :sea: true
+      - :name: 香取市
+        :sea: false
+      - :name: 神崎町
+        :sea: false
+      - :name: 多古町
+        :sea: false
+      - :name: 東庄町
+        :sea: false
+    - :name: 山武・長生
+      :value:
+      - :name: 茂原市
+        :sea: false
+      - :name: 東金市
+        :sea: false
+      - :name: 山武市
+        :sea: true
+      - :name: 大網白里市
+        :sea: true
+      - :name: 九十九里町
+        :sea: true
+      - :name: 芝山町
+        :sea: false
+      - :name: 横芝光町
+        :sea: true
+      - :name: 一宮町
+        :sea: true
+      - :name: 睦沢町
+        :sea: false
+      - :name: 長生村
+        :sea: true
+      - :name: 白子町
+        :sea: true
+      - :name: 長柄町
+        :sea: false
+      - :name: 長南町
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 君津
+      :value:
+      - :name: 木更津市
+        :sea: true
+      - :name: 君津市
+        :sea: true
+      - :name: 富津市
+        :sea: true
+      - :name: 袖ケ浦市
+        :sea: true
+    - :name: 夷隅・安房
+      :value:
+      - :name: 館山市
+        :sea: true
+      - :name: 勝浦市
+        :sea: true
+      - :name: 鴨川市
+        :sea: true
+      - :name: 南房総市
+        :sea: true
+      - :name: いすみ市
+        :sea: true
+      - :name: 大多喜町
+        :sea: false
+      - :name: 御宿町
+        :sea: true
+      - :name: 鋸南町
+        :sea: true
+- :name: 東京都
+  :value:
+  - :name: 東京地方
+    :value:
+    - :name: ２３区西部
+      :value:
+      - :name: 千代田区
+        :sea: false
+      - :name: 中央区
+        :sea: true
+      - :name: 港区
+        :sea: true
+      - :name: 新宿区
+        :sea: false
+      - :name: 文京区
+        :sea: false
+      - :name: 品川区
+        :sea: true
+      - :name: 目黒区
+        :sea: false
+      - :name: 大田区
+        :sea: true
+      - :name: 世田谷区
+        :sea: false
+      - :name: 渋谷区
+        :sea: false
+      - :name: 中野区
+        :sea: false
+      - :name: 杉並区
+        :sea: false
+      - :name: 豊島区
+        :sea: false
+      - :name: 北区
+        :sea: false
+      - :name: 板橋区
+        :sea: false
+      - :name: 練馬区
+        :sea: false
+    - :name: ２３区東部
+      :value:
+      - :name: 台東区
+        :sea: false
+      - :name: 墨田区
+        :sea: false
+      - :name: 江東区
+        :sea: true
+      - :name: 荒川区
+        :sea: false
+      - :name: 足立区
+        :sea: false
+      - :name: 葛飾区
+        :sea: false
+      - :name: 江戸川区
+        :sea: true
+    - :name: 多摩北部
+      :value:
+      - :name: 立川市
+        :sea: false
+      - :name: 武蔵野市
+        :sea: false
+      - :name: 三鷹市
+        :sea: false
+      - :name: 府中市
+        :sea: false
+      - :name: 昭島市
+        :sea: false
+      - :name: 調布市
+        :sea: false
+      - :name: 小金井市
+        :sea: false
+      - :name: 小平市
+        :sea: false
+      - :name: 東村山市
+        :sea: false
+      - :name: 国分寺市
+        :sea: false
+      - :name: 国立市
+        :sea: false
+      - :name: 狛江市
+        :sea: false
+      - :name: 東大和市
+        :sea: false
+      - :name: 清瀬市
+        :sea: false
+      - :name: 東久留米市
+        :sea: false
+      - :name: 武蔵村山市
+        :sea: false
+      - :name: 西東京市
+        :sea: false
+    - :name: 多摩西部
+      :value:
+      - :name: 青梅市
+        :sea: false
+      - :name: 福生市
+        :sea: false
+      - :name: 羽村市
+        :sea: false
+      - :name: あきる野市
+        :sea: false
+      - :name: 瑞穂町
+        :sea: false
+      - :name: 日の出町
+        :sea: false
+      - :name: 檜原村
+        :sea: false
+      - :name: 奥多摩町
+        :sea: false
+    - :name: 多摩南部
+      :value:
+      - :name: 八王子市
+        :sea: false
+      - :name: 町田市
+        :sea: false
+      - :name: 日野市
+        :sea: false
+      - :name: 多摩市
+        :sea: false
+      - :name: 稲城市
+        :sea: false
+  - :name: 伊豆諸島北部
+    :value:
+    - :name: 大島
+      :value:
+      - :name: 大島町
+        :sea: true
+    - :name: 新島
+      :value:
+      - :name: 利島村
+        :sea: true
+      - :name: 新島村
+        :sea: true
+      - :name: 神津島村
+        :sea: true
+  - :name: 伊豆諸島南部
+    :value:
+    - :name: 八丈島
+      :value:
+      - :name: 八丈町
+        :sea: true
+      - :name: 青ヶ島村
+        :sea: true
+    - :name: 三宅島
+      :value:
+      - :name: 三宅村
+        :sea: true
+      - :name: 御蔵島村
+        :sea: true
+  - :name: 小笠原諸島
+    :value:
+    - :name: 小笠原諸島
+      :value:
+      - :name: 小笠原村
+        :sea: true
+- :name: 神奈川県
+  :value:
+  - :name: 東部
+    :value:
+    - :name: 横浜・川崎
+      :value:
+      - :name: 横浜市
+        :sea: true
+      - :name: 川崎市
+        :sea: true
+    - :name: 湘南
+      :value:
+      - :name: 平塚市
+        :sea: true
+      - :name: 藤沢市
+        :sea: true
+      - :name: 茅ヶ崎市
+        :sea: true
+      - :name: 大和市
+        :sea: false
+      - :name: 海老名市
+        :sea: false
+      - :name: 座間市
+        :sea: false
+      - :name: 綾瀬市
+        :sea: false
+      - :name: 寒川町
+        :sea: false
+      - :name: 大磯町
+        :sea: true
+      - :name: 二宮町
+        :sea: true
+    - :name: 三浦半島
+      :value:
+      - :name: 横須賀市
+        :sea: true
+      - :name: 鎌倉市
+        :sea: true
+      - :name: 逗子市
+        :sea: true
+      - :name: 三浦市
+        :sea: true
+      - :name: 葉山町
+        :sea: true
+  - :name: 西部
+    :value:
+    - :name: 相模原
+      :value:
+      - :name: 相模原市
+        :sea: false
+    - :name: 県央
+      :value:
+      - :name: 秦野市
+        :sea: false
+      - :name: 厚木市
+        :sea: false
+      - :name: 伊勢原市
+        :sea: false
+      - :name: 愛川町
+        :sea: false
+      - :name: 清川村
+        :sea: false
+    - :name: 足柄上
+      :value:
+      - :name: 南足柄市
+        :sea: false
+      - :name: 中井町
+        :sea: false
+      - :name: 大井町
+        :sea: false
+      - :name: 松田町
+        :sea: false
+      - :name: 山北町
+        :sea: false
+      - :name: 開成町
+        :sea: false
+    - :name: 西湘
+      :value:
+      - :name: 小田原市
+        :sea: true
+      - :name: 箱根町
+        :sea: false
+      - :name: 真鶴町
+        :sea: true
+      - :name: 湯河原町
+        :sea: true
+- :name: 山梨県
+  :value:
+  - :name: 中・西部
+    :value:
+    - :name: 中北地域
+      :value:
+      - :name: 甲府市
+        :sea: false
+      - :name: 韮崎市
+        :sea: false
+      - :name: 南アルプス市
+        :sea: false
+      - :name: 北杜市
+        :sea: false
+      - :name: 甲斐市
+        :sea: false
+      - :name: 中央市
+        :sea: false
+      - :name: 昭和町
+        :sea: false
+    - :name: 峡東地域
+      :value:
+      - :name: 山梨市
+        :sea: false
+      - :name: 笛吹市
+        :sea: false
+      - :name: 甲州市
+        :sea: false
+    - :name: 峡南地域
+      :value:
+      - :name: 市川三郷町
+        :sea: false
+      - :name: 早川町
+        :sea: false
+      - :name: 身延町
+        :sea: false
+      - :name: 南部町
+        :sea: false
+      - :name: 富士川町
+        :sea: false
+  - :name: 東部・富士五湖
+    :value:
+    - :name: 東部
+      :value:
+      - :name: 都留市
+        :sea: false
+      - :name: 大月市
+        :sea: false
+      - :name: 上野原市
+        :sea: false
+      - :name: 道志村
+        :sea: false
+      - :name: 小菅村
+        :sea: false
+      - :name: 丹波山村
+        :sea: false
+    - :name: 富士五湖
+      :value:
+      - :name: 富士吉田市
+        :sea: false
+      - :name: 西桂町
+        :sea: false
+      - :name: 忍野村
+        :sea: false
+      - :name: 山中湖村
+        :sea: false
+      - :name: 鳴沢村
+        :sea: false
+      - :name: 富士河口湖町
+        :sea: false
+- :name: 長野県
+  :value:
+  - :name: 北部
+    :value:
+    - :name: 長野地域
+      :value:
+      - :name: 長野市
+        :sea: false
+      - :name: 須坂市
+        :sea: false
+      - :name: 千曲市
+        :sea: false
+      - :name: 坂城町
+        :sea: false
+      - :name: 小布施町
+        :sea: false
+      - :name: 高山村
+        :sea: false
+      - :name: 信濃町
+        :sea: false
+      - :name: 小川村
+        :sea: false
+      - :name: 飯綱町
+        :sea: false
+    - :name: 中野飯山地域
+      :value:
+      - :name: 中野市
+        :sea: false
+      - :name: 飯山市
+        :sea: false
+      - :name: 山ノ内町
+        :sea: false
+      - :name: 木島平村
+        :sea: false
+      - :name: 野沢温泉村
+        :sea: false
+      - :name: 栄村
+        :sea: false
+    - :name: 大北地域
+      :value:
+      - :name: 大町市
+        :sea: false
+      - :name: 池田町
+        :sea: false
+      - :name: 松川村
+        :sea: false
+      - :name: 白馬村
+        :sea: false
+      - :name: 小谷村
+        :sea: false
+  - :name: 中部
+    :value:
+    - :name: 上田地域
+      :value:
+      - :name: 上田市
+        :sea: false
+      - :name: 東御市
+        :sea: false
+      - :name: 青木村
+        :sea: false
+      - :name: 長和町
+        :sea: false
+    - :name: 佐久地域
+      :value:
+      - :name: 小諸市
+        :sea: false
+      - :name: 佐久市
+        :sea: false
+      - :name: 小海町
+        :sea: false
+      - :name: 川上村
+        :sea: false
+      - :name: 南牧村
+        :sea: false
+      - :name: 南相木村
+        :sea: false
+      - :name: 北相木村
+        :sea: false
+      - :name: 佐久穂町
+        :sea: false
+      - :name: 軽井沢町
+        :sea: false
+      - :name: 御代田町
+        :sea: false
+      - :name: 立科町
+        :sea: false
+    - :name: 松本地域
+      :value:
+      - :name: 松本
+        :sea: false
+      - :name: 塩尻
+        :sea: false
+      - :name: 安曇野市
+        :sea: false
+      - :name: 麻績村
+        :sea: false
+      - :name: 生坂村
+        :sea: false
+      - :name: 山形村
+        :sea: false
+      - :name: 朝日村
+        :sea: false
+      - :name: 筑北村
+        :sea: false
+    - :name: 乗鞍上高地地域
+      :value:
+      - :name: 乗鞍上高地
+        :sea: false
+    - :name: 諏訪地域
+      :value:
+      - :name: 岡谷市
+        :sea: false
+      - :name: 諏訪市
+        :sea: false
+      - :name: 茅野市
+        :sea: false
+      - :name: 下諏訪町
+        :sea: false
+      - :name: 富士見町
+        :sea: false
+      - :name: 原村
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 上伊那地域
+      :value:
+      - :name: 伊那市
+        :sea: false
+      - :name: 駒ヶ根市
+        :sea: false
+      - :name: 辰野町
+        :sea: false
+      - :name: 箕輪町
+        :sea: false
+      - :name: 飯島町
+        :sea: false
+      - :name: 南箕輪村
+        :sea: false
+      - :name: 中川村
+        :sea: false
+      - :name: 宮田村
+        :sea: false
+    - :name: 木曽地域
+      :value:
+      - :name: 楢川
+        :sea: false
+      - :name: 上松町
+        :sea: false
+      - :name: 南木曽町
+        :sea: false
+      - :name: 木祖村
+        :sea: false
+      - :name: 王滝村
+        :sea: false
+      - :name: 大桑村
+        :sea: false
+      - :name: 木曽町
+        :sea: false
+    - :name: 下伊那地域
+      :value:
+      - :name: 飯田市
+        :sea: false
+      - :name: 松川町
+        :sea: false
+      - :name: 高森町
+        :sea: false
+      - :name: 阿南町
+        :sea: false
+      - :name: 阿智村
+        :sea: false
+      - :name: 平谷村
+        :sea: false
+      - :name: 根羽村
+        :sea: false
+      - :name: 下條村
+        :sea: false
+      - :name: 売木村
+        :sea: false
+      - :name: 天龍村
+        :sea: false
+      - :name: 泰阜村
+        :sea: false
+      - :name: 喬木村
+        :sea: false
+      - :name: 豊丘村
+        :sea: false
+      - :name: 大鹿村
+        :sea: false
+- :name: 新潟県
+  :value:
+  - :name: 下越
+    :value:
+    - :name: 新潟地域
+      :value:
+      - :name: 新潟市
+        :sea: true
+      - :name: 燕市
+        :sea: false
+      - :name: 阿賀野市
+        :sea: false
+      - :name: 弥彦村
+        :sea: false
+    - :name: 岩船地域
+      :value:
+      - :name: 村上市
+        :sea: true
+      - :name: 関川村
+        :sea: false
+      - :name: 粟島浦村
+        :sea: true
+    - :name: 新発田地域
+      :value:
+      - :name: 新発田市
+        :sea: true
+      - :name: 胎内市
+        :sea: true
+      - :name: 聖籠町
+        :sea: true
+    - :name: 五泉地域
+      :value:
+      - :name: 五泉市
+        :sea: false
+      - :name: 阿賀町
+        :sea: false
+  - :name: 中越
+    :value:
+    - :name: 長岡地域
+      :value:
+      - :name: 長岡市
+        :sea: true
+      - :name: 小千谷市
+        :sea: false
+      - :name: 見附市
+        :sea: false
+      - :name: 出雲崎町
+        :sea: true
+    - :name: 三条地域
+      :value:
+      - :name: 三条市
+        :sea: false
+      - :name: 加茂市
+        :sea: false
+      - :name: 田上町
+        :sea: false
+    - :name: 魚沼市
+      :value:
+      - :name: 魚沼市
+        :sea: false
+    - :name: 柏崎地域
+      :value:
+      - :name: 柏崎市
+        :sea: true
+      - :name: 刈羽村
+        :sea: false
+    - :name: 南魚沼地域
+      :value:
+      - :name: 南魚沼市
+        :sea: false
+      - :name: 湯沢町
+        :sea: false
+    - :name: 十日町地域
+      :value:
+      - :name: 十日町市
+        :sea: false
+      - :name: 津南町
+        :sea: false
+  - :name: 上越
+    :value:
+    - :name: 上越市
+      :value:
+      - :name: 上越市
+        :sea: true
+    - :name: 糸魚川市
+      :value:
+      - :name: 糸魚川市
+        :sea: true
+    - :name: 妙高市
+      :value:
+      - :name: 妙高市
+        :sea: false
+  - :name: 佐渡
+    :value:
+    - :name: 佐渡
+      :value:
+      - :name: 佐渡市
+        :sea: true
+- :name: 富山県
+  :value:
+  - :name: 東部
+    :value:
+    - :name: 東部南
+      :value:
+      - :name: 富山市
+        :sea: true
+      - :name: 舟橋村
+        :sea: false
+      - :name: 上市町
+        :sea: false
+      - :name: 立山町
+        :sea: false
+    - :name: 東部北
+      :value:
+      - :name: 魚津市
+        :sea: true
+      - :name: 滑川市
+        :sea: true
+      - :name: 黒部市
+        :sea: true
+      - :name: 入善町
+        :sea: true
+      - :name: 朝日町
+        :sea: true
+  - :name: 西部
+    :value:
+    - :name: 西部北
+      :value:
+      - :name: 高岡市
+        :sea: true
+      - :name: 氷見市
+        :sea: true
+      - :name: 小矢部市
+        :sea: false
+      - :name: 射水市
+        :sea: true
+    - :name: 西部南
+      :value:
+      - :name: 砺波市
+        :sea: false
+      - :name: 南砺市
+        :sea: false
+- :name: 石川県
+  :value:
+  - :name: 加賀
+    :value:
+    - :name: 加賀北部
+      :value:
+      - :name: 金沢市
+        :sea: true
+      - :name: かほく市
+        :sea: true
+      - :name: 津幡町
+        :sea: false
+      - :name: 内灘町
+        :sea: true
+    - :name: 加賀南部
+      :value:
+      - :name: 小松市
+        :sea: true
+      - :name: 加賀市
+        :sea: true
+      - :name: 白山市
+        :sea: true
+      - :name: 能美市
+        :sea: true
+      - :name: 野々市市
+        :sea: false
+      - :name: 川北町
+        :sea: false
+  - :name: 能登
+    :value:
+    - :name: 能登北部
+      :value:
+      - :name: 輪島市
+        :sea: true
+      - :name: 珠洲市
+        :sea: true
+      - :name: 穴水町
+        :sea: true
+      - :name: 能登町
+        :sea: true
+    - :name: 能登南部
+      :value:
+      - :name: 七尾市
+        :sea: true
+      - :name: 羽咋市
+        :sea: true
+      - :name: 志賀町
+        :sea: true
+      - :name: 宝達志水町
+        :sea: true
+      - :name: 中能登町
+        :sea: false
+- :name: 福井県
+  :value:
+  - :name: 嶺北
+    :value:
+    - :name: 嶺北北部
+      :value:
+      - :name: 福井市
+        :sea: true
+      - :name: あわら市
+        :sea: true
+      - :name: 坂井市
+        :sea: true
+      - :name: 永平寺町
+        :sea: false
+      - :name: 越前町
+        :sea: true
+    - :name: 嶺北南部
+      :value:
+      - :name: 鯖江市
+        :sea: false
+      - :name: 越前市
+        :sea: false
+      - :name: 池田町
+        :sea: false
+      - :name: 南越前町
+        :sea: true
+    - :name: 奥越
+      :value:
+      - :name: 大野市
+        :sea: false
+      - :name: 勝山市
+        :sea: false
+  - :name: 嶺南
+    :value:
+    - :name: 嶺南東部
+      :value:
+      - :name: 敦賀市
+        :sea: true
+      - :name: 美浜町
+        :sea: true
+      - :name: 若狭町
+        :sea: true
+    - :name: 嶺南西部
+      :value:
+      - :name: 小浜市
+        :sea: true
+      - :name: 高浜町
+        :sea: true
+      - :name: おおい町
+        :sea: true
+- :name: 静岡県
+  :value:
+  - :name: 中部
+    :value:
+    - :name: 中部南
+      :value:
+      - :name: 静岡市南部
+        :sea: true
+      - :name: 島田市
+        :sea: false
+      - :name: 焼津市
+        :sea: true
+      - :name: 藤枝市
+        :sea: false
+      - :name: 牧之原市
+        :sea: true
+      - :name: 吉田町
+        :sea: true
+    - :name: 中部北
+      :value:
+      - :name: 静岡市北部
+        :sea: false
+      - :name: 川根本町
+        :sea: false
+  - :name: 伊豆
+    :value:
+    - :name: 伊豆北
+      :value:
+      - :name: 熱海市
+        :sea: true
+      - :name: 伊東市
+        :sea: true
+      - :name: 伊豆市
+        :sea: true
+      - :name: 伊豆の国市
+        :sea: false
+      - :name: 函南町
+        :sea: false
+    - :name: 伊豆南
+      :value:
+      - :name: 下田市
+        :sea: true
+      - :name: 東伊豆町
+        :sea: true
+      - :name: 河津町
+        :sea: true
+      - :name: 南伊豆町
+        :sea: true
+      - :name: 松崎町
+        :sea: true
+      - :name: 西伊豆町
+        :sea: true
+  - :name: 東部
+    :value:
+    - :name: 富士山南東
+      :value:
+      - :name: 沼津市
+        :sea: true
+      - :name: 三島市
+        :sea: false
+      - :name: 御殿場市
+        :sea: false
+      - :name: 裾野市
+        :sea: false
+      - :name: 清水町
+        :sea: false
+      - :name: 長泉町
+        :sea: false
+      - :name: 小山町
+        :sea: false
+    - :name: 富士山南西
+      :value:
+      - :name: 富士宮市
+        :sea: false
+      - :name: 富士市
+        :sea: true
+  - :name: 西部
+    :value:
+    - :name: 遠州北
+      :value:
+      - :name: 浜松市北部
+        :sea: false
+    - :name: 遠州南
+      :value:
+      - :name: 浜松市南部
+        :sea: true
+      - :name: 磐田市
+        :sea: true
+      - :name: 掛川市
+        :sea: true
+      - :name: 袋井市
+        :sea: true
+      - :name: 湖西市
+        :sea: true
+      - :name: 御前崎市
+        :sea: true
+      - :name: 菊川市
+        :sea: false
+      - :name: 森町
+        :sea: false
+- :name: 岐阜県
+  :value:
+  - :name: 美濃地方
+    :value:
+    - :name: 岐阜・西濃
+      :value:
+      - :name: 岐阜市
+        :sea: false
+      - :name: 大垣市
+        :sea: false
+      - :name: 羽島市
+        :sea: false
+      - :name: 各務原市
+        :sea: false
+      - :name: 山県市
+        :sea: false
+      - :name: 瑞穂市
+        :sea: false
+      - :name: 本巣市
+        :sea: false
+      - :name: 海津市
+        :sea: false
+      - :name: 岐南町
+        :sea: false
+      - :name: 笠松町
+        :sea: false
+      - :name: 養老町
+        :sea: false
+      - :name: 垂井町
+        :sea: false
+      - :name: 関ケ原町
+        :sea: false
+      - :name: 神戸町
+        :sea: false
+      - :name: 輪之内町
+        :sea: false
+      - :name: 安八町
+        :sea: false
+      - :name: 揖斐川町
+        :sea: false
+      - :name: 大野町
+        :sea: false
+      - :name: 池田町
+        :sea: false
+      - :name: 北方町
+        :sea: false
+    - :name: 東濃
+      :value:
+      - :name: 多治見市
+        :sea: false
+      - :name: 中津川市
+        :sea: false
+      - :name: 瑞浪市
+        :sea: false
+      - :name: 恵那市
+        :sea: false
+      - :name: 土岐市
+        :sea: false
+    - :name: 中濃
+      :value:
+      - :name: 関市
+        :sea: false
+      - :name: 美濃市
+        :sea: false
+      - :name: 美濃加茂市
+        :sea: false
+      - :name: 可児市
+        :sea: false
+      - :name: 郡上市
+        :sea: false
+      - :name: 坂祝町
+        :sea: false
+      - :name: 富加町
+        :sea: false
+      - :name: 川辺町
+        :sea: false
+      - :name: 七宗町
+        :sea: false
+      - :name: 八百津町
+        :sea: false
+      - :name: 白川町
+        :sea: false
+      - :name: 東白川村
+        :sea: false
+      - :name: 御嵩町
+        :sea: false
+  - :name: 飛騨地方
+    :value:
+    - :name: 飛騨北部
+      :value:
+      - :name: 高山市
+        :sea: false
+      - :name: 飛騨市
+        :sea: false
+      - :name: 白川村
+        :sea: false
+    - :name: 飛騨南部
+      :value:
+      - :name: 下呂市
+        :sea: false
+- :name: 愛知県
+  :value:
+  - :name: 西部
+    :value:
+    - :name: 尾張東部
+      :value:
+      - :name: 名古屋市
+        :sea: true
+      - :name: 瀬戸市
+        :sea: false
+      - :name: 春日井市
+        :sea: false
+      - :name: 犬山市
+        :sea: false
+      - :name: 小牧市
+        :sea: false
+      - :name: 尾張旭市
+        :sea: false
+      - :name: 豊明市
+        :sea: false
+      - :name: 日進市
+        :sea: false
+      - :name: 長久手市
+        :sea: false
+      - :name: 東郷町
+        :sea: false
+    - :name: 尾張西部
+      :value:
+      - :name: 一宮市
+        :sea: false
+      - :name: 津島市
+        :sea: false
+      - :name: 江南市
+        :sea: false
+      - :name: 稲沢市
+        :sea: false
+      - :name: 岩倉市
+        :sea: false
+      - :name: 愛西市
+        :sea: false
+      - :name: 清須市
+        :sea: false
+      - :name: 北名古屋市
+        :sea: false
+      - :name: 弥富市
+        :sea: true
+      - :name: あま市
+        :sea: false
+      - :name: 豊山町
+        :sea: false
+      - :name: 大口町
+        :sea: false
+      - :name: 扶桑町
+        :sea: false
+      - :name: 大治町
+        :sea: false
+      - :name: 蟹江町
+        :sea: false
+      - :name: 飛島村
+        :sea: true
+    - :name: 知多地域
+      :value:
+      - :name: 半田市
+        :sea: true
+      - :name: 常滑市
+        :sea: true
+      - :name: 東海市
+        :sea: true
+      - :name: 大府市
+        :sea: false
+      - :name: 知多市
+        :sea: true
+      - :name: 阿久比町
+        :sea: false
+      - :name: 東浦町
+        :sea: true
+      - :name: 南知多町
+        :sea: true
+      - :name: 美浜町
+        :sea: true
+      - :name: 武豊町
+        :sea: true
+    - :name: 西三河南部
+      :value:
+      - :name: 岡崎市
+        :sea: false
+      - :name: 碧南市
+        :sea: true
+      - :name: 刈谷市
+        :sea: true
+      - :name: 安城市
+        :sea: false
+      - :name: 西尾市
+        :sea: true
+      - :name: 知立市
+        :sea: false
+      - :name: 高浜市
+        :sea: true
+      - :name: 幸田町
+        :sea: false
+    - :name: 西三河北西部
+      :value:
+      - :name: 豊田市西部
+        :sea: false
+      - :name: みよし市
+        :sea: false
+  - :name: 東部
+    :value:
+    - :name: 西三河北東部
+      :value:
+      - :name: 豊田市東部
+        :sea: false
+    - :name: 東三河北部
+      :value:
+      - :name: 新城市
+        :sea: false
+      - :name: 設楽町
+        :sea: false
+      - :name: 東栄町
+        :sea: false
+      - :name: 豊根村
+        :sea: false
+    - :name: 東三河南部
+      :value:
+      - :name: 豊橋市
+        :sea: true
+      - :name: 豊川市
+        :sea: true
+      - :name: 蒲郡市
+        :sea: true
+      - :name: 田原市
+        :sea: true
+- :name: 三重県
+  :value:
+  - :name: 北中部
+    :value:
+    - :name: 中部
+      :value:
+      - :name: 津市
+        :sea: true
+      - :name: 松阪市
+        :sea: true
+      - :name: 多気町
+        :sea: false
+      - :name: 明和町
+        :sea: true
+    - :name: 北部
+      :value:
+      - :name: 四日市市
+        :sea: true
+      - :name: 桑名市
+        :sea: true
+      - :name: 鈴鹿市
+        :sea: true
+      - :name: 亀山市
+        :sea: false
+      - :name: いなべ市
+        :sea: false
+      - :name: 木曽岬町
+        :sea: true
+      - :name: 東員町
+        :sea: false
+      - :name: 菰野町
+        :sea: false
+      - :name: 朝日町
+        :sea: false
+      - :name: 川越町
+        :sea: true
+    - :name: 伊賀
+      :value:
+      - :name: 名張市
+        :sea: false
+      - :name: 伊賀市
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 伊勢志摩
+      :value:
+      - :name: 伊勢市
+        :sea: true
+      - :name: 鳥羽市
+        :sea: true
+      - :name: 志摩市
+        :sea: true
+      - :name: 玉城町
+        :sea: false
+      - :name: 度会町
+        :sea: false
+      - :name: 南伊勢町
+        :sea: true
+    - :name: 紀勢・東紀州
+      :value:
+      - :name: 尾鷲市
+        :sea: true
+      - :name: 熊野市
+        :sea: true
+      - :name: 大台町
+        :sea: false
+      - :name: 大紀町
+        :sea: true
+      - :name: 紀北町
+        :sea: true
+      - :name: 御浜町
+        :sea: true
+      - :name: 紀宝町
+        :sea: true
+- :name: 大阪府
+  :value:
+  - :name: 大阪府
+    :value:
+    - :name: 大阪市
+      :value:
+      - :name: 大阪市
+        :sea: true
+    - :name: 北大阪
+      :value:
+      - :name: 豊中市
+        :sea: false
+      - :name: 池田市
+        :sea: false
+      - :name: 吹田市
+        :sea: false
+      - :name: 高槻市
+        :sea: false
+      - :name: 茨木市
+        :sea: false
+      - :name: 箕面市
+        :sea: false
+      - :name: 摂津市
+        :sea: false
+      - :name: 島本町
+        :sea: false
+      - :name: 豊能町
+        :sea: false
+      - :name: 能勢町
+        :sea: false
+    - :name: 東部大阪
+      :value:
+      - :name: 守口市
+        :sea: false
+      - :name: 枚方市
+        :sea: false
+      - :name: 八尾市
+        :sea: false
+      - :name: 寝屋川市
+        :sea: false
+      - :name: 大東市
+        :sea: false
+      - :name: 柏原市
+        :sea: false
+      - :name: 門真市
+        :sea: false
+      - :name: 東大阪市
+        :sea: false
+      - :name: 四條畷市
+        :sea: false
+      - :name: 交野市
+        :sea: false
+    - :name: 南河内
+      :value:
+      - :name: 富田林市
+        :sea: false
+      - :name: 河内長野市
+        :sea: false
+      - :name: 松原市
+        :sea: false
+      - :name: 羽曳野市
+        :sea: false
+      - :name: 藤井寺市
+        :sea: false
+      - :name: 大阪狭山市
+        :sea: false
+      - :name: 太子町
+        :sea: false
+      - :name: 河南町
+        :sea: false
+      - :name: 千早赤阪村
+        :sea: false
+    - :name: 泉州
+      :value:
+      - :name: 堺市
+        :sea: true
+      - :name: 岸和田市
+        :sea: true
+      - :name: 泉大津市
+        :sea: true
+      - :name: 貝塚市
+        :sea: true
+      - :name: 泉佐野市
+        :sea: true
+      - :name: 和泉市
+        :sea: false
+      - :name: 高石市
+        :sea: true
+      - :name: 泉南市
+        :sea: true
+      - :name: 阪南市
+        :sea: true
+      - :name: 忠岡町
+        :sea: true
+      - :name: 熊取町
+        :sea: false
+      - :name: 田尻町
+        :sea: true
+      - :name: 岬町
+        :sea: true
+- :name: 兵庫県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 阪神
+      :value:
+      - :name: 神戸市
+        :sea: true
+      - :name: 尼崎市
+        :sea: true
+      - :name: 西宮市
+        :sea: true
+      - :name: 芦屋市
+        :sea: true
+      - :name: 伊丹市
+        :sea: false
+      - :name: 宝塚市
+        :sea: false
+      - :name: 川西市
+        :sea: false
+      - :name: 三田市
+        :sea: false
+      - :name: 猪名川町
+        :sea: false
+    - :name: 北播丹波
+      :value:
+      - :name: 西脇市
+        :sea: false
+      - :name: 篠山市
+        :sea: false
+      - :name: 丹波市
+        :sea: false
+      - :name: 多可町
+        :sea: false
+    - :name: 播磨北西部
+      :value:
+      - :name: 宍粟市
+        :sea: false
+      - :name: 市川町
+        :sea: false
+      - :name: 福崎町
+        :sea: false
+      - :name: 神河町
+        :sea: false
+      - :name: 佐用町
+        :sea: false
+    - :name: 播磨南東部
+      :value:
+      - :name: 明石市
+        :sea: true
+      - :name: 加古川市
+        :sea: true
+      - :name: 三木市
+        :sea: false
+      - :name: 高砂市
+        :sea: true
+      - :name: 小野市
+        :sea: false
+      - :name: 加西市
+        :sea: false
+      - :name: 加東市
+        :sea: false
+      - :name: 稲美町
+        :sea: false
+      - :name: 播磨町
+        :sea: true
+    - :name: 播磨南西部
+      :value:
+      - :name: 姫路市
+        :sea: true
+      - :name: 相生市
+        :sea: true
+      - :name: 赤穂市
+        :sea: true
+      - :name: たつの市
+        :sea: true
+      - :name: 太子町
+        :sea: false
+      - :name: 上郡町
+        :sea: false
+    - :name: 淡路島
+      :value:
+      - :name: 洲本市
+        :sea: true
+      - :name: 南あわじ市
+        :sea: true
+      - :name: 淡路市
+        :sea: true
+  - :name: 北部
+    :value:
+    - :name: 但馬北部
+      :value:
+      - :name: 豊岡市
+        :sea: true
+      - :name: 香美町
+        :sea: true
+      - :name: 新温泉町
+        :sea: true
+    - :name: 但馬南部
+      :value:
+      - :name: 養父市
+        :sea: false
+      - :name: 朝来市
+        :sea: false
+- :name: 京都府
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 京都・亀岡
+      :value:
+      - :name: 京都市
+        :sea: false
+      - :name: 亀岡市
+        :sea: false
+      - :name: 向日市
+        :sea: false
+      - :name: 長岡京市
+        :sea: false
+      - :name: 大山崎町
+        :sea: false
+    - :name: 南丹・京丹波
+      :value:
+      - :name: 南丹市
+        :sea: false
+      - :name: 京丹波町
+        :sea: false
+    - :name: 山城中部
+      :value:
+      - :name: 宇治市
+        :sea: false
+      - :name: 城陽市
+        :sea: false
+      - :name: 八幡市
+        :sea: false
+      - :name: 京田辺市
+        :sea: false
+      - :name: 久御山町
+        :sea: false
+      - :name: 井手町
+        :sea: false
+      - :name: 宇治田原町
+        :sea: false
+    - :name: 山城南部
+      :value:
+      - :name: 木津川市
+        :sea: false
+      - :name: 笠置町
+        :sea: false
+      - :name: 和束町
+        :sea: false
+      - :name: 精華町
+        :sea: false
+      - :name: 南山城村
+        :sea: false
+  - :name: 北部
+    :value:
+    - :name: 丹後
+      :value:
+      - :name: 宮津市
+        :sea: true
+      - :name: 京丹後市
+        :sea: true
+      - :name: 伊根町
+        :sea: true
+      - :name: 与謝野町
+        :sea: false
+    - :name: 舞鶴・綾部
+      :value:
+      - :name: 舞鶴市
+        :sea: true
+      - :name: 綾部市
+        :sea: false
+    - :name: 福知山
+      :value:
+      - :name: 福知山市
+        :sea: false
+- :name: 滋賀県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 近江南部
+      :value:
+      - :name: 大津市南部
+        :sea: false
+      - :name: 草津市
+        :sea: false
+      - :name: 守山市
+        :sea: false
+      - :name: 栗東市
+        :sea: false
+      - :name: 野洲市
+        :sea: false
+    - :name: 東近江
+      :value:
+      - :name: 近江八幡市
+        :sea: false
+      - :name: 東近江市
+        :sea: false
+      - :name: 日野町
+        :sea: false
+      - :name: 竜王町
+        :sea: false
+    - :name: 甲賀
+      :value:
+      - :name: 甲賀市
+        :sea: false
+      - :name: 湖南市
+        :sea: false
+  - :name: 北部
+    :value:
+    - :name: 近江西部
+      :value:
+      - :name: 大津市北部
+        :sea: false
+      - :name: 高島市
+        :sea: false
+    - :name: 湖北
+      :value:
+      - :name: 長浜市
+        :sea: false
+      - :name: 米原市
+        :sea: false
+    - :name: 湖東
+      :value:
+      - :name: 彦根市
+        :sea: false
+      - :name: 愛荘町
+        :sea: false
+      - :name: 豊郷町
+        :sea: false
+      - :name: 甲良町
+        :sea: false
+      - :name: 多賀町
+        :sea: false
+- :name: 奈良県
+  :value:
+  - :name: 北部
+    :value:
+    - :name: 北西部
+      :value:
+      - :name: 奈良市
+        :sea: false
+      - :name: 大和高田市
+        :sea: false
+      - :name: 大和郡山市
+        :sea: false
+      - :name: 天理市
+        :sea: false
+      - :name: 橿原市
+        :sea: false
+      - :name: 桜井市
+        :sea: false
+      - :name: 御所市
+        :sea: false
+      - :name: 生駒市
+        :sea: false
+      - :name: 香芝市
+        :sea: false
+      - :name: 葛城市
+        :sea: false
+      - :name: 平群町
+        :sea: false
+      - :name: 三郷町
+        :sea: false
+      - :name: 斑鳩町
+        :sea: false
+      - :name: 安堵町
+        :sea: false
+      - :name: 川西町
+        :sea: false
+      - :name: 三宅町
+        :sea: false
+      - :name: 田原本町
+        :sea: false
+      - :name: 高取町
+        :sea: false
+      - :name: 明日香村
+        :sea: false
+      - :name: 上牧町
+        :sea: false
+      - :name: 王寺町
+        :sea: false
+      - :name: 広陵町
+        :sea: false
+      - :name: 河合町
+        :sea: false
+    - :name: 北東部
+      :value:
+      - :name: 宇陀市
+        :sea: false
+      - :name: 山添村
+        :sea: false
+    - :name: 五條・北部吉野
+      :value:
+      - :name: 五條市北部
+        :sea: false
+      - :name: 吉野町
+        :sea: false
+      - :name: 大淀町
+        :sea: false
+      - :name: 下市町
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 南東部
+      :value:
+      - :name: 曽爾村
+        :sea: false
+      - :name: 御杖村
+        :sea: false
+      - :name: 黒滝村
+        :sea: false
+      - :name: 天川村
+        :sea: false
+      - :name: 下北山村
+        :sea: false
+      - :name: 上北山村
+        :sea: false
+      - :name: 川上村
+        :sea: false
+      - :name: 東吉野村
+        :sea: false
+    - :name: 南西部
+      :value:
+      - :name: 五條市南部
+        :sea: false
+      - :name: 野迫川村
+        :sea: false
+      - :name: 十津川村
+        :sea: false
+- :name: 和歌山県
+  :value:
+  - :name: 北部
+    :value:
+    - :name: 紀北
+      :value:
+      - :name: 和歌山市
+        :sea: true
+      - :name: 海南市
+        :sea: true
+      - :name: 橋本市
+        :sea: false
+      - :name: 紀の川市
+        :sea: false
+      - :name: 岩出市
+        :sea: false
+      - :name: 紀美野町
+        :sea: false
+      - :name: かつらぎ町
+        :sea: false
+      - :name: 九度山町
+        :sea: false
+      - :name: 高野町
+        :sea: false
+    - :name: 紀中
+      :value:
+      - :name: 有田市
+        :sea: true
+      - :name: 御坊市
+        :sea: true
+      - :name: 湯浅町
+        :sea: true
+      - :name: 広川町
+        :sea: true
+      - :name: 有田川町
+        :sea: false
+      - :name: 美浜町
+        :sea: true
+      - :name: 日高町
+        :sea: true
+      - :name: 由良町
+        :sea: true
+      - :name: 印南町
+        :sea: true
+      - :name: みなべ町
+        :sea: true
+      - :name: 日高川町
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 田辺・西牟婁
+      :value:
+      - :name: 田辺市田辺
+        :sea: true
+      - :name: 田辺市龍神
+        :sea: false
+      - :name: 田辺市中辺路
+        :sea: false
+      - :name: 田辺市大塔
+        :sea: false
+      - :name: 田辺市本宮
+        :sea: false
+      - :name: 白浜町
+        :sea: true
+      - :name: 上富田町
+        :sea: false
+      - :name: すさみ町
+        :sea: true
+    - :name: 新宮・東牟婁
+      :value:
+      - :name: 新宮市
+        :sea: true
+      - :name: 那智勝浦町
+        :sea: true
+      - :name: 太地町
+        :sea: true
+      - :name: 古座川町
+        :sea: false
+      - :name: 北山村
+        :sea: false
+      - :name: 串本町
+        :sea: true
+- :name: 島根県
+  :value:
+  - :name: 東部
+    :value:
+    - :name: 松江地区
+      :value:
+      - :name: 松江市
+        :sea: true
+      - :name: 安来市
+        :sea: false
+    - :name: 出雲地区
+      :value:
+      - :name: 出雲市
+        :sea: true
+    - :name: 雲南地区
+      :value:
+      - :name: 雲南市
+        :sea: false
+      - :name: 奥出雲町
+        :sea: false
+      - :name: 飯南町
+        :sea: false
+  - :name: 西部
+    :value:
+    - :name: 大田邑智地区
+      :value:
+      - :name: 大田市
+        :sea: true
+      - :name: 川本町
+        :sea: false
+      - :name: 美郷町
+        :sea: false
+      - :name: 邑南町
+        :sea: false
+    - :name: 浜田地区
+      :value:
+      - :name: 浜田市
+        :sea: true
+      - :name: 江津市
+        :sea: true
+    - :name: 益田地区
+      :value:
+      - :name: 益田市
+        :sea: true
+      - :name: 津和野町
+        :sea: false
+      - :name: 吉賀町
+        :sea: false
+  - :name: 隠岐
+    :value:
+    - :name: 隠岐
+      :value:
+      - :name: 海士町
+        :sea: true
+      - :name: 西ノ島町
+        :sea: true
+      - :name: 知夫村
+        :sea: true
+      - :name: 隠岐の島町
+        :sea: true
+- :name: 広島県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 広島・呉
+      :value:
+      - :name: 広島市
+        :sea: true
+      - :name: 呉市
+        :sea: true
+      - :name: 大竹市
+        :sea: true
+      - :name: 廿日市市
+        :sea: true
+      - :name: 江田島市
+        :sea: true
+      - :name: 府中町
+        :sea: false
+      - :name: 海田町
+        :sea: true
+      - :name: 熊野町
+        :sea: false
+      - :name: 坂町
+        :sea: true
+    - :name: 福山・尾三
+      :value:
+      - :name: 三原市
+        :sea: true
+      - :name: 尾道市
+        :sea: true
+      - :name: 福山市
+        :sea: true
+      - :name: 府中市
+        :sea: false
+      - :name: 世羅町
+        :sea: false
+      - :name: 神石高原町
+        :sea: false
+    - :name: 東広島・竹原
+      :value:
+      - :name: 竹原市
+        :sea: true
+      - :name: 東広島市
+        :sea: true
+      - :name: 大崎上島町
+        :sea: true
+  - :name: 北部
+    :value:
+    - :name: 備北
+      :value:
+      - :name: 三次市
+        :sea: false
+      - :name: 庄原市
+        :sea: false
+    - :name: 芸北
+      :value:
+      - :name: 安芸高田市
+        :sea: false
+      - :name: 安芸太田町
+        :sea: false
+      - :name: 北広島町
+        :sea: false
+- :name: 鳥取県
+  :value:
+  - :name: 東部
+    :value:
+    - :name: 鳥取地区
+      :value:
+      - :name: 鳥取市北部
+        :sea: true
+      - :name: 岩美町
+        :sea: true
+    - :name: 八頭地区
+      :value:
+      - :name: 鳥取市南部
+        :sea: false
+      - :name: 若桜町
+        :sea: false
+      - :name: 智頭町
+        :sea: false
+      - :name: 八頭町
+        :sea: false
+  - :name: 中・西部
+    :value:
+    - :name: 倉吉地区
+      :value:
+      - :name: 倉吉市
+        :sea: false
+      - :name: 三朝町
+        :sea: false
+      - :name: 湯梨浜町
+        :sea: true
+      - :name: 琴浦町
+        :sea: true
+      - :name: 北栄町
+        :sea: true
+    - :name: 米子地区
+      :value:
+      - :name: 米子市
+        :sea: true
+      - :name: 境港市
+        :sea: true
+      - :name: 日吉津村
+        :sea: true
+      - :name: 大山町
+        :sea: true
+      - :name: 南部町
+        :sea: false
+      - :name: 伯耆町
+        :sea: false
+    - :name: 日野地区
+      :value:
+      - :name: 日南町
+        :sea: false
+      - :name: 日野町
+        :sea: false
+      - :name: 江府町
+        :sea: false
+- :name: 岡山県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 岡山地域
+      :value:
+      - :name: 岡山市
+        :sea: true
+      - :name: 玉野市
+        :sea: true
+      - :name: 瀬戸内市
+        :sea: true
+      - :name: 吉備中央町
+        :sea: false
+    - :name: 東備地域
+      :value:
+      - :name: 備前市
+        :sea: true
+      - :name: 赤磐市
+        :sea: false
+      - :name: 和気町
+        :sea: false
+    - :name: 倉敷地域
+      :value:
+      - :name: 倉敷市
+        :sea: true
+      - :name: 総社市
+        :sea: false
+      - :name: 早島町
+        :sea: false
+    - :name: 井笠地域
+      :value:
+      - :name: 笠岡市
+        :sea: true
+      - :name: 井原市
+        :sea: false
+      - :name: 浅口市
+        :sea: true
+      - :name: 里庄町
+        :sea: false
+      - :name: 矢掛町
+        :sea: false
+    - :name: 高梁地域
+      :value:
+      - :name: 高梁市
+        :sea: false
+  - :name: 北部
+    :value:
+    - :name: 新見地域
+      :value:
+      - :name: 新見市
+        :sea: false
+    - :name: 真庭地域
+      :value:
+      - :name: 真庭市
+        :sea: false
+      - :name: 新庄村
+        :sea: false
+    - :name: 津山地域
+      :value:
+      - :name: 津山市
+        :sea: false
+      - :name: 鏡野町
+        :sea: false
+      - :name: 久米南町
+        :sea: false
+      - :name: 美咲町
+        :sea: false
+    - :name: 勝英地域
+      :value:
+      - :name: 美作市
+        :sea: false
+      - :name: 勝央町
+        :sea: false
+      - :name: 奈義町
+        :sea: false
+      - :name: 西粟倉村
+        :sea: false
+- :name: 香川県
+  :value:
+  - :name: 香川県
+    :value:
+    - :name: 高松地域
+      :value:
+      - :name: 高松市
+        :sea: true
+      - :name: 直島町
+        :sea: true
+    - :name: 小豆
+      :value:
+      - :name: 土庄町
+        :sea: true
+      - :name: 小豆島町
+        :sea: true
+    - :name: 東讃
+      :value:
+      - :name: さぬき市
+        :sea: true
+      - :name: 東かがわ市
+        :sea: true
+      - :name: 三木町
+        :sea: false
+    - :name: 中讃
+      :value:
+      - :name: 丸亀市
+        :sea: true
+      - :name: 坂出市
+        :sea: true
+      - :name: 善通寺市
+        :sea: false
+      - :name: 宇多津町
+        :sea: true
+      - :name: 綾川町
+        :sea: false
+      - :name: 琴平町
+        :sea: false
+      - :name: 多度津町
+        :sea: true
+      - :name: まんのう町
+        :sea: false
+    - :name: 西讃
+      :value:
+      - :name: 観音寺市
+        :sea: true
+      - :name: 三豊市
+        :sea: true
+- :name: 愛媛県
+  :value:
+  - :name: 中予
+    :value:
+    - :name: 中予
+      :value:
+      - :name: 松山市
+        :sea: true
+      - :name: 伊予市
+        :sea: true
+      - :name: 東温市
+        :sea: false
+      - :name: 久万高原町
+        :sea: false
+      - :name: 松前町
+        :sea: true
+      - :name: 砥部町
+        :sea: false
+  - :name: 東予
+    :value:
+    - :name: 東予東部
+      :value:
+      - :name: 新居浜市
+        :sea: true
+      - :name: 西条市
+        :sea: true
+      - :name: 四国中央市
+        :sea: true
+    - :name: 東予西部
+      :value:
+      - :name: 今治市
+        :sea: true
+      - :name: 上島町
+        :sea: true
+  - :name: 南予
+    :value:
+    - :name: 南予北部
+      :value:
+      - :name: 八幡浜市
+        :sea: true
+      - :name: 大洲市
+        :sea: true
+      - :name: 西予市
+        :sea: true
+      - :name: 内子町
+        :sea: false
+      - :name: 伊方町
+        :sea: true
+    - :name: 南予南部
+      :value:
+      - :name: 宇和島市
+        :sea: true
+      - :name: 松野町
+        :sea: false
+      - :name: 鬼北町
+        :sea: false
+      - :name: 愛南町
+        :sea: true
+- :name: 徳島県
+  :value:
+  - :name: 北部
+    :value:
+    - :name: 徳島・鳴門
+      :value:
+      - :name: 徳島市
+        :sea: true
+      - :name: 鳴門市
+        :sea: true
+      - :name: 小松島市
+        :sea: true
+      - :name: 松茂町
+        :sea: true
+      - :name: 北島町
+        :sea: false
+      - :name: 藍住町
+        :sea: false
+      - :name: 板野町
+        :sea: false
+    - :name: 美馬北部・阿北
+      :value:
+      - :name: 吉野川市
+        :sea: false
+      - :name: 阿波市
+        :sea: false
+      - :name: 美馬市脇・美馬・穴吹
+        :sea: false
+      - :name: 石井町
+        :sea: false
+      - :name: 上板町
+        :sea: false
+      - :name: つるぎ町半田・貞光
+        :sea: false
+    - :name: 美馬南部・神山
+      :value:
+      - :name: 美馬市木屋平
+        :sea: false
+      - :name: 佐那河内村
+        :sea: false
+      - :name: 神山町
+        :sea: false
+      - :name: つるぎ町一宇
+        :sea: false
+    - :name: 三好
+      :value:
+      - :name: 三好市
+        :sea: false
+      - :name: 東みよし町
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 阿南
+      :value:
+      - :name: 阿南市
+        :sea: true
+    - :name: 那賀・勝浦
+      :value:
+      - :name: 勝浦町
+        :sea: false
+      - :name: 上勝町
+        :sea: false
+      - :name: 那賀町
+        :sea: false
+    - :name: 海部
+      :value:
+      - :name: 牟岐町
+        :sea: true
+      - :name: 美波町
+        :sea: true
+      - :name: 海陽町
+        :sea: true
+- :name: 高知県
+  :value:
+  - :name: 中部
+    :value:
+    - :name: 高知中央
+      :value:
+      - :name: 高知市
+        :sea: true
+      - :name: 南国市
+        :sea: true
+      - :name: 土佐市
+        :sea: true
+      - :name: 須崎市
+        :sea: true
+      - :name: 香南市
+        :sea: true
+      - :name: 香美市
+        :sea: false
+      - :name: いの町
+        :sea: false
+      - :name: 日高村
+        :sea: false
+    - :name: 嶺北
+      :value:
+      - :name: 本山町
+        :sea: false
+      - :name: 大豊町
+        :sea: false
+      - :name: 土佐町
+        :sea: false
+      - :name: 大川村
+        :sea: false
+    - :name: 高吾北
+      :value:
+      - :name: 仁淀川町
+        :sea: false
+      - :name: 佐川町
+        :sea: false
+      - :name: 越知町
+        :sea: false
+  - :name: 東部
+    :value:
+    - :name: 室戸
+      :value:
+      - :name: 室戸市
+        :sea: true
+      - :name: 東洋町
+        :sea: true
+    - :name: 安芸
+      :value:
+      - :name: 安芸市
+        :sea: true
+      - :name: 奈半利町
+        :sea: true
+      - :name: 田野町
+        :sea: true
+      - :name: 安田町
+        :sea: true
+      - :name: 北川村
+        :sea: false
+      - :name: 馬路村
+        :sea: false
+      - :name: 芸西村
+        :sea: true
+  - :name: 西部
+    :value:
+    - :name: 幡多
+      :value:
+      - :name: 宿毛市
+        :sea: true
+      - :name: 土佐清水市
+        :sea: true
+      - :name: 四万十市
+        :sea: true
+      - :name: 大月町
+        :sea: true
+      - :name: 三原村
+        :sea: false
+      - :name: 黒潮町
+        :sea: true
+    - :name: 高幡
+      :value:
+      - :name: 中土佐町
+        :sea: true
+      - :name: 檮原町
+        :sea: false
+      - :name: 津野町
+        :sea: false
+      - :name: 四万十町
+        :sea: true
+- :name: 山口県
+  :value:
+  - :name: 西部
+    :value:
+    - :name: 下関
+      :value:
+      - :name: 下関市
+        :sea: true
+    - :name: 宇部・山陽小野田
+      :value:
+      - :name: 宇部市
+        :sea: true
+      - :name: 山陽小野田市
+        :sea: true
+  - :name: 中部
+    :value:
+    - :name: 山口・防府
+      :value:
+      - :name: 山口市
+        :sea: true
+      - :name: 防府市
+        :sea: true
+    - :name: 周南・下松
+      :value:
+      - :name: 下松市
+        :sea: true
+      - :name: 周南市
+        :sea: true
+  - :name: 東部
+    :value:
+    - :name: 岩国
+      :value:
+      - :name: 岩国市
+        :sea: true
+      - :name: 和木町
+        :sea: true
+    - :name: 柳井・光
+      :value:
+      - :name: 光市
+        :sea: true
+      - :name: 柳井市
+        :sea: true
+      - :name: 周防大島町
+        :sea: true
+      - :name: 上関町
+        :sea: true
+      - :name: 田布施町
+        :sea: true
+      - :name: 平生町
+        :sea: true
+  - :name: 北部
+    :value:
+    - :name: 萩・美祢
+      :value:
+      - :name: 萩市
+        :sea: true
+      - :name: 美祢市
+        :sea: false
+      - :name: 阿武町
+        :sea: true
+    - :name: 長門
+      :value:
+      - :name: 長門市
+        :sea: true
+- :name: 福岡県
+  :value:
+  - :name: 福岡地方
+    :value:
+    - :name: 福岡地方
+      :value:
+      - :name: 福岡市
+        :sea: true
+      - :name: 筑紫野市
+        :sea: false
+      - :name: 春日市
+        :sea: false
+      - :name: 大野城市
+        :sea: false
+      - :name: 宗像市
+        :sea: true
+      - :name: 太宰府市
+        :sea: false
+      - :name: 古賀市
+        :sea: true
+      - :name: 福津市
+        :sea: true
+      - :name: 糸島市
+        :sea: true
+      - :name: 那珂川町
+        :sea: false
+      - :name: 宇美町
+        :sea: false
+      - :name: 篠栗町
+        :sea: false
+      - :name: 志免町
+        :sea: false
+      - :name: 須恵町
+        :sea: false
+      - :name: 新宮町
+        :sea: true
+      - :name: 久山町
+        :sea: false
+      - :name: 粕屋町
+        :sea: false
+  - :name: 北九州地方
+    :value:
+    - :name: 北九州・遠賀地区
+      :value:
+      - :name: 北九州市
+        :sea: true
+      - :name: 中間市
+        :sea: false
+      - :name: 芦屋町
+        :sea: true
+      - :name: 水巻町
+        :sea: false
+      - :name: 岡垣町
+        :sea: true
+      - :name: 遠賀町
+        :sea: false
+    - :name: 京築
+      :value:
+      - :name: 行橋市
+        :sea: true
+      - :name: 豊前市
+        :sea: true
+      - :name: 苅田町
+        :sea: true
+      - :name: みやこ町
+        :sea: false
+      - :name: 吉富町
+        :sea: true
+      - :name: 上毛町
+        :sea: false
+      - :name: 築上町
+        :sea: true
+  - :name: 筑豊地方
+    :value:
+    - :name: 筑豊地方
+      :value:
+      - :name: 直方市
+        :sea: false
+      - :name: 飯塚市
+        :sea: false
+      - :name: 田川市
+        :sea: false
+      - :name: 宮若市
+        :sea: false
+      - :name: 嘉麻市
+        :sea: false
+      - :name: 小竹町
+        :sea: false
+      - :name: 鞍手町
+        :sea: false
+      - :name: 桂川町
+        :sea: false
+      - :name: 香春町
+        :sea: false
+      - :name: 添田町
+        :sea: false
+      - :name: 糸田町
+        :sea: false
+      - :name: 川崎町
+        :sea: false
+      - :name: 大任町
+        :sea: false
+      - :name: 赤村
+        :sea: false
+      - :name: 福智町
+        :sea: false
+  - :name: 筑後地方
+    :value:
+    - :name: 筑後北部
+      :value:
+      - :name: 久留米市
+        :sea: false
+      - :name: 小郡市
+        :sea: false
+      - :name: うきは市
+        :sea: false
+      - :name: 朝倉市
+        :sea: false
+      - :name: 筑前町
+        :sea: false
+      - :name: 東峰村
+        :sea: false
+      - :name: 大刀洗町
+        :sea: false
+    - :name: 筑後南部
+      :value:
+      - :name: 大牟田市
+        :sea: true
+      - :name: 柳川市
+        :sea: true
+      - :name: 八女市
+        :sea: false
+      - :name: 筑後市
+        :sea: false
+      - :name: 大川市
+        :sea: false
+      - :name: みやま市
+        :sea: true
+      - :name: 大木町
+        :sea: false
+      - :name: 広川町
+        :sea: false
+- :name: 佐賀県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 佐賀多久地区
+      :value:
+      - :name: 佐賀市
+        :sea: true
+      - :name: 多久市
+        :sea: false
+      - :name: 小城市
+        :sea: true
+    - :name: 鳥栖地区
+      :value:
+      - :name: 鳥栖市
+        :sea: false
+      - :name: 神埼市
+        :sea: false
+      - :name: 吉野ヶ里町
+        :sea: false
+      - :name: 基山町
+        :sea: false
+      - :name: 上峰町
+        :sea: false
+      - :name: みやき町
+        :sea: false
+    - :name: 武雄地区
+      :value:
+      - :name: 武雄市
+        :sea: false
+      - :name: 大町町
+        :sea: false
+      - :name: 江北町
+        :sea: false
+      - :name: 白石町
+        :sea: true
+    - :name: 鹿島地区
+      :value:
+      - :name: 鹿島市
+        :sea: true
+      - :name: 嬉野市
+        :sea: false
+      - :name: 太良町
+        :sea: true
+  - :name: 北部
+    :value:
+    - :name: 唐津地区
+      :value:
+      - :name: 唐津市
+        :sea: true
+      - :name: 玄海町
+        :sea: true
+    - :name: 伊万里地区
+      :value:
+      - :name: 伊万里市
+        :sea: true
+      - :name: 有田町
+        :sea: false
+- :name: 長崎県
+  :value:
+  - :name: 南部
+    :value:
+    - :name: 島原半島
+      :value:
+      - :name: 島原市
+        :sea: true
+      - :name: 雲仙市
+        :sea: true
+      - :name: 南島原市
+        :sea: true
+    - :name: 長崎地区
+      :value:
+      - :name: 長崎市
+        :sea: true
+      - :name: 長与町
+        :sea: true
+      - :name: 時津町
+        :sea: true
+    - :name: 諫早・大村地区
+      :value:
+      - :name: 諫早市
+        :sea: true
+      - :name: 大村市
+        :sea: true
+    - :name: 西彼杵半島
+      :value:
+      - :name: 西海市（江島・平島を除く）
+        :sea: true
+  - :name: 北部
+    :value:
+    - :name: 平戸・松浦地区
+      :value:
+      - :name: 平戸市
+        :sea: true
+      - :name: 松浦市
+        :sea: true
+    - :name: 佐世保・東彼地区
+      :value:
+      - :name: 佐世保市（宇久地域を除く）
+        :sea: true
+      - :name: 東彼杵町
+        :sea: true
+      - :name: 川棚町
+        :sea: true
+      - :name: 波佐見町
+        :sea: false
+      - :name: 佐々町
+        :sea: true
+  - :name: 壱岐・対馬
+    :value:
+    - :name: 壱岐
+      :value:
+      - :name: 壱岐市
+        :sea: true
+    - :name: 上対馬
+      :value:
+      - :name: 上対馬
+        :sea: true
+    - :name: 下対馬
+      :value:
+      - :name: 下対馬
+        :sea: true
+  - :name: 五島
+    :value:
+    - :name: 上五島
+      :value:
+      - :name: 佐世保市（宇久地域）
+        :sea: true
+      - :name: 西海市（江島・平島）
+        :sea: true
+      - :name: 小値賀町
+        :sea: true
+      - :name: 新上五島町
+        :sea: true
+    - :name: 下五島
+      :value:
+      - :name: 五島市
+        :sea: true
+- :name: 熊本県
+  :value:
+  - :name: 熊本地方
+    :value:
+    - :name: 熊本市
+      :value:
+      - :name: 熊本市
+        :sea: true
+    - :name: 山鹿菊池
+      :value:
+      - :name: 山鹿市
+        :sea: false
+      - :name: 菊池市
+        :sea: false
+      - :name: 合志市
+        :sea: false
+      - :name: 大津町
+        :sea: false
+      - :name: 菊陽町
+        :sea: false
+    - :name: 荒尾玉名
+      :value:
+      - :name: 荒尾市
+        :sea: true
+      - :name: 玉名市
+        :sea: true
+      - :name: 玉東町
+        :sea: false
+      - :name: 南関町
+        :sea: false
+      - :name: 長洲町
+        :sea: true
+      - :name: 和水町
+        :sea: false
+    - :name: 上益城
+      :value:
+      - :name: 西原村
+        :sea: false
+      - :name: 御船町
+        :sea: false
+      - :name: 嘉島町
+        :sea: false
+      - :name: 益城町
+        :sea: false
+      - :name: 甲佐町
+        :sea: false
+      - :name: 山都町
+        :sea: false
+    - :name: 宇城八代
+      :value:
+      - :name: 八代市
+        :sea: true
+      - :name: 宇土市
+        :sea: true
+      - :name: 宇城市
+        :sea: true
+      - :name: 美里町
+        :sea: false
+      - :name: 氷川町
+        :sea: true
+  - :name: 阿蘇地方
+    :value:
+    - :name: 阿蘇地方
+      :value:
+      - :name: 阿蘇市
+        :sea: false
+      - :name: 南小国町
+        :sea: false
+      - :name: 小国町
+        :sea: false
+      - :name: 産山村
+        :sea: false
+      - :name: 高森町
+        :sea: false
+      - :name: 南阿蘇村
+        :sea: false
+  - :name: 天草・芦北地方
+    :value:
+    - :name: 天草地方
+      :value:
+      - :name: 上天草市
+        :sea: true
+      - :name: 天草市
+        :sea: true
+      - :name: 苓北町
+        :sea: true
+    - :name: 芦北地方
+      :value:
+      - :name: 水俣市
+        :sea: true
+      - :name: 芦北町
+        :sea: true
+      - :name: 津奈木町
+        :sea: true
+  - :name: 球磨地方
+    :value:
+    - :name: 球磨地方
+      :value:
+      - :name: 人吉市
+        :sea: false
+      - :name: 錦町
+        :sea: false
+      - :name: 多良木町
+        :sea: false
+      - :name: 湯前町
+        :sea: false
+      - :name: 水上村
+        :sea: false
+      - :name: 相良村
+        :sea: false
+      - :name: 五木村
+        :sea: false
+      - :name: 山江村
+        :sea: false
+      - :name: 球磨村
+        :sea: false
+      - :name: あさぎり町
+        :sea: false
+- :name: 大分県
+  :value:
+  - :name: 中部
+    :value:
+    - :name: 中部
+      :value:
+      - :name: 大分市
+        :sea: true
+      - :name: 別府市
+        :sea: true
+      - :name: 臼杵市
+        :sea: true
+      - :name: 津久見市
+        :sea: true
+      - :name: 杵築市
+        :sea: true
+      - :name: 由布市
+        :sea: false
+      - :name: 日出町
+        :sea: true
+  - :name: 北部
+    :value:
+    - :name: 北部
+      :value:
+      - :name: 中津市
+        :sea: true
+      - :name: 豊後高田市
+        :sea: true
+      - :name: 宇佐市
+        :sea: true
+      - :name: 国東市
+        :sea: true
+      - :name: 姫島村
+        :sea: true
+  - :name: 西部
+    :value:
+    - :name: 日田玖珠
+      :value:
+      - :name: 日田市
+        :sea: false
+      - :name: 九重町
+        :sea: false
+      - :name: 玖珠町
+        :sea: false
+    - :name: 竹田市
+      :value:
+      - :name: 竹田市
+        :sea: false
+  - :name: 南部
+    :value:
+    - :name: 佐伯市
+      :value:
+      - :name: 佐伯市
+        :sea: true
+    - :name: 豊後大野市
+      :value:
+      - :name: 豊後大野市
+        :sea: false
+- :name: 宮崎県
+  :value:
+  - :name: 南部平野部
+    :value:
+    - :name: 宮崎地区
+      :value:
+      - :name: 宮崎市
+        :sea: true
+      - :name: 国富町
+        :sea: false
+      - :name: 綾町
+        :sea: false
+    - :name: 日南・串間地区
+      :value:
+      - :name: 日南市
+        :sea: true
+      - :name: 串間市
+        :sea: true
+  - :name: 北部平野部
+    :value:
+    - :name: 延岡・日向地区
+      :value:
+      - :name: 延岡市
+        :sea: true
+      - :name: 日向市
+        :sea: true
+      - :name: 門川町
+        :sea: true
+    - :name: 西都・高鍋地区
+      :value:
+      - :name: 西都市
+        :sea: false
+      - :name: 高鍋町
+        :sea: true
+      - :name: 新富町
+        :sea: true
+      - :name: 木城町
+        :sea: false
+      - :name: 川南町
+        :sea: true
+      - :name: 都農町
+        :sea: true
+  - :name: 南部山沿い
+    :value:
+    - :name: 小林・えびの地区
+      :value:
+      - :name: 小林市
+        :sea: false
+      - :name: えびの市
+        :sea: false
+      - :name: 高原町
+        :sea: false
+    - :name: 都城地区
+      :value:
+      - :name: 都城市
+        :sea: false
+      - :name: 三股町
+        :sea: false
+  - :name: 北部山沿い
+    :value:
+    - :name: 高千穂地区
+      :value:
+      - :name: 高千穂町
+        :sea: false
+      - :name: 日之影町
+        :sea: false
+      - :name: 五ヶ瀬町
+        :sea: false
+    - :name: 椎葉・美郷地区
+      :value:
+      - :name: 西米良村
+        :sea: false
+      - :name: 諸塚村
+        :sea: false
+      - :name: 椎葉村
+        :sea: false
+      - :name: 美郷町
+        :sea: false
+- :name: 鹿児島県
+  :value:
+  - :name: 薩摩地方
+    :value:
+    - :name: 鹿児島・日置
+      :value:
+      - :name: 鹿児島市
+        :sea: true
+      - :name: 日置市
+        :sea: true
+      - :name: いちき串木野市
+        :sea: true
+    - :name: 出水・伊佐
+      :value:
+      - :name: 阿久根市
+        :sea: true
+      - :name: 出水市
+        :sea: true
+      - :name: 伊佐市
+        :sea: false
+      - :name: 長島町
+        :sea: true
+    - :name: 川薩・姶良
+      :value:
+      - :name: 薩摩川内市
+        :sea: true
+      - :name: 霧島市
+        :sea: true
+      - :name: 姶良市
+        :sea: true
+      - :name: さつま町
+        :sea: false
+      - :name: 湧水町
+        :sea: false
+    - :name: 甑島
+      :value:
+      - :name: 薩摩川内市甑島
+        :sea: true
+    - :name: 指宿・川辺
+      :value:
+      - :name: 枕崎市
+        :sea: true
+      - :name: 指宿市
+        :sea: true
+      - :name: 南さつま市
+        :sea: true
+      - :name: 南九州市
+        :sea: true
+  - :name: 大隅地方
+    :value:
+    - :name: 曽於
+      :value:
+      - :name: 曽於市
+        :sea: false
+      - :name: 志布志市
+        :sea: true
+      - :name: 大崎町
+        :sea: true
+    - :name: 肝属
+      :value:
+      - :name: 鹿屋市
+        :sea: true
+      - :name: 垂水市
+        :sea: true
+      - :name: 東串良町
+        :sea: true
+      - :name: 錦江町
+        :sea: true
+      - :name: 南大隅町
+        :sea: true
+      - :name: 肝付町
+        :sea: true
+  - :name: 種子島・屋久島地方
+    :value:
+    - :name: 種子島地方
+      :value:
+      - :name: 西之表市
+        :sea: true
+      - :name: 三島村
+        :sea: true
+      - :name: 中種子町
+        :sea: true
+      - :name: 南種子町
+        :sea: true
+    - :name: 屋久島地方
+      :value:
+      - :name: 屋久島町
+        :sea: true
+  - :name: 奄美地方
+    :value:
+    - :name: 北部
+      :value:
+      - :name: 奄美市
+        :sea: true
+      - :name: 大和村
+        :sea: true
+      - :name: 宇検村
+        :sea: true
+      - :name: 瀬戸内町
+        :sea: true
+      - :name: 龍郷町
+        :sea: true
+      - :name: 喜界町
+        :sea: true
+    - :name: 南部
+      :value:
+      - :name: 徳之島町
+        :sea: true
+      - :name: 天城町
+        :sea: true
+      - :name: 伊仙町
+        :sea: true
+      - :name: 和泊町
+        :sea: true
+      - :name: 知名町
+        :sea: true
+      - :name: 与論町
+        :sea: true
+    - :name: 十島村
+      :value:
+      - :name: 十島村
+        :sea: true
+- :name: 沖縄本島地方
+  :value:
+  - :name: 本島中南部
+    :value:
+    - :name: 南部
+      :value:
+      - :name: 那覇市
+        :sea: true
+      - :name: 浦添市
+        :sea: true
+      - :name: 糸満市
+        :sea: true
+      - :name: 豊見城市
+        :sea: true
+      - :name: 南城市
+        :sea: true
+      - :name: 西原町
+        :sea: true
+      - :name: 与那原町
+        :sea: true
+      - :name: 南風原町
+        :sea: false
+      - :name: 八重瀬町
+        :sea: true
+    - :name: 中部
+      :value:
+      - :name: 宜野湾市
+        :sea: true
+      - :name: 沖縄市
+        :sea: true
+      - :name: うるま市
+        :sea: true
+      - :name: 読谷村
+        :sea: true
+      - :name: 嘉手納町
+        :sea: true
+      - :name: 北谷町
+        :sea: true
+      - :name: 北中城村
+        :sea: true
+      - :name: 中城村
+        :sea: true
+    - :name: 慶良間・粟国諸島
+      :value:
+      - :name: 渡嘉敷村
+        :sea: true
+      - :name: 座間味村
+        :sea: true
+      - :name: 粟国村
+        :sea: true
+      - :name: 渡名喜村
+        :sea: true
+  - :name: 本島北部
+    :value:
+    - :name: 伊是名・伊平屋
+      :value:
+      - :name: 伊平屋村
+        :sea: true
+      - :name: 伊是名村
+        :sea: true
+    - :name: 国頭地区
+      :value:
+      - :name: 国頭村
+        :sea: true
+      - :name: 大宜味村
+        :sea: true
+      - :name: 東村
+        :sea: true
+    - :name: 名護地区
+      :value:
+      - :name: 名護市
+        :sea: true
+      - :name: 今帰仁村
+        :sea: true
+      - :name: 本部町
+        :sea: true
+      - :name: 伊江村
+        :sea: true
+    - :name: 恩納・金武地区
+      :value:
+      - :name: 恩納村
+        :sea: true
+      - :name: 宜野座村
+        :sea: true
+      - :name: 金武町
+        :sea: true
+  - :name: 久米島
+    :value:
+    - :name: 久米島
+      :value:
+      - :name: 久米島町
+        :sea: true
+- :name: 大東島地方
+  :value:
+  - :name: 大東島地方
+    :value:
+    - :name: 大東島地方
+      :value:
+      - :name: 南大東村
+        :sea: true
+      - :name: 北大東村
+        :sea: true
+- :name: 宮古島地方
+  :value:
+  - :name: 宮古島地方
+    :value:
+    - :name: 宮古島
+      :value:
+      - :name: 宮古島市
+        :sea: true
+    - :name: 多良間島
+      :value:
+      - :name: 多良間村
+        :sea: true
+- :name: 八重山地方
+  :value:
+  - :name: 石垣島地方
+    :value:
+    - :name: 石垣市
+      :value:
+      - :name: 石垣市
+        :sea: true
+    - :name: 竹富町
+      :value:
+      - :name: 竹富町
+        :sea: true
+  - :name: 与那国島地方
+    :value:
+    - :name: 与那国島地方
+      :value:
+      - :name: 与那国町
+        :sea: true
