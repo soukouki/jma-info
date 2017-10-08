@@ -1,6 +1,7 @@
 ﻿
 require "open-uri"
 require "time"
+require "yaml"
 
 require "rexml/document"
 
@@ -105,8 +106,6 @@ module GetInfo extend self
 		"昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
 	end
 	
-	private
-	
 	def get_doc uri, try_count=0
 		begin
 			text = open(uri)
@@ -121,6 +120,8 @@ module GetInfo extend self
 		REXML::Document.new(text)
 	end
 	
+	private
+	
 	def get_general_report doc
 		head = doc.elements["Report/Head"]
 		body = doc.elements["Report/Body"]
@@ -133,6 +134,8 @@ module GetInfo extend self
 		body.elements["TargetArea/Name"].text+"\n"+
 		cleanly_text(body.elements["Comment/Text"].text)+"\n"
 	end
+	
+	ALERT_DIVISION = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
 	
 	def get_alerm doc
 		doc.elements[
