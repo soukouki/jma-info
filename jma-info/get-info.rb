@@ -135,21 +135,37 @@ module GetInfo extend self
 		cleanly_text(body.elements["Comment/Text"].text)+"\n"
 	end
 	
-	ALERT_DIVISION = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
+	ALERT_DIVISION_FOR_COMBINED = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
+		.map{|tr|
+			pr = {name:tr[:name], value:tr[:value].map{|h|h[:value].map{|h|h[:value]}}.flatten}
+			d1 = tr[:value].map{|h|{name:h[:name], value:h[:value].map{|h|h[:value]}.flatten}}.flatten
+			d2 = tr[:value].map{|h|h[:value].map{|h|{name:h[:name], value:h[:value]}}}.flatten
+			[pr]+d1+d2}
+		.flatten
 	
 	def alerm_info doc
+		alert_data = doc
+			.elements
+			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|alerm_info_item_part(i)}
+			.select{|o|!o.nil?}
+		ALERT_DIVISION_FOR_COMBINED.each{|h|
+			h[:value] # 表示を合流していくところの実装
+		}
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+
-		doc.elements.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|alerm_info_item_part(i)}.join("")
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)#+alert_data.inject("")
 	end
 	
 	def alerm_info_item_part item
 		if item.elements["Kind/Status"].text=="発表警報・注意報はなし"
+			nil
 		else
-			"\n\t\t"+item.elements["Area/Name"].text+"\n\t\t\t"+
-			item.elements.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}.join(" ")
+			{name:item.elements["Area/Name"].text, text:alerm_info_kinds_part(item.elements)}
 		end
+	end
+	
+	def alerm_info_kinds_part kinds
+		kinds.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}.join(" ")
 	end
 	
 	def get_special_weather_report doc
