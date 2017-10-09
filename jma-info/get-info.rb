@@ -143,19 +143,46 @@ module GetInfo extend self
 			[pr]+d1+d2}
 		.flatten
 	
+	Alert = Struct.new(:doc) do
+		def area
+		end
+		def to_s
+		end
+		def related_sea?
+		end
+	end
+	
 	def alerm_info doc
 		alert_data = doc
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|alerm_info_item_part(i)}
 			.select{|o|!o.nil?}
 		ALERT_DIVISION_FOR_COMBINED.map{|hash|
-			diff = hash[:value].map{|h|h[:name]} - alert_data.map{|h|h[:name]}
-			if diff.length==0
-				alert_text = alert_data.select{|h|hash[:value].find(h[:name])}.first[:text]
-				hash[:value].each{|v|alert_data.delete_if{|d|d[:name] == v[:name]}}
+			if hash[:value].all?{|cv|alert_data.find{|f|f[:name]==cv[:name]}}
+				alert_text = alert_data.find{|af|hash[:value].find{|vf|af[:name]==vf[:name]}}[:text]
+				alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad[:name]}}
 				alert_data.unshift({name:hash[:name], text:alert_text})
 			end
 		}
+=begin
+a = [
+	{name:"A市", alert:[なんかいろいろ]},
+	{name:"B市", alert:[なんか]},
+	{name:"C市"}, alert[いろいろ]}
+]
+b = [
+	{name:A地方, value:[{name:"A市", sea:true}, {name:"C市", sea:false}]},
+	{name:"B地方", value:[{name:"B市", sea:false}, {name:"D市", sea:false}]}
+]
+
+=> ["A地方", "B市"]
+
+b側で回って、
+bのvalue全部そろってた場合のみ
+	aからbを除いて、
+	bのnameを先頭につける
+
+=end
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
 		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alert_data.map{|h|"\n\t\t#{h[:name]}\n\t\t\t#{h[:text]}"}.join("")
