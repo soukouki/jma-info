@@ -144,16 +144,17 @@ module GetInfo extend self
 		.flatten
 	
 	class Alert
-		def initialize doc
+		def initialize doc, new_area=nil
 			@doc = doc
+			@new_area = new_area
+		end
+		def new_area_alert new_area
+			Alert.new(@doc, new_area)
 		end
 		
-		@new_area = nil # #area= の実装のため
+		@new_area = nil
 		def area
 			@new_area || @doc.elements["Area/Name"].text
-		end
-		def area= new_area
-			@new_area = new_area
 		end
 		def to_s
 			war_s = (@doc.elements["Kind/Status"].text=="発表警報・注意報はなし")? "発表警報・注意報はなし" :
@@ -164,21 +165,48 @@ module GetInfo extend self
 			_?
 		end
 	end
-	
+=begin
+ifの中で
+	alert_dataの中に海に関連するものがあるかを調べて
+
+A市 seaあり
+B市 seaなし
+C市 seaあり
+D市 seaあり
+
+A地方 A B
+C地方 C D
+
+A市 関連あり
+B なし
+C あり
+D なし
+=>
+A地方 C市 D市
+
+Aあり
+Bなし
+Cあり
+Dあり
+=>
+A地方 C地方
+
+まずはそもそも同警報かをチェックするところから
+
+=end
 	def alerm_info doc
 		alert_data = doc
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
 		
-		ALERT_DIVISION_FOR_COMBINED.map{|hash|
+		ALERT_DIVISION_FOR_COMBINED.each{|hash|
 			# **ここの分岐は、海関連を意識してない**
-			if hash[:value].all?{|cv|
-					alert_data.find{|af|af.area==cv[:name]}}
-				new_alert = alert_data.find{|af|hash[:value].find{|vf|af.area==vf[:name]}}
-				new_alert.clone.area = hash[:name]
-				alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
-				alert_data.unshift(new_alert)
-			end
+			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty? # hash[:value]の今回の範囲・・？
+			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
+			
+			new_alert = target_alert.first.new_area_alert(hash[:name])
+			alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
+			alert_data.unshift(new_alert)
 		}
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
