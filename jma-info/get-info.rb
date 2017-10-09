@@ -148,12 +148,17 @@ module GetInfo extend self
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|alerm_info_item_part(i)}
 			.select{|o|!o.nil?}
-		ALERT_DIVISION_FOR_COMBINED.each{|h|
-			h[:value] # 表示を合流していくところの実装
+		ALERT_DIVISION_FOR_COMBINED.map{|hash|
+			diff = hash[:value].map{|h|h[:name]} - alert_data.map{|h|h[:name]}
+			if diff.length==0
+				alert_text = alert_data.select{|h|hash[:value].find(h[:name])}.first[:text]
+				hash[:value].each{|v|alert_data.delete_if{|d|d[:name] == v[:name]}}
+				alert_data.unshift({name:hash[:name], text:alert_text})
+			end
 		}
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)#+alert_data.inject("")
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alert_data.map{|h|"\n\t\t#{h[:name]}\n\t\t\t#{h[:text]}"}.join("")
 	end
 	
 	def alerm_info_item_part item
