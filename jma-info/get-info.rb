@@ -143,61 +143,46 @@ module GetInfo extend self
 			[pr]+d1+d2}
 		.flatten
 	
-	Alert = Struct.new(:doc) do
+	class Alert
+		def initialize doc
+			@doc = doc
+		end
+		
+		@new_area = nil # #area= の実装のため
 		def area
+			@new_area || @doc.elements["Area/Name"].text
+		end
+		def area= new_area
+			@new_area = new_area
 		end
 		def to_s
+			war_s = (@doc.elements["Kind/Status"].text=="発表警報・注意報はなし")? "発表警報・注意報はなし" :
+				(@doc.elements.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}.join(" "))
+			"\n\t\t#{area}\n\t\t\t#{war_s}"
 		end
 		def related_sea?
+			_?
 		end
 	end
 	
 	def alerm_info doc
 		alert_data = doc
 			.elements
-			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|alerm_info_item_part(i)}
-			.select{|o|!o.nil?}
+			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
+		
 		ALERT_DIVISION_FOR_COMBINED.map{|hash|
-			if hash[:value].all?{|cv|alert_data.find{|f|f[:name]==cv[:name]}}
-				alert_text = alert_data.find{|af|hash[:value].find{|vf|af[:name]==vf[:name]}}[:text]
-				alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad[:name]}}
-				alert_data.unshift({name:hash[:name], text:alert_text})
+			# **ここの分岐は、海関連を意識してない**
+			if hash[:value].all?{|cv|
+					alert_data.find{|af|af.area==cv[:name]}}
+				new_alert = alert_data.find{|af|hash[:value].find{|vf|af.area==vf[:name]}}
+				new_alert.clone.area = hash[:name]
+				alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
+				alert_data.unshift(new_alert)
 			end
 		}
-=begin
-a = [
-	{name:"A市", alert:[なんかいろいろ]},
-	{name:"B市", alert:[なんか]},
-	{name:"C市"}, alert[いろいろ]}
-]
-b = [
-	{name:A地方, value:[{name:"A市", sea:true}, {name:"C市", sea:false}]},
-	{name:"B地方", value:[{name:"B市", sea:false}, {name:"D市", sea:false}]}
-]
-
-=> ["A地方", "B市"]
-
-b側で回って、
-bのvalue全部そろってた場合のみ
-	aからbを除いて、
-	bのnameを先頭につける
-
-=end
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alert_data.map{|h|"\n\t\t#{h[:name]}\n\t\t\t#{h[:text]}"}.join("")
-	end
-	
-	def alerm_info_item_part item
-		if item.elements["Kind/Status"].text=="発表警報・注意報はなし"
-			nil
-		else
-			{name:item.elements["Area/Name"].text, text:alerm_info_kinds_part(item.elements)}
-		end
-	end
-	
-	def alerm_info_kinds_part kinds
-		kinds.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}.join(" ")
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alert_data.map{|a|a.to_s}.join("")
 	end
 	
 	def get_special_weather_report doc
