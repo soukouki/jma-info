@@ -26,13 +26,11 @@ end
 test_group(false, "概況") do
 	# 単独だしファイル作らなくていい気がする
 	puts get_info("./test/samples/general_weather_conditions/府県天気概況-1.xml")
-	puts get_info("./test/samples/general_weather_conditions/府県天気概況-1.xml")
+	puts get_info("./test/samples/general_weather_conditions/府県天気概況-2.xml")
 end
 
-test_group(1, "注意報") do
-	puts get_info("http://api.aitc.jp/jmardb/reports/0fb32efc-ce13-3a59-bc2c-81f66a2e8259")
+test_group(false, "注意報") do
 	puts get_info("./test/samples/alert/15_08_01_130412_VPWW53.xml")
-=begin
 	puts get_info("./test/samples/alert/15_08_02_130412_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_03_160628_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_08_04_160628_VPWW53.xml")
@@ -46,8 +44,8 @@ test_group(1, "注意報") do
 	puts get_info("./test/samples/alert/15_12_03_161130_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_13_01_161226_VPWW53.xml")
 	puts get_info("./test/samples/alert/15_14_01_170216_VPWW53.xml")
-=end
 	puts get_info("http://api.aitc.jp/jmardb/reports/ca2b3c28-46d3-352a-a112-30da55097941")
+	puts get_info("http://api.aitc.jp/jmardb/reports/0fb32efc-ce13-3a59-bc2c-81f66a2e8259")
 end
 
 test_group(false, "季節観測・特殊気象報") do

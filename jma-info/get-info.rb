@@ -156,44 +156,21 @@ module GetInfo extend self
 		def area
 			@new_area || @doc.elements["Area/Name"].text
 		end
-		def to_s
-			war_s = (@doc.elements["Kind/Status"].text=="発表警報・注意報はなし")? "発表警報・注意報はなし" :
-				(@doc.elements.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}.join(" "))
-			"\n\t\t#{area}\n\t\t\t#{war_s}"
+		def alert
+			if @doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
+				["発表警報・注意報はなし"]
+			else
+				@doc.elements.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
+			end
 		end
 		def related_sea?
 			_?
 		end
+		def to_s
+			"\n\t\t#{area}\n\t\t\t#{alert.join(" ")}"
+		end
 	end
-=begin
-ifの中で
-	alert_dataの中に海に関連するものがあるかを調べて
-
-A市 seaあり
-B市 seaなし
-C市 seaあり
-D市 seaあり
-
-A地方 A B
-C地方 C D
-
-A市 関連あり
-B なし
-C あり
-D なし
-=>
-A地方 C市 D市
-
-Aあり
-Bなし
-Cあり
-Dあり
-=>
-A地方 C地方
-
-まずはそもそも同警報かをチェックするところから
-
-=end
+	
 	def alerm_info doc
 		alert_data = doc
 			.elements
@@ -203,8 +180,9 @@ A地方 C地方
 			# **ここの分岐は、海関連を意識してない**
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty? # hash[:value]の今回の範囲・・？
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
+			next unless target_alert.inject(target_alert.first){|a, r|(a.alert==r.alert)? r : (break false)}
 			
-			new_alert = target_alert.first.new_area_alert(hash[:name])
+			new_alert = target_alert.first.new_area_alert(hash[:name]+"全域")
 			alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
 			alert_data.unshift(new_alert)
 		}
