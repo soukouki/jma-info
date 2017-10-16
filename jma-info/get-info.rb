@@ -163,7 +163,10 @@ module GetInfo extend self
 				["発表警報・注意報はなし"]
 			else
 				kinds = @doc.elements.to_a("Kind")
-				kinds = kinds.select{|k|k.elements["Name"].text.match(/\A(?:波浪|高潮)/)} if non_sea
+				kinds = kinds.delete_if{|k|k.elements["Name"].text.match(/\A(?:波浪|高潮)/)} if non_sea
+				if non_sea && kinds.length==0
+					return ["発表警報・注意報はなし"]
+				end
 				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
 			end
 		end
@@ -184,10 +187,12 @@ module GetInfo extend self
 			# hashのもので結合できるのならば続ける
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
+			
 			first_target_alert_non_sea_alert = target_alert.first.non_sea_alert
 			# すべての地域で海関連を除いた警報がすべて同じならば続ける
 			next unless target_alert.all?{|alert|alert.non_sea_alert==first_target_alert_non_sea_alert}
-			border_on_sea_alert_target = target_alert.select{|alert|hash[:value].find{|vf|vf[:name]==alert.area}}
+			
+			border_on_sea_alert_target = target_alert.select{|alert|hash[:value].find{|vf|vf[:name]==alert.area}[:sea]}
 			# 海のある地域ですべての警報が同じならば続ける
 			next unless border_on_sea_alert_target.all?{|alert|alert.alert==border_on_sea_alert_target.first.alert}
 			
