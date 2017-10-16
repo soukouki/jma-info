@@ -1,7 +1,7 @@
 ﻿# encoding: UTF-8
 
 require "optparse"
-require_relative "jma-info/app.rb"
+require_relative "jma-info/app"
 
 def optparse argv
 	arg = {puts: [->(s){puts s}]}

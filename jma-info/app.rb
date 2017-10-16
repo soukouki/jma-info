@@ -4,7 +4,7 @@ require_relative "./get-info"
 
 
 def app arg
-	multiple_puts(arg[:puts], "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。")
+	multiple_puts(arg[:puts], "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。\n")
 	uris_cache = UrisCache.NewCache(60*5) # 5分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
 	loop do
 		time = Time.now
@@ -19,21 +19,10 @@ def multiple_puts lambdas, text
 end
 
 def puts_info(puts_lambdas, updated_uris, now_time)
-	q = Thread::Queue.new
 	updated_uris
 		.map{|u|GetInfo::get_info(u)}
 		.select{|s|!s.empty?}
-		.each{|s|q.push(s)}
-	8.times
-		.map{
-			Thread.new{
-				begin
-					loop{
-						multiple_puts(puts_lambdas, q.pop(true)+"\n")
-					}
-				rescue ThreadError # popの部分でこのエラーを起こしているので、握りつぶす
-				end}}
-		.each{|t|t.join}
+		.each{|s|multiple_puts(puts_lambdas, s+"\n")}
 end
 
 
