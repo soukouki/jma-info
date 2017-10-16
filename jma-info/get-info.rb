@@ -1,6 +1,7 @@
 ﻿
 require "open-uri"
 require "time"
+require "yaml"
 
 require "rexml/document"
 
@@ -23,7 +24,7 @@ module GetInfo extend self
 				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
 			when "気象特別警報・警報・注意報"
-				repo_title+" : "+get_alerm(doc)+"\n"
+				repo_title+" : "+alerm_info(doc)+"\n"
 			when "季節観測", "特殊気象報"
 				repo_title+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
@@ -105,8 +106,6 @@ module GetInfo extend self
 		"昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
 	end
 	
-	private
-	
 	def get_doc uri, try_count=0
 		begin
 			text = open(uri)
@@ -121,6 +120,8 @@ module GetInfo extend self
 		REXML::Document.new(text)
 	end
 	
+	private
+	
 	def get_general_report doc
 		head = doc.elements["Report/Head"]
 		body = doc.elements["Report/Body"]
@@ -134,28 +135,74 @@ module GetInfo extend self
 		cleanly_text(body.elements["Comment/Text"].text)+"\n"
 	end
 	
-	def get_alerm doc
-		doc.elements[
-			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alerm_info(doc)
-	end
+	# 都府県+地方がキーで、その中に地方:[市町村+地域]の配列がある。
+	ALERT_DIVISION_FOR_COMBINED = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
+		.map{|tr|
+			pr = {name:tr[:name], value:tr[:value].map{|h|h[:value].map{|h|h[:value]}}.flatten}
+			d1 = tr[:value].map{|h|{name:h[:name], value:h[:value].map{|h|h[:value]}.flatten}}.flatten
+			d2 = tr[:value].map{|h|h[:value].map{|h|{name:h[:name], value:h[:value]}}}.flatten
+			[tr[:name], ([pr]+d1+d2).flatten]}
+		.to_h
+		
 	
-	def alerm_info doc
-		if doc.elements["Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]"]
-			format_alerm_info(doc)
-		else # 解除時
-			""
+	class Alert
+		def initialize doc, new_area=nil
+			@doc = doc
+			@new_area = new_area
+		end
+		def new_area_alert new_area
+			Alert.new(@doc, new_area)
+		end
+		
+		@new_area = nil
+		def area
+			@new_area || @doc.elements["Area/Name"].text
+		end
+		def alert non_sea=false
+			if @doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
+				["発表警報・注意報はなし"]
+			else
+				kinds = @doc.elements.to_a("Kind")
+				kinds = kinds.delete_if{|k|k.elements["Name"].text.match(/\A(?:波浪|高潮)/)} if non_sea
+				if non_sea && kinds.length==0
+					return ["発表警報・注意報はなし"]
+				end
+				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
+			end
+		end
+		def non_sea_alert
+			alert(non_sea=true)
+		end
+		def to_s
+			"\n\t\t#{area}\n\t\t\t#{alert.join(" ")}"
 		end
 	end
 	
-	def format_alerm_info doc
-		"\n\t\t"+doc
+	def alerm_info doc
+		alert_data = doc
 			.elements
-			.collect("Report/Head/Headline/Information[@type=\"気象警報・注意報（警報注意報種別毎）\"]/Item"){|info|
-				info.elements["Kind/Name"].text+" : "+
-				info.elements.collect("Areas"){|a|a.elements["Area/Name"].text}.join(" ")
-			}
-			.join("\n\t\t")
+			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
+		
+		ALERT_DIVISION_FOR_COMBINED[doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text].each{|hash|
+			# hashのもので結合できるのならば続ける
+			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
+			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
+			
+			first_target_alert_non_sea_alert = target_alert.first.non_sea_alert
+			# すべての地域で海関連を除いた警報がすべて同じならば続ける
+			next unless target_alert.all?{|alert|alert.non_sea_alert==first_target_alert_non_sea_alert}
+			
+			border_on_sea_alert_target = target_alert.select{|alert|hash[:value].find{|vf|vf[:name]==alert.area}[:sea]}
+			# 海のある地域ですべての警報が同じならば続ける
+			next unless border_on_sea_alert_target.all?{|alert|alert.alert==border_on_sea_alert_target.first.alert}
+			
+			new_alert = target_alert.first.new_area_alert(hash[:name]+"全域")
+			alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
+			alert_data.unshift(new_alert)
+		}
+		doc.elements[
+			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alert_data.map{|a|a.to_s}.join("")
 	end
 	
 	def get_special_weather_report doc
