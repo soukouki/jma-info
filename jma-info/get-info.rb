@@ -135,13 +135,15 @@ module GetInfo extend self
 		cleanly_text(body.elements["Comment/Text"].text)+"\n"
 	end
 	
+	# 都府県+地方がキーで、その中に地方:[市町村+地域]の配列がある。
 	ALERT_DIVISION_FOR_COMBINED = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
 		.map{|tr|
 			pr = {name:tr[:name], value:tr[:value].map{|h|h[:value].map{|h|h[:value]}}.flatten}
 			d1 = tr[:value].map{|h|{name:h[:name], value:h[:value].map{|h|h[:value]}.flatten}}.flatten
 			d2 = tr[:value].map{|h|h[:value].map{|h|{name:h[:name], value:h[:value]}}}.flatten
-			[pr]+d1+d2}
-		.flatten
+			[tr[:name], ([pr]+d1+d2).flatten]}
+		.to_h
+		
 	
 	class Alert
 		def initialize doc, new_area=nil
@@ -176,7 +178,7 @@ module GetInfo extend self
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
 		
-		ALERT_DIVISION_FOR_COMBINED.each{|hash|
+		ALERT_DIVISION_FOR_COMBINED[doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text].each{|hash|
 			# **ここの分岐は、海関連を意識してない**
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty? # hash[:value]の今回の範囲・・？
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
