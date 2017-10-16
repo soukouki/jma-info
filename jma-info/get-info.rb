@@ -158,7 +158,7 @@ module GetInfo extend self
 		def area
 			@new_area || @doc.elements["Area/Name"].text
 		end
-		def alert
+		def alert nonsea=false
 			if @doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
 				["発表警報・注意報はなし"]
 			else
@@ -171,6 +171,10 @@ module GetInfo extend self
 		def to_s
 			"\n\t\t#{area}\n\t\t\t#{alert.join(" ")}"
 		end
+		# 文字列にしてマッチさせる意味がある
+		def non_sea_to_matchng
+			alert(nonsea=true)
+		end
 	end
 	
 	def alerm_info doc
@@ -179,10 +183,16 @@ module GetInfo extend self
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
 		
 		ALERT_DIVISION_FOR_COMBINED[doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text].each{|hash|
-			# **ここの分岐は、海関連を意識してない**
-			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty? # hash[:value]の今回の範囲・・？
+			# hashのもので結合できるのならば続ける
+			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
-			next unless target_alert.inject(target_alert.first){|a, r|(a.alert==r.alert)? r : (break false)}
+			first_target_alert_non_sea_matchng = target_alert.first.non_sea_to_matchng
+			# すべての地域で海関連を除いた警報がすべて同じならば続ける
+			next unless target_alert.all?{|alert|alert.non_sea_to_matchng==first_target_alert_non_sea_matchng}
+			first_target_alert_s = target_alert.first.to_s
+			# 海関係を除いた地域ですべての警報が同じならば続ける
+			puts YAML.dump hash[:value][1]
+			next unless target_alert.select{|alert|hash[:value][alert.area][:sea]}.all?{|alert|alert.to_s==first_target_alert_s}
 			
 			new_alert = target_alert.first.new_area_alert(hash[:name]+"全域")
 			alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
