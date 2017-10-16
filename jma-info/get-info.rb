@@ -158,22 +158,20 @@ module GetInfo extend self
 		def area
 			@new_area || @doc.elements["Area/Name"].text
 		end
-		def alert nonsea=false
+		def alert non_sea=false
 			if @doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
 				["発表警報・注意報はなし"]
 			else
-				@doc.elements.collect("Kind"){|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
+				kinds = @doc.elements.to_a("Kind")
+				kinds = kinds.select{|k|k.elements["Name"].text.match(/\A(?:波浪|高潮)/)} if non_sea
+				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
 			end
 		end
-		def related_sea?
-			_?
+		def non_sea_alert
+			alert(non_sea=true)
 		end
 		def to_s
 			"\n\t\t#{area}\n\t\t\t#{alert.join(" ")}"
-		end
-		# 文字列にしてマッチさせる意味がある
-		def non_sea_to_matchng
-			alert(nonsea=true)
 		end
 	end
 	
@@ -186,13 +184,12 @@ module GetInfo extend self
 			# hashのもので結合できるのならば続ける
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
-			first_target_alert_non_sea_matchng = target_alert.first.non_sea_to_matchng
+			first_target_alert_non_sea_alert = target_alert.first.non_sea_alert
 			# すべての地域で海関連を除いた警報がすべて同じならば続ける
-			next unless target_alert.all?{|alert|alert.non_sea_to_matchng==first_target_alert_non_sea_matchng}
-			first_target_alert_s = target_alert.first.to_s
-			# 海関係を除いた地域ですべての警報が同じならば続ける
-			puts YAML.dump hash[:value][1]
-			next unless target_alert.select{|alert|hash[:value][alert.area][:sea]}.all?{|alert|alert.to_s==first_target_alert_s}
+			next unless target_alert.all?{|alert|alert.non_sea_alert==first_target_alert_non_sea_alert}
+			border_on_sea_alert_target = target_alert.select{|alert|hash[:value].find{|vf|vf[:name]==alert.area}}
+			# 海のある地域ですべての警報が同じならば続ける
+			next unless border_on_sea_alert_target.all?{|alert|alert.alert==border_on_sea_alert_target.first.alert}
 			
 			new_alert = target_alert.first.new_area_alert(hash[:name]+"全域")
 			alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
