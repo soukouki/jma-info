@@ -1,6 +1,8 @@
 
 require_relative "../jma-info/get-info"
 
+
+
 # テスト側を変えないためにここでincludeしている
 # 処理長すぎるから並列化したい
 # aitcにいっぱいアクセスしてるのはどうなのか
@@ -46,8 +48,7 @@ test_group(1, "特別警報・警報・注意報") do
 		puts get_info("./test/samples/alert/15_13_01_161226_VPWW53.xml")
 		puts get_info("./test/samples/alert/15_14_01_170216_VPWW53.xml")
 	end
-	puts get_info("http://api.aitc.jp/jmardb/reports/ca2b3c28-46d3-352a-a112-30da55097941")
-	puts get_info("http://api.aitc.jp/jmardb/reports/0fb32efc-ce13-3a59-bc2c-81f66a2e8259")
+	puts get_info("http://api.aitc.jp/jmardb/reports/bc4f48b1-3f39-3517-b4df-815fae2d5a17") # 地域のデータのバグ修正
 	puts get_info("http://api.aitc.jp/jmardb/reports/ce9f85c8-76d0-35d4-a914-2f44262c38af") # 海関係の典型的な例
 end
 

@@ -182,7 +182,7 @@ module GetInfo extend self
 		alert_data = doc
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
-		
+		puts doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text
 		ALERT_DIVISION_FOR_COMBINED[doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text].each{|hash|
 			# hashのもので結合できるのならば続ける
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
