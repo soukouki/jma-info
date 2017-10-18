@@ -48,6 +48,7 @@ test_group(1, "特別警報・警報・注意報") do
 		puts get_info("./test/samples/alert/15_13_01_161226_VPWW53.xml")
 		puts get_info("./test/samples/alert/15_14_01_170216_VPWW53.xml")
 	end
+	puts get_info("http://api.aitc.jp/jmardb/reports/318823e2-674b-3df0-b2e3-e2d1537fab37")
 	puts get_info("http://api.aitc.jp/jmardb/reports/bc4f48b1-3f39-3517-b4df-815fae2d5a17") # 地域のデータのバグ修正
 	puts get_info("http://api.aitc.jp/jmardb/reports/ce9f85c8-76d0-35d4-a914-2f44262c38af") # 海関係の典型的な例
 end

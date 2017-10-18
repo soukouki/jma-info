@@ -141,8 +141,8 @@ module GetInfo extend self
 			pr = {name:tr[:name], value:tr[:value].map{|h|h[:value].map{|h|h[:value]}}.flatten}
 			d1 = tr[:value].map{|h|{name:h[:name], value:h[:value].map{|h|h[:value]}.flatten}}.flatten
 			d2 = tr[:value].map{|h|h[:value].map{|h|{name:h[:name], value:h[:value]}}}.flatten
-			[tr[:name], ([pr]+d1+d2).flatten]}
-		.to_h
+			([pr]+d1+d2)}
+		.flatten
 		
 	
 	class Alert
@@ -183,7 +183,7 @@ module GetInfo extend self
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
 		puts doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text
-		ALERT_DIVISION_FOR_COMBINED[doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text].each{|hash|
+		ALERT_DIVISION_FOR_COMBINED.each{|hash|
 			# hashのもので結合できるのならば続ける
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
