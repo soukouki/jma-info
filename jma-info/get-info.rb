@@ -141,8 +141,8 @@ module GetInfo extend self
 			pr = {name:tr[:name], value:tr[:value].map{|h|h[:value].map{|h|h[:value]}}.flatten}
 			d1 = tr[:value].map{|h|{name:h[:name], value:h[:value].map{|h|h[:value]}.flatten}}.flatten
 			d2 = tr[:value].map{|h|h[:value].map{|h|{name:h[:name], value:h[:value]}}}.flatten
-			[tr[:name], ([pr]+d1+d2).flatten]}
-		.to_h
+			([pr]+d1+d2)}
+		.flatten
 		
 	
 	class Alert
@@ -174,7 +174,7 @@ module GetInfo extend self
 			alert(non_sea=true)
 		end
 		def to_s
-			"\n\t\t#{area}\n\t\t\t#{alert.join(" ")}"
+			alert.join(" ")
 		end
 	end
 	
@@ -182,8 +182,7 @@ module GetInfo extend self
 		alert_data = doc
 			.elements
 			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
-		
-		ALERT_DIVISION_FOR_COMBINED[doc.elements["Report/Body/Warning[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Area/Name"].text].each{|hash|
+		ALERT_DIVISION_FOR_COMBINED.each{|hash|
 			# hashのもので結合できるのならば続ける
 			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
 			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
@@ -202,7 +201,12 @@ module GetInfo extend self
 		}
 		doc.elements[
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+alert_data.map{|a|a.to_s}.join("")
+		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
+		alert_data
+			.inject({}){|res, alert|(res.key?(alert.to_s))? res[alert.to_s]<<alert.area : res[alert.to_s]=[alert.area]; res}
+			.sort_by{|key, value|key}
+			.map{|key, value|"\t\t"+value.join(" ")+"\n\t\t\t"+key+"\n"}
+			.join("")
 	end
 	
 	def get_special_weather_report doc
