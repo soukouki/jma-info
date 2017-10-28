@@ -281,7 +281,7 @@ module GetInfo extend self
 					when "IcingPart"
 						icing_part(base, becoming)
 					end}[0] if property
-			((text)? text : "発表警報・注意報はなし")
+			item.elements["Kind/Name"].text+" : "+(text||"発表警報・注意報はなし")
 		end
 		
 		def wind_part base, becoming, part
