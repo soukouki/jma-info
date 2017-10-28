@@ -203,9 +203,9 @@ module GetInfo extend self
 			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
 		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
 		alert_data
-			.inject({}){|res, alert|(res.key?(alert.to_s))? res[alert.to_s]<<alert.area : res[alert.to_s]=[alert.area]; res}
+			.group_by{|are|are.alert}
 			.sort_by{|key, value|key}
-			.map{|key, value|"\t\t"+value.join(" ")+"\n\t\t\t"+key+"\n"}
+			.map{|are, alerts|"\t\t"+alerts.map(&:area).join(" ")+"\n\t\t\t"+are.join(" ")+"\n"}
 			.join("")
 	end
 	
@@ -243,22 +243,24 @@ module GetInfo extend self
 		pos+"\n\t"+data+"\n\t"+daystext
 	end
 	
+	def rare_rain doc
+		doc.elements["Report/Head/Headline/Information/Item/Areas/Area/Name"].text+"\n\t"+
+		doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}
+	end
+	
 	def local_maritime_alert_info doc
 		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+LocalMaritimeAlertInfo::alert_text(doc)
 	end
 	
 	module LocalMaritimeAlertInfo extend self
 		def alert_text doc
-			array_to_hash(doc
+			doc
 				.elements
-				.collect("Report/Body/Warning/Item"){|item|
-					[item.elements["Kind/Name"].text, item]})
-			.map{|(name, items)|
-				"\t"+name+"\n\t\t"+
-				items
-					.map{|item|item_to_text(item)}
-					.join("\n\t\t")}
-			.join("\n")
+				.collect("Report/Body/Warning/Item"){|item|item}
+				.group_by{|item|item.elements["Area/Name"].text}
+				.sort_by{|k, v|k}
+				.map{|(area, items)|"\t"+area+"\n\t\t"+items.map{|i|item_to_text(i)}.join("\n\t\t")}
+				.join("\n")
 		end
 		
 		def item_to_text item
@@ -279,7 +281,7 @@ module GetInfo extend self
 					when "IcingPart"
 						icing_part(base, becoming)
 					end}[0] if property
-			item.elements["Area/Name"].text+((text)? (" ("+text+")") : "")
+			((text)? text : "発表警報・注意報はなし")
 		end
 		
 		def wind_part base, becoming, part
@@ -309,18 +311,6 @@ module GetInfo extend self
 		
 		def icing_doc_to_text doc
 			((doc)? doc.elements["jmx_eb:Icing/@description"].value : "")
-		end
-		
-		# [[:a, 1], [:a, 2], [:b, 3]]を{a:[1, 2], b:[2]}に変換する
-		def array_to_hash arr
-			arr.inject(Hash.new){|res, (key, item)|
-				if res.key?(key)
-					res[key] = res[key] << item
-					res
-				else
-					res[key] = [item]
-					res
-				end}
 		end
 	end
 	
@@ -476,12 +466,6 @@ module GetInfo extend self
 				.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
 				.join("\n")+"\n"
 		end
-		
-		def rare_rain doc
-			doc.elements["Report/Head/Headline/Information/Item/Areas/Area/Name"].text+"\n\t"+
-			doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}
-		end
-
 	end
 	
 end

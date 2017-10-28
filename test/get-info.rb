@@ -31,8 +31,8 @@ test_group(false, "概況") do
 	puts get_info("./test/samples/general_weather_conditions/府県天気概況-2.xml")
 end
 
-test_group(1, "特別警報・警報・注意報") do
-	test_group(1, "特別警報・警報・注意報") do
+test_group(false, "特別警報・警報・注意報") do
+	test_group(false, "特別警報・警報・注意報") do
 		puts get_info("./test/samples/alert/15_08_01_130412_VPWW53.xml")
 		puts get_info("./test/samples/alert/15_08_02_130412_VPWW53.xml")
 		puts get_info("./test/samples/alert/15_08_03_160628_VPWW53.xml")
