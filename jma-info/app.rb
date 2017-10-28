@@ -54,8 +54,8 @@ def error_process start_time, error_time, error
 	STDERR.puts text
 	file_appending("../jma-info.debug.log", text) # パスはこのファイルからの相対パス
 	puts "起動時間 #{Time.now-start_time}"
-	if Time.now-start_time > 60
-		STDERR.puts "60秒以上起動した後にエラーが発生したので、もう一度やり直します。"
+	if Time.now-start_time > 30
+		STDERR.puts "30秒以上起動した後にエラーが発生したので、もう一度やり直します。"
 		STDERR.puts "拾い漏れるデータがある可能性があります。"
 		STDERR.puts "プログラムを終了させるには、もう一度Ctrl+cを送ってください。"
 		return true

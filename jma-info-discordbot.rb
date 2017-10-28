@@ -10,7 +10,13 @@ def message channels, s
 		# 2000文字制限への対策。0..1999は2000文字
 		p_text = text[0..1999].gsub(/(\A.*\n).*\z/){$1}
 		text = text[p_text.length..-1]
-		channels.each{|ch|ch.send_message(p_text, tts=false)}
+		begin
+			channels.each{|ch|ch.send_message(p_text, tts=false)}
+		rescue SocketError
+			puts "discordへの投稿に失敗。2秒後に再投稿します。"
+			sleep 2
+			retry
+		end
 	end
 end
 
@@ -27,9 +33,15 @@ EOS
 exit if ARGV.length < 3
 client_id, token, *channel_ids = ARGV
 
-bot = Discordrb::Bot.new(
-		token: token,
-		client_id: client_id)
-channels = channel_ids.map{|id|bot.channel(id)}
+begin
+	bot = Discordrb::Bot.new(
+			token: token,
+			client_id: client_id)
+	channels = channel_ids.map{|id|bot.channel(id)}
+rescue SocketError
+	puts "discordへの接続に失敗。5秒後に再接続します。"
+	sleep 5
+	retry
+end
 
 error_loop({puts: [->(s){puts s}, ->(s){message(channels, s)}]})
