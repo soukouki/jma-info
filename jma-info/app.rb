@@ -10,7 +10,7 @@ def app arg
 		time = Time.now
 		updated_uris, uris_cache = uris_cache.updated_uris(time)
 		puts_info(arg[:puts], updated_uris, time) unless updated_uris.empty?
-		sleep(15)
+		sleep(20)
 	end
 end
 
