@@ -9,10 +9,7 @@ module GetInfo extend self
 	def get_info(uri)
 		doc = get_doc(uri)
 		title = doc.elements["Report/Control/Title"].text
-		status = doc.elements["Report/Control/Status"].text
-		info_type = doc.elements["Report/Head/InfoType"].text
-		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
-		repo_title = "#{time_to_ymdhms_s(target_time)} #{info_type} #{title}#{((status!="通常")? " **#{status}**" : "")}"
+		repo_title = report_title(doc)
 		cleanly_str(case title
 			when # 一般報
 				"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
@@ -43,6 +40,14 @@ module GetInfo extend self
 				repo_title+"\n"
 			end || ""
 		)
+	end
+	
+	private def report_title doc
+		title = doc.elements["Report/Control/Title"].text
+		status = doc.elements["Report/Control/Status"].text
+		info_type = doc.elements["Report/Head/InfoType"].text
+		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
+		"#{time_to_ymdhms_s(target_time)} #{info_type} #{title}#{((status!="通常")? " **#{status}**" : "")}"
 	end
 	
 	# 以下、分類分けしたEarthquakeInfoなどから呼ばれる可能性があるもの。
