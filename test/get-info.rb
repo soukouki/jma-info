@@ -87,52 +87,64 @@ test_group(false, "記録的短時間大雨情報") do
 end
 
 test_group(false, "地震情報") do
-	puts get_info("./test/samples/earthquake/32-35_01_01_100806_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_01_02_100514_VXSE52.xml")
-	puts get_info("./test/samples/earthquake/32-35_01_03_100514_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_01_03_100806_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_02_01_100514_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_03_01_100514_VXSE60.xml")
-	puts get_info("./test/samples/earthquake/32-35_03_02_100514_VXSE61.xml")
-	puts get_info("./test/samples/earthquake/32-35_04_01_100831_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_04_02_100831_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_04_03_100831_VXSE52.xml")
-	puts get_info("./test/samples/earthquake/32-35_04_04_100831_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_04_05_100831_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_04_06_100831_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_01_100915_VXSE52.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_02_100915_VXSE52.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_03_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_04_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_05_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_06_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_07_100915_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_08_100915_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_09_100915_VXSE61.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_10_100915_VXSE61.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_11_100915_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_12_100915_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_06_13_100915_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_01_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_02_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_03_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_04_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_05_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_06_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_07_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_08_100915_VXSE56.xml")
-	puts get_info("./test/samples/earthquake/32-35_07_09_100915_VXSE61.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_01_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_02_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_03_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_04_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_05_100915_VXSE51.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_06_100915_VXSE52.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_07_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/32-35_08_08_100915_VXSE53.xml")
-	puts get_info("./test/samples/earthquake/33_12_01_120615_VXSE41.xml")
-	puts get_info("./test/samples/earthquake/地震回数に関する情報-1.xml")
-	puts get_info("./test/samples/earthquake/顕著な地震の震源要素更新のお知らせ-1.xml")
+	test_group(false, "震度速報") do
+		puts get_info("./test/samples/earthquake/32-35_01_01_100806_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_04_01_100831_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_04_02_100831_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_04_05_100831_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_01_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_02_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_03_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_04_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_05_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_01_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_02_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_03_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_04_100915_VXSE51.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_05_100915_VXSE51.xml")
+	end
+	test_group(false, "震源に関する情報") do
+		puts get_info("./test/samples/earthquake/32-35_06_02_100915_VXSE52.xml") # 取り消し
+		puts get_info("./test/samples/earthquake/32-35_01_02_100514_VXSE52.xml")
+		puts get_info("./test/samples/earthquake/32-35_04_03_100831_VXSE52.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_01_100915_VXSE52.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_06_100915_VXSE52.xml")
+		puts get_info("./test/samples/earthquake/33_12_01_120615_VXSE41.xml")
+	end
+	test_group(false, "震源・震度に関する情報") do
+		puts get_info("./test/samples/earthquake/32-35_06_06_100915_VXSE53.xml") # 取り消し
+		puts get_info("./test/samples/earthquake/32-35_01_03_100806_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_04_04_100831_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_04_06_100831_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_03_100915_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_04_100915_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_05_100915_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_06_100915_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_07_100915_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_07_100915_VXSE53.xml")
+		puts get_info("./test/samples/earthquake/32-35_08_08_100915_VXSE53.xml")
+	end
+	test_group(false, "地震の活動状況等に関する情報") do
+		puts get_info("./test/samples/earthquake/32-35_06_13_100915_VXSE56.xml") # 取り消し
+		puts get_info("./test/samples/earthquake/32-35_06_08_100915_VXSE56.xml")
+		puts get_info("./test/samples/earthquake/32-35_02_01_100514_VXSE56.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_07_100915_VXSE56.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_11_100915_VXSE56.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_12_100915_VXSE56.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_08_100915_VXSE56.xml")
+	end
+	test_group(false, "顕著な地震の震源要素更新のお知らせ") do
+		puts get_info("./test/samples/earthquake/32-35_06_10_100915_VXSE61.xml") # 取り消し
+		puts get_info("./test/samples/earthquake/32-35_03_02_100514_VXSE61.xml")
+		puts get_info("./test/samples/earthquake/32-35_06_09_100915_VXSE61.xml")
+		puts get_info("./test/samples/earthquake/32-35_07_09_100915_VXSE61.xml")
+		puts get_info("./test/samples/earthquake/顕著な地震の震源要素更新のお知らせ-1.xml")
+	end
+	test_group(false, "地震回数に関する情報") do
+		puts get_info("./test/samples/earthquake/32-35_03_01_100514_VXSE60.xml")
+		puts get_info("./test/samples/earthquake/地震回数に関する情報-1.xml")
+	end
+	#puts get_info("./test/samples/earthquake/32-35_01_03_100514_VXSE53.xml") # 遠方地震
 end
 
 # 津波情報がget_infoで止められて一部実行できてない。

@@ -31,7 +31,7 @@ module GetInfo extend self
 				repo_title+" : "+creature_season_observation(doc)+"\n"
 			when # 地震、津波
 				"震度速報", "震源に関する情報", "震源・震度に関する情報",
-				"地震の活動状況に関する情報", "地震回数に関する情報", "顕著な地震の震源要素更新のお知らせ",
+				"地震の活動状況等に関する情報", "地震回数に関する情報", "顕著な地震の震源要素更新のお知らせ",
 				"津波情報a", "津波警報・注意報・予報a", "沖合の津波観測に関する情報"
 				repo_title+earthquake_info(doc)
 			when "記録的短時間大雨情報"
@@ -332,26 +332,26 @@ module GetInfo extend self
 			doc.elements.collect("Report/Body/*") do |info|
 				case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
 				when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
-					earthquake_info_earthquake_paet(info)
+					earthquake_paet(info)
 				when "Intensity" # 震度速報 + 震源・震度に関する情報
-					earthquake_info_intensity_part(info, info.elements["count(Observation/CodeDefine/Type)"]==4)
+					intensity_part(info)
 				when "Tsunami" # 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
-					earthquake_info_tsunami_part(info)
+					tsunami_part(info)
 				when "Naming" # 地震の活動状況に関する情報
 					"\t"+info.text+"\n"
 				when "EarthquakeCount" # 地震回数に関する情報
-					earthquake_info_count_part(info)
+					count_part(info)
 				when "NextAdvisory" # 地震回数に関する情報
 					cleanly_text(info.text)+"\n"
 				when "Text" # すべて
 					cleanly_text(info.text)+"\n"
 				when "Comments" # すべて
-					earthquake_info_comment_part(info)
+					comment_part(info)
 				end
 			end.join
 		end
 		
-		def earthquake_info_earthquake_paet info
+		def earthquake_paet info
 			area = info.elements["Hypocenter/Area"]
 			"\t震源地:"+area.elements["Name/text()"].value+
 			((area.elements["DetailedName"])? "("+area.elements["DetailedName/text()"].value+")" : "")+
@@ -361,10 +361,12 @@ module GetInfo extend self
 			((info.elements["Hypocenter/Source"])? "\t情報元:"+info.elements["Hypocenter/Source/text()"].value+"\n" :  "")
 		end
 		
-		def earthquake_info_intensity_part info, is_detail_info
-			"\t最大震度:"+get_maxint(info.elements["Observation"])+"\n\t"+intensity_pref_xml_to_s(info, is_detail_info)
+		def intensity_part info
+			"\t最大震度:"+get_maxint(info.elements["Observation"])+"\n\t"+
+			intensity_pref_xml_to_s(info)
 		end
-		def intensity_pref_xml_to_s info, is_detail_info
+		def intensity_pref_xml_to_s info
+			is_detail_info = info.elements["count(Observation/CodeDefine/Type)"]==4
 			info.elements
 				.collect("Observation/Pref"){|pref|
 					get_name(pref)+((is_detail_info)? ":"+get_maxint(pref)+"\n\t" : "、")+
@@ -372,11 +374,15 @@ module GetInfo extend self
 				.join("\n\t")+"\n"
 		end
 		def intensity_area_xml_to_s pref, is_detail_info
-			# こっから先(city IS)は震源・震度に関する情報のときだけ
+			# こっから先(city intensity_station)は震源・震度に関する情報のときだけ
+			pref_name = get_name(pref)
 			pref.elements
 				.collect("Area"){|area|
-					(!is_detail_info)? get_name_and_maxint(area) :
-						(get_name(area)+":"+get_maxint(area)+"\n\t\t"+intensity_city_xml_to_s(area))}
+					area_name = get_name(area)
+					area_short_name = (area_name.start_with? pref_name)? area_name[pref_name.length..-1] : area_name
+					area_short_name+":"+get_maxint(area)+
+					((!is_detail_info)? "" : "\n\t\t"+intensity_city_xml_to_s(area))
+				}
 				.join((is_detail_info)? "\n\t" : "、")
 		end
 		def intensity_city_xml_to_s area
@@ -385,8 +391,13 @@ module GetInfo extend self
 				.join("\n\t\t")
 		end
 		def intensity_station_xml_to_s city
+			city_name = get_name(city)
 			city.elements
-				.collect("IntensityStation"){|is|get_name(is)+":"+sint_to_s(is.elements["Int/text()"].value)}
+				.collect("IntensityStation"){|is|
+					is_name = get_name(is)
+					is_short_name = (is_name.start_with? city_name)? is_name[city_name.length..-1] : is_name
+					is_short_name+":"+get_int(is)
+				}
 				.join("、")
 		end
 		def sint_to_s si
@@ -396,26 +407,26 @@ module GetInfo extend self
 		def get_maxint doc
 			sint_to_s(doc.elements["MaxInt/text()"].to_s)
 		end
+		def get_int doc
+			sint_to_s(doc.elements["Int/text()"].to_s)
+		end
 		def get_name doc
 			doc.elements["Name/text()"].value
 		end
-		def get_name_and_maxint doc
-			get_name(doc)+":"+get_maxint(doc)
-		end
 		
-		def earthquake_info_tsunami_part info
+		def tsunami_part info
 			"\t"+info.elements.collect("*") do |tinfo|
 				case tinfo.name
 				when "Observation"
-					earthquake_info_tsunami_observation_part(tinfo)
+					tsunami_observation_part(tinfo)
 				when "Forecast"
-					earthquake_info_tsunami_forecast_part(tinfo)
+					tsunami_forecast_part(tinfo)
 				when "Estimation"
 					tinfo.elements.collect("Item"){|item|item.elements["Area/Name"].text+"、"+max_height_xml_to_s(item)}.join("\n\t")
 				end
 			end.join("\n\t")+"\n"
 		end
-		def earthquake_info_tsunami_observation_part tinfo
+		def tsunami_observation_part tinfo
 			is_offing = tinfo.elements["Item/Area/Name/text()"].nil?
 			tinfo.elements.collect("Item"){|item|
 				((is_offing)? "沖合での津波観測" : item.elements["Area/Name"].text)+"\n\t\t"+
@@ -425,7 +436,7 @@ module GetInfo extend self
 					((is_offing)? "("+sta.elements["Sensor"].text+")" : "")
 				}.join("\n\t\t")}.join("\n\t")
 		end
-		def earthquake_info_tsunami_forecast_part tinfo
+		def tsunami_forecast_part tinfo
 			tinfo.elements.collect("Item") do |item|
 				item.elements["Area/Name"].text+"、"+item.elements["Category/Kind/Name"].text+
 				first_height_to_s(item, ->(t){time_to_dhm_s(t)})+
@@ -451,7 +462,7 @@ module GetInfo extend self
 				"、"+doc.elements["MaxHeight/jmx_eb:TsunamiHeight/@condition"].value : "")
 		end
 		
-		def earthquake_info_count_part info
+		def count_part info
 			"\t"+info
 				.elements.collect("Item"){|item|
 					s = Time.parse(item.elements["StartTime"].text)
@@ -464,7 +475,7 @@ module GetInfo extend self
 				.join("\n\t")+"\n"
 		end
 		
-		def earthquake_info_comment_part info
+		def comment_part info
 			info
 				.elements
 				.collect("*/Text||FreeFormComment"){|c|GetInfo::cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
