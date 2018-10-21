@@ -5,7 +5,9 @@ require "yaml"
 
 require "rexml/document"
 
-module GetInfo extend self
+module GetInfo
+	module_function
+	
 	def get_info(uri)
 		doc = get_doc(uri)
 		title = doc.elements["Report/Control/Title"].text
@@ -13,7 +15,7 @@ module GetInfo extend self
 		cleanly_str(case title
 			when # 一般報
 				"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
-				"全般気象情報", "地方気象情報", "府県気象情報", "天気概況", "全般週間天気予報", "地方週間天気予報",
+				"全般気象情報", "地方気象情報", "府県気象情報", "全般週間天気予報", "地方週間天気予報",
 				"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
 				"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
 				repo_title+"\n"+get_general_report(doc)
@@ -42,17 +44,10 @@ module GetInfo extend self
 		)
 	end
 	
-	private def report_title doc
-		title = doc.elements["Report/Control/Title"].text
-		status = doc.elements["Report/Control/Status"].text
-		info_type = doc.elements["Report/Head/InfoType"].text
-		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
-		"#{time_to_ymdhms_s(target_time)} #{info_type} #{title}#{((status!="通常")? " **#{status}**" : "")}"
-	end
-	
-	# 以下、分類分けしたEarthquakeInfoなどから呼ばれる可能性があるもの。
+	# 以下privateまで、分類分けしたEarthquakeInfoなどから呼ばれる可能性があるもの。
 	
 	# 文章を綺麗にする
+	# TODO 表のようになっている部分の処理を考える
 	def cleanly_text text
 		cleanly_str(text)
 			.gsub(/\n(?!\n)/){""} # 単独の改行を消す
@@ -125,7 +120,13 @@ module GetInfo extend self
 		REXML::Document.new(text)
 	end
 	
-	private
+	def report_title doc
+		title = doc.elements["Report/Control/Title"].text
+		status = doc.elements["Report/Control/Status"].text
+		info_type = doc.elements["Report/Head/InfoType"].text
+		target_time = Time.parse(doc.elements["Report/Control/DateTime"].text).localtime("+09:00")
+		"#{time_to_ymdhms_s(target_time)} #{info_type} #{title}#{((status!="通常")? " **#{status}**" : "")}"
+	end
 	
 	def get_general_report doc
 		head = doc.elements["Report/Head"]
@@ -257,7 +258,10 @@ module GetInfo extend self
 		doc.elements["Report/Body/MeteorologicalInfos/MeteorologicalInfo/Item/Area/Name"].text+"\n"+LocalMaritimeAlertInfo::alert_text(doc)
 	end
 	
-	module LocalMaritimeAlertInfo extend self
+	module LocalMaritimeAlertInfo
+		module_function
+		extend GetInfo
+		
 		def alert_text doc
 			doc
 				.elements
@@ -322,15 +326,18 @@ module GetInfo extend self
 	def earthquake_info doc
 		"\n\t"+((doc.elements["Report/Body/*/OriginTime"])? time_to_dhm_s(Time.parse(doc.elements["Report/Body/*/OriginTime"].text))+"発生\n\t" : "")+
 		((doc.elements["Report/Head/Headline/Text/text()"])? (doc.elements["Report/Head/Headline/Text"].text.gsub("\n"){" "}) : "")+"\n"+
-		EarthquakeInfo::earthquake_info(doc)
+		EarthquakeInfo::info(doc)
 	end
 	
 	# 一部の地震情報と津波情報は、違うタイトルで同じことをするものがあり、分けれないため、この関数内で地震情報と津波情報を処理する
 	# それ以外のやつも一緒になってるのはCommentsとかだったりノリ
-	module EarthquakeInfo extend self
-		def earthquake_info doc
+	module EarthquakeInfo
+		module_function
+		extend GetInfo
+		
+		def info doc
 			doc.elements.collect("Report/Body/*") do |info|
-				case info.name # whenのコメントはたぶん間違ってるとこが少なくとも1箇所ある気がする
+				case info.name # whenのコメントはたぶん間違ってるとこがある
 				when "Earthquake" # 震源に関する情報 + 震源・震度に関する情報 + 津波警報・注意報・予報a + 津波情報a + 沖合の津波観測に関する情報
 					earthquake_paet(info)
 				when "Intensity" # 震度速報 + 震源・震度に関する情報
@@ -478,7 +485,7 @@ module GetInfo extend self
 		def comment_part info
 			info
 				.elements
-				.collect("*/Text||FreeFormComment"){|c|GetInfo::cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
+				.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
 				.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
 				.join("\n")+"\n"
 		end

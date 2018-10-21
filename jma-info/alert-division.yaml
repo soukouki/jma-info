@@ -29,7 +29,7 @@
         :sea: true
       - :name: 利尻富士町
         :sea: true
-- :name: 上川地方
+- :name: 上川・留萌地方
   :value:
   - :name: 上川地方
     :value:
@@ -85,8 +85,6 @@
         :sea: false
       - :name: 占冠村
         :sea: false
-- :name: 留萌地方
-  :value:
   - :name: 留萌地方
     :value:
     - :name: 留萌北部
@@ -171,7 +169,7 @@
         :sea: false
       - :name: 湧別町
         :sea: true
-- :name: 釧路地方
+- :name: 釧路・根室・十勝地方
   :value:
   - :name: 根室地方
     :value:
@@ -191,8 +189,6 @@
       :value:
       - :name: 根室市
         :sea: true
-- :name: 釧路地方
-  :value:
   - :name: 釧路地方
     :value:
     - :name: 釧路北部
@@ -223,8 +219,6 @@
         :sea: true
       - :name: 白糠町
         :sea: true
-- :name: 十勝地方
-  :value:
   - :name: 十勝地方
     :value:
     - :name: 十勝北部
@@ -271,7 +265,7 @@
         :sea: true
       - :name: 広尾町
         :sea: true
-- :name: 胆振地方
+- :name: 胆振・日高地方
   :value:
   - :name: 胆振地方
     :value:
@@ -305,8 +299,6 @@
         :sea: false
       - :name: むかわ町
         :sea: true
-- :name: 日高地方
-  :value:
   - :name: 日高地方
     :value:
     - :name: 日高西部
@@ -331,7 +323,7 @@
         :sea: true
       - :name: えりも町
         :sea: true
-- :name: 石狩地方
+- :name: 石狩・空知・後志地方
   :value:
   - :name: 石狩地方
     :value:
@@ -357,8 +349,6 @@
         :sea: false
       - :name: 北広島市
         :sea: false
-- :name: 空知地方
-  :value:
   - :name: 空知地方
     :value:
     - :name: 北空知
@@ -415,8 +405,6 @@
         :sea: false
       - :name: 月形町
         :sea: false
-- :name: 後志地方
-  :value:
   - :name: 後志地方
     :value:
     - :name: 後志北部
@@ -465,7 +453,7 @@
         :sea: true
       - :name: 神恵内村
         :sea: true
-- :name: 渡島地方
+- :name: 渡島・檜山地方
   :value:
   - :name: 渡島地方
     :value:
@@ -497,8 +485,6 @@
         :sea: true
       - :name: 木古内町
         :sea: true
-- :name: 檜山地方
-  :value:
   - :name: 檜山地方
     :value:
     - :name: 檜山北部
@@ -3939,7 +3925,7 @@
         :sea: true
       - :name: 糸島市
         :sea: true
-      - :name: 那珂川町
+      - :name: 那珂川市
         :sea: false
       - :name: 宇美町
         :sea: false
@@ -4449,7 +4435,7 @@
         :sea: false
       - :name: 美郷町
         :sea: false
-- :name: 鹿児島県（奄美地方除く）
+- :name: 鹿児島県
   :value:
   - :name: 薩摩地方
     :value:
@@ -4537,8 +4523,6 @@
       :value:
       - :name: 屋久島町
         :sea: true
-- :name: 奄美地方
-  :value:
   - :name: 奄美地方
     :value:
     - :name: 北部

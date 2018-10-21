@@ -20,7 +20,7 @@ end
 
 def puts_info(puts_lambdas, updated_uris, now_time)
 	updated_uris
-		.map{|u|GetInfo::get_info(u)}
+		.map{|u|GetInfo.get_info(u)}
 		.select{|s|!s.empty?}
 		.each{|s|multiple_puts(puts_lambdas, s+"\n")}
 end
