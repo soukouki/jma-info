@@ -1,0 +1,44 @@
+
+
+class JmaInfoGetter
+	SOURCE_URIS =
+		[
+			"https://www.data.jma.go.jp/developer/xml/feed/eqvol.xml", # 地震火山
+			"https://www.data.jma.go.jp/developer/xml/feed/regular.xml", # 定時
+			"https://www.data.jma.go.jp/developer/xml/feed/extra.xml", # 随時
+			"https://www.data.jma.go.jp/developer/xml/feed/other.xml", # その他
+		]
+	
+	def initialize &block
+		@loop_thread = Thread.new{JmaInfoGetter.main_loop(block)}
+	end
+	
+	def sync
+		@loop_thread.join
+	end
+	
+	class << self
+		
+		def main_loop callback
+			older_urls = get_uris
+			loop do
+				sleep(60 - Time.now.sec + 3) # 1-2秒程度更新のラグがあるため
+				puts "情報を取得！コールバック！(予定) #{Time.now}"
+				get_uris_ = get_uris
+				p get_uris_.length
+				new_uris = get_uris_ - older_urls
+				older_urls = get_uris_ - new_uris # メモリ削減のため古いものは削除
+				callback.call(new_uris)
+			end
+		end
+		
+		def get_uris
+			SOURCE_URIS
+				.map{|uri|RSS::Parser.parse(OpenURI::open_uri(uri))}
+				.map{|atom|atom.items.map{|item|item.link.href}}
+				.flatten
+		end
+		
+	end
+	
+end

@@ -1,9 +1,4 @@
 ﻿
-require "open-uri"
-require "time"
-require "yaml"
-
-require "rexml/document"
 
 module GetInfo
 	module_function

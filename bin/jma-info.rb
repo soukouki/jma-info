@@ -21,4 +21,4 @@ def optparse argv
 	return lambdas
 end
 
-application_loop(optparse(ARGV))
+jma_info(optparse(ARGV))
