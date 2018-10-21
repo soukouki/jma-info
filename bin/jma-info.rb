@@ -1,7 +1,10 @@
 ﻿# encoding: UTF-8
 
 require "optparse"
-require_relative "jma-info/app"
+
+$LOAD_PATH << "#{File.expand_path(File.dirname(__FILE__)+"/..")}/lib"
+
+require "jma-info"
 
 def optparse argv
 	arg = {puts: [->(s){puts s}]}

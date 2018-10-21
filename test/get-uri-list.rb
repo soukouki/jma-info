@@ -1,6 +1,4 @@
 
-require_relative "../jma-info/updated-uris"
-
 public def test x, msg
 	if self!=x
 		puts "not ok #{self}!=#{x} #{msg}"

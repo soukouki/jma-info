@@ -1,8 +1,4 @@
 
-require_relative "../jma-info/get-info"
-
-
-
 # テスト側を変えないためにここでincludeしている
 # 処理長すぎるから並列化したい
 # aitcにいっぱいアクセスしてるのはどうなのか

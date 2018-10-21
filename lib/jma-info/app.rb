@@ -1,8 +1,4 @@
 
-require_relative "./updated-uris"
-require_relative "./get-info"
-
-
 def app arg
 	multiple_puts(arg[:puts], "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。\n")
 	uris_cache = UrisCache.NewCache(60*5) # 5分以上aticの更新時刻が気象庁の発表時刻から遅れないとする
