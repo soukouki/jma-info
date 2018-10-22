@@ -23,12 +23,10 @@ class JmaInfoGetter
 			older_urls = get_uris
 			loop do
 				sleep(60 - Time.now.sec + 3) # 1-2秒程度更新のラグがあるため
-				puts "情報を取得！コールバック！(予定) #{Time.now}"
 				get_uris_ = get_uris
-				p get_uris_.length
 				new_uris = get_uris_ - older_urls
 				older_urls = get_uris_ - new_uris # メモリ削減のため古いものは削除
-				callback.call(new_uris)
+				callback.call(new_uris.reverse) # そのままだと新しいものが上に来るため
 			end
 		end
 		
