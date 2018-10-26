@@ -25,14 +25,22 @@ class JmaInfoGetter
 				sleep(60 - Time.now.sec + 3) # 1-2秒程度更新のラグがあるため
 				get_uris_ = get_uris
 				new_uris = get_uris_ - older_urls
-				older_urls = get_uris_ - new_uris # メモリ削減のため古いものは削除
+				older_urls = get_uris_
 				callback.call(new_uris.reverse) # そのままだと新しいものが上に来るため
 			end
 		end
 		
 		def get_uris
 			SOURCE_URIS
-				.map{|uri|RSS::Parser.parse(OpenURI::open_uri(uri))}
+				.map do |uri|
+					begin
+						RSS::Parser.parse(OpenURI::open_uri(uri))
+					rescue RSS::NotWellFormedError
+						puts "データ取得エラー #{uri}"
+						nil
+					end
+				end
+				.delete_if{|atom|atom.nil?}
 				.map{|atom|atom.items.map{|item|item.link.href}}
 				.flatten
 		end
