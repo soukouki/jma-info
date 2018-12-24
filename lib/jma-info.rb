@@ -3,6 +3,7 @@ require "open-uri"
 require "rss"
 require "time"
 require "yaml"
+require "set"
 
 require "rexml/document"
 

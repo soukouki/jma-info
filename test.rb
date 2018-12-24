@@ -8,4 +8,4 @@ require "jma-info"
 
 Dir["../jma-info/test/**/*.rb"].each{|f|puts f; require f}
 
-puts Time.now-start
+p Time.now-start

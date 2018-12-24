@@ -18,7 +18,7 @@ module GetInfo
 				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
 			when "気象特別警報・警報・注意報"
-				repo_title+" : "+alerm_info(doc)+"\n"
+				repo_title+" : "+alert_info(doc)+"\n"
 			when "季節観測", "特殊気象報"
 				repo_title+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
@@ -137,13 +137,32 @@ module GetInfo
 	end
 	
 	
-	def alerm_info doc
-		Alert::alerm_info(doc)
+	def alert_info doc
+		Alert::alert_info(doc)
 	end
 	Alert = Struct.new(:area, :alert) do
 		AlertAreaDetail = Struct.new(:name, :towns)
 		AlertTownDetail = Struct.new(:name, :is_seaside) do
 			alias_method :seaside?, :is_seaside
+		end
+		# 注意！ 発表警報・注意報なしの場合、status以外はnilになる！
+		AlertKind = Struct.new(:name, :degree, :status) do
+			def to_s
+				if name.nil?
+					status
+				else
+					"#{name}#{degree}(#{status})"
+				end
+			end
+			def <=> o
+				return 1 if name.nil?
+				return -1 if o.name.nil?
+				rd = ALERT_TYPE_DEGREES.index(degree) <=> ALERT_TYPE_DEGREES.index(o.degree)
+				return rd unless rd == 0
+				rs = ALERT_TYPE_STATUSES.index(status) <=> ALERT_TYPE_STATUSES.index(o.status)
+				return rs unless rs == 0
+				ALERT_TYPE_RANKS.index(name) <=> ALERT_TYPE_RANKS.index(o.name)
+			end
 		end
 		
 		# 都府県+地方がキーで、その中に地方:[市町村+地域]の配列がある。
@@ -215,13 +234,17 @@ module GetInfo
 			"鹿児島県（奄美地方除く）" => "鹿児島県",
 			"奄美地方" => "鹿児島県",
 		}
-		
-		def to_s
-			alert.join(" ")
-		end
+		# 警報・注意報の順位(特別警報・警報・注意報をすべてまとめたもの)
+		ALERT_TYPE_RANKS = [
+			"大雨","洪水","強風","暴風","風雪","暴風雪","大雪","波浪","高潮","雷","融雪","濃霧","乾燥","なだれ","低温","霜","着氷","着雪"
+		]
+		# 度合いの順位を兼ねる
+		ALERT_TYPE_DEGREES = ["特別警報","警報","注意報"]
+		# 状態の順位を兼ねる
+		ALERT_TYPE_STATUSES = ["発表","継続","特別警報から警報","特別警報から注意報","警報から注意報","解除","発表警報・注意報はなし"]
 		
 		def non_sea_alert
-			@non_sea_alert ||= alert.reject{|alert_name|["波浪","高潮"].include?(alert_name[0..1])}
+			@non_sea_alert ||= alert.reject{|kind|["波浪","高潮"].include?(kind.name)}
 		end
 		
 		def self.generate_alert_from_xml doc
@@ -231,13 +254,23 @@ module GetInfo
 		end
 		def self.get_alert_info doc
 			if doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
-				["発表警報・注意報はなし"]
+				Set.new [AlertKind.new(nil, nil, "発表警報・注意報はなし")] # とりあえず
 			else
 				kinds = doc.elements.to_a("Kind")
-				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
+				kinds
+					.map{|k|
+						type, degree = k
+							.elements["Name"]
+							.text
+							.match(/(#{Regexp.union(ALERT_TYPE_RANKS)})(#{Regexp.union(ALERT_TYPE_DEGREES)})/o)
+							.captures
+						AlertKind.new(type, degree, k.elements["Status"].text)
+					}
+					.to_set
 			end
 		end
-		def self.alerm_info doc
+		
+		def self.alert_info doc
 			alert_data = doc
 				.elements
 				.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|
@@ -246,6 +279,21 @@ module GetInfo
 			alert_prefectures = doc.elements[
 				"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text
 			
+			summarized_alert_data = summarize_area(alert_data, alert_prefectures)
+			
+			alert_prefectures+"\n"+
+			cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
+			alert_data
+				.group_by{|area|area.alert.sort.to_a}
+				.sort_by{|alert,areas|alert}
+				.map{|alert, areas|
+					"\t\t"+areas.map(&:area).join(" ")+
+					"\n\t\t\t"+alert.sort.join(" ")+"\n"
+				}
+				.join("")
+		end
+		
+		def self.summarize_area alert_data, alert_prefectures
 			ALERT_DIVISION_FOR_COMBINED[
 				ALERT_AREA_CONVERSION_HASH[alert_prefectures] || alert_prefectures
 			]
@@ -267,16 +315,9 @@ module GetInfo
 					alert_data.delete_if{|ad|area_detail.towns.find{|town|town.name==ad.area}}
 					alert_data.unshift(new_alert)
 				}
-			
-			
-			alert_prefectures+"\n"+
-			cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
 			alert_data
-				.group_by{|are|are.alert}
-				.sort_by{|key, value|key}
-				.map{|are, alerts|"\t\t"+alerts.map(&:area).join(" ")+"\n\t\t\t"+are.join(" ")+"\n"}
-				.join("")
 		end
+		
 	end
 	
 	def get_special_weather_report doc
