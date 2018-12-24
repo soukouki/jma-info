@@ -4,7 +4,7 @@ def jma_info puts_lambdas
 	begin
 		start_time = Time.now
 		info_uris_getter = JmaInfoGetter.new{|uris|puts_info(puts_lambdas, uris)}
-		multiple_puts(puts_lambdas, "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")}\n	起動しました。\n")
+		multiple_puts(puts_lambdas, "#{Time.now.strftime("%Y年%m月%d日%H時%M分%S秒")} 情報 起動\n	起動しました。\n")
 		info_uris_getter.sync
 	rescue Exception => e
 		retry if error_process(start_time, Time.now, e)
