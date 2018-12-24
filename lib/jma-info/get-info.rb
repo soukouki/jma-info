@@ -18,7 +18,7 @@ module GetInfo
 				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
 			when "気象特別警報・警報・注意報"
-				repo_title+" : "+alerm_info(doc)+"\n"
+				repo_title+" : "+alert_info(doc)+"\n"
 			when "季節観測", "特殊気象報"
 				repo_title+get_special_weather_report(doc)+"\n"
 			when "地方海上警報（Ｈ２８）" # 無視
@@ -136,78 +136,188 @@ module GetInfo
 		cleanly_text(body.elements["Comment/Text"].text)+"\n"
 	end
 	
-	# 都府県+地方がキーで、その中に地方:[市町村+地域]の配列がある。
-	ALERT_DIVISION_FOR_COMBINED = YAML.load(open(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml"))
-		.map{|tr|
-			pr = {name:tr[:name], value:tr[:value].map{|h|h[:value].map{|h|h[:value]}}.flatten}
-			d1 = tr[:value].map{|h|{name:h[:name], value:h[:value].map{|h|h[:value]}.flatten}}.flatten
-			d2 = tr[:value].map{|h|h[:value].map{|h|{name:h[:name], value:h[:value]}}}.flatten
-			([pr]+d1+d2)}
-		.flatten
-		
 	
-	class Alert
-		def initialize doc, new_area=nil
-			@doc = doc
-			@new_area = new_area
+	def alert_info doc
+		Alert::alert_info(doc)
+	end
+	Alert = Struct.new(:area, :alert) do
+		AlertAreaDetail = Struct.new(:name, :towns)
+		AlertTownDetail = Struct.new(:name, :is_seaside) do
+			alias_method :seaside?, :is_seaside
 		end
-		def new_area_alert new_area
-			Alert.new(@doc, new_area)
-		end
-		
-		@new_area = nil
-		def area
-			@new_area || @doc.elements["Area/Name"].text
-		end
-		def alert non_sea=false
-			if @doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
-				["発表警報・注意報はなし"]
-			else
-				kinds = @doc.elements.to_a("Kind")
-				kinds = kinds.delete_if{|k|k.elements["Name"].text.match(/\A(?:波浪|高潮)/)} if non_sea
-				if non_sea && kinds.length==0
-					return ["発表警報・注意報はなし"]
+		# 注意！ 発表警報・注意報なしの場合、status以外はnilになる！
+		AlertKind = Struct.new(:name, :degree, :status) do
+			def to_s
+				if name.nil?
+					status
+				else
+					"#{name}#{degree}(#{status})"
 				end
-				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
+			end
+			def <=> o
+				return 1 if name.nil?
+				return -1 if o.name.nil?
+				rd = ALERT_TYPE_DEGREES.index(degree) <=> ALERT_TYPE_DEGREES.index(o.degree)
+				return rd unless rd == 0
+				rs = ALERT_TYPE_STATUSES.index(status) <=> ALERT_TYPE_STATUSES.index(o.status)
+				return rs unless rs == 0
+				ALERT_TYPE_RANKS.index(name) <=> ALERT_TYPE_RANKS.index(o.name)
 			end
 		end
-		def non_sea_alert
-			alert(non_sea=true)
-		end
-		def to_s
-			alert.join(" ")
-		end
-	end
-	
-	def alerm_info doc
-		alert_data = doc
-			.elements
-			.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|Alert.new(i)}
-		ALERT_DIVISION_FOR_COMBINED.each{|hash|
-			# hashのもので結合できるのならば続ける
-			next unless (hash[:value].map{|hm|hm[:name]} - alert_data.map{|am|am.area}).empty?
-			target_alert = alert_data.select{|as|hash[:value].find{|vm|as.area==vm[:name]}}
-			
-			first_target_alert_non_sea_alert = target_alert.first.non_sea_alert
-			# すべての地域で海関連を除いた警報がすべて同じならば続ける
-			next unless target_alert.all?{|alert|alert.non_sea_alert==first_target_alert_non_sea_alert}
-			
-			border_on_sea_alert_target = target_alert.select{|alert|hash[:value].find{|vf|vf[:name]==alert.area}[:sea]}
-			# 海のある地域ですべての警報が同じならば続ける
-			next unless border_on_sea_alert_target.all?{|alert|alert.alert==border_on_sea_alert_target.first.alert}
-			
-			new_alert = target_alert.first.new_area_alert(hash[:name]+"全域")
-			alert_data.delete_if{|ad|hash[:value].find{|hf|hf[:name]==ad.area}}
-			alert_data.unshift(new_alert)
+		
+		# 都府県+地方がキーで、その中に地方:[市町村+地域]の配列がある。
+		ALERT_DIVISION_FOR_COMBINED = YAML.load_file(File.expand_path(File.dirname(__FILE__))+"/alert-division.yaml")
+			.map{|hp|
+				pr = AlertAreaDetail.new(
+					hp[:name],
+					hp[:value]
+						.map{|h1|
+							h1[:value]
+								.map{|h2|
+									h2[:value]
+										.map{|ht|
+											AlertTownDetail.new(ht[:name], ht[:is_seaside])
+										}
+								}
+						}
+						.flatten,
+				)
+				
+				d1 = hp[:value]
+					.map{|h1|
+						AlertAreaDetail.new(
+							h1[:name],
+							h1[:value]
+								.map{|h2|
+									h2[:value]
+										.map{|ht|
+											AlertTownDetail.new(ht[:name], ht[:is_seaside])
+										}
+								}
+								.flatten,
+						)
+					}
+				
+				d2 = hp[:value]
+					.map{|h1|
+						h1[:value]
+							.map{|h2|
+								AlertAreaDetail.new(
+									h2[:name],
+									h2[:value]
+										.map{|ht|
+											AlertTownDetail.new(ht[:name], ht[:is_seaside])
+										},
+								)
+							}
+					}
+				
+				[pr.name, [pr,d1,d2].flatten]
+			}
+			.to_h
+		
+		# 気象庁の警報のページ(海に面するか・どのようにまとめるかの情報を取る)で
+		# 複数の情報を一ページに纏めている場合の変換テーブル
+		ALERT_AREA_CONVERSION_HASH = {
+			"上川地方" => "上川・留萌地方",
+			"留萌地方" => "上川・留萌地方",
+			"根室地方" => "釧路・根室・十勝地方",
+			"釧路地方" => "釧路・根室・十勝地方",
+			"十勝地方" => "釧路・根室・十勝地方",
+			"胆振地方" => "胆振・日高地方",
+			"日高地方" => "胆振・日高地方",
+			"石狩地方" => "石狩・空知・後志地方",
+			"空知地方" => "石狩・空知・後志地方",
+			"後志地方" => "石狩・空知・後志地方",
+			"渡島地方" => "渡島・檜山地方",
+			"檜山地方" => "渡島・檜山地方",
+			"鹿児島県（奄美地方除く）" => "鹿児島県",
+			"奄美地方" => "鹿児島県",
 		}
-		doc.elements[
-			"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text+"\n"+
-		cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
-		alert_data
-			.group_by{|are|are.alert}
-			.sort_by{|key, value|key}
-			.map{|are, alerts|"\t\t"+alerts.map(&:area).join(" ")+"\n\t\t\t"+are.join(" ")+"\n"}
-			.join("")
+		# 警報・注意報の順位(特別警報・警報・注意報をすべてまとめたもの)
+		ALERT_TYPE_RANKS = [
+			"大雨","洪水","強風","暴風","風雪","暴風雪","大雪","波浪","高潮","雷","融雪","濃霧","乾燥","なだれ","低温","霜","着氷","着雪"
+		]
+		# 度合いの順位を兼ねる
+		ALERT_TYPE_DEGREES = ["特別警報","警報","注意報"]
+		# 状態の順位を兼ねる
+		ALERT_TYPE_STATUSES = ["発表","継続","特別警報から警報","特別警報から注意報","警報から注意報","解除","発表警報・注意報はなし"]
+		
+		def non_sea_alert
+			@non_sea_alert ||= alert.reject{|kind|["波浪","高潮"].include?(kind.name)}
+		end
+		
+		def self.generate_alert_from_xml doc
+			area = doc.elements["Area/Name"].text
+			alert = Alert::get_alert_info(doc)
+			Alert.new(area, alert)
+		end
+		def self.get_alert_info doc
+			if doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
+				Set.new [AlertKind.new(nil, nil, "発表警報・注意報はなし")] # とりあえず
+			else
+				kinds = doc.elements.to_a("Kind")
+				kinds
+					.map{|k|
+						type, degree = k
+							.elements["Name"]
+							.text
+							.match(/(#{Regexp.union(ALERT_TYPE_RANKS)})(#{Regexp.union(ALERT_TYPE_DEGREES)})/o)
+							.captures
+						AlertKind.new(type, degree, k.elements["Status"].text)
+					}
+					.to_set
+			end
+		end
+		
+		def self.alert_info doc
+			alert_data = doc
+				.elements
+				.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|
+					generate_alert_from_xml(i)
+				}
+			alert_prefectures = doc.elements[
+				"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text
+			
+			summarized_alert_data = summarize_area(alert_data, alert_prefectures)
+			
+			alert_prefectures+"\n"+
+			cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
+			alert_data
+				.group_by{|area|area.alert.sort.to_a}
+				.sort_by{|alert,areas|alert}
+				.map{|alert, areas|
+					"\t\t"+areas.map(&:area).join(" ")+
+					"\n\t\t\t"+alert.sort.join(" ")+"\n"
+				}
+				.join("")
+		end
+		
+		def self.summarize_area alert_data, alert_prefectures
+			ALERT_DIVISION_FOR_COMBINED[
+				ALERT_AREA_CONVERSION_HASH[alert_prefectures] || alert_prefectures
+			]
+				.each{|area_detail|
+					# エリアが完全にかぶっているかどうか
+					next unless (area_detail.towns.map{|town|town.name} - alert_data.map{|am|am.area}).empty?
+					
+					target_alert = alert_data.select{|as|area_detail.towns.find{|town|as.area==town.name}}
+					
+					first_target_alert_non_sea_alert = target_alert.first.non_sea_alert
+					# すべての地域で海関連を除いた警報がすべて同じならば続ける
+					next unless target_alert.all?{|alert|alert.non_sea_alert==first_target_alert_non_sea_alert}
+					
+					border_on_sea_alert_target = target_alert.select{|alert|area_detail.towns.find{|town|town.name==alert.area}.seaside?}
+					# 海のある地域ですべての警報が同じならば続ける
+					next unless border_on_sea_alert_target.all?{|alert|alert.alert==border_on_sea_alert_target.first.alert}
+					
+					new_alert = Alert.new(area_detail.name+"全域", target_alert.first.alert)
+					alert_data.delete_if{|ad|area_detail.towns.find{|town|town.name==ad.area}}
+					alert_data.unshift(new_alert)
+				}
+			alert_data
+		end
+		
 	end
 	
 	def get_special_weather_report doc
@@ -310,7 +420,7 @@ module GetInfo
 		end
 		
 		def icing_part base, becoming
-			icing_doc_to_text(base)+((becoming)? "、"+becoming.elements["TimeModifier"]+icing_doc_to_text(becoming) : "")
+			icing_doc_to_text(base)+((becoming)? "、"+becoming.elements["TimeModifier"].text+icing_doc_to_text(becoming) : "")
 		end
 		
 		def icing_doc_to_text doc
