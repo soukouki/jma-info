@@ -140,7 +140,7 @@ module GetInfo
 	def alerm_info doc
 		Alert::alerm_info(doc)
 	end
-	class Alert
+	Alert = Struct.new(:area, :alert) do
 		AlertAreaDetail = Struct.new(:name, :towns)
 		AlertTownDetail = Struct.new(:name, :is_seaside) do
 			alias_method :seaside?, :is_seaside
@@ -216,11 +216,32 @@ module GetInfo
 			"奄美地方" => "鹿児島県",
 		}
 		
+		def to_s
+			alert.join(" ")
+		end
+		
+		def non_sea_alert
+			@non_sea_alert ||= alert.reject{|alert_name|["波浪","高潮"].include?(alert_name[0..1])}
+		end
+		
+		def self.generate_alert_from_xml doc
+			area = doc.elements["Area/Name"].text
+			alert = Alert::get_alert_info(doc)
+			Alert.new(area, alert)
+		end
+		def self.get_alert_info doc
+			if doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
+				["発表警報・注意報はなし"]
+			else
+				kinds = doc.elements.to_a("Kind")
+				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
+			end
+		end
 		def self.alerm_info doc
 			alert_data = doc
 				.elements
 				.collect("Report/Body/Warning[@type=\"気象警報・注意報（市町村等）\"]/Item"){|i|
-					Alert.new(i)
+					generate_alert_from_xml(i)
 				}
 			alert_prefectures = doc.elements[
 				"Report/Head/Headline/Information[@type=\"気象警報・注意報（府県予報区等）\"]/Item/Areas/Area/Name"].text
@@ -242,7 +263,7 @@ module GetInfo
 					# 海のある地域ですべての警報が同じならば続ける
 					next unless border_on_sea_alert_target.all?{|alert|alert.alert==border_on_sea_alert_target.first.alert}
 					
-					new_alert = target_alert.first.new_area_alert(area_detail.name+"全域")
+					new_alert = Alert.new(area_detail.name+"全域", target_alert.first.alert)
 					alert_data.delete_if{|ad|area_detail.towns.find{|town|town.name==ad.area}}
 					alert_data.unshift(new_alert)
 				}
@@ -256,38 +277,6 @@ module GetInfo
 				.map{|are, alerts|"\t\t"+alerts.map(&:area).join(" ")+"\n\t\t\t"+are.join(" ")+"\n"}
 				.join("")
 		end
-		
-		def initialize doc, new_area=nil
-			@doc = doc
-			@new_area = new_area
-		end
-		def new_area_alert new_area
-			Alert.new(@doc, new_area)
-		end
-		
-		@new_area = nil
-		def area
-			@new_area || @doc.elements["Area/Name"].text
-		end
-		def alert non_sea=false
-			if @doc.elements["Kind/Status"].text=="発表警報・注意報はなし"
-				["発表警報・注意報はなし"]
-			else
-				kinds = @doc.elements.to_a("Kind")
-				kinds = kinds.delete_if{|k|k.elements["Name"].text.match(/\A(?:波浪|高潮)/)} if non_sea
-				if non_sea && kinds.length==0
-					return ["発表警報・注意報はなし"]
-				end
-				kinds.map{|k|k.elements["Name"].text+"("+k.elements["Status"].text+")"}
-			end
-		end
-		def non_sea_alert
-			alert(non_sea=true)
-		end
-		def to_s
-			alert.join(" ")
-		end
-		
 	end
 	
 	def get_special_weather_report doc
