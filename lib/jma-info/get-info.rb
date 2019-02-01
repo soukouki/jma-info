@@ -7,13 +7,15 @@ module GetInfo
 		doc = get_doc(uri)
 		title = doc.elements["Report/Control/Title"].text
 		repo_title = report_title(doc)
-		cleanly_str(case title
+		clean_string(case title
 			when # 一般報
 				"全般台風情報", "全般台風情報（定型）", "全般台風情報（詳細）", "発達する熱帯低気圧に関する情報",
 				"全般気象情報", "地方気象情報", "府県気象情報", "全般週間天気予報", "地方週間天気予報",
 				"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
 				"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
-				repo_title+"\n"+get_general_report(doc)
+				get_general_report(doc) # 内部でrepo_titleの処理を行う
+			#when "府県天気予報"
+			#	repo_title+" : "+weather_forecast(doc)
 			when "府県天気概況"
 				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
@@ -43,18 +45,23 @@ module GetInfo
 	
 	# 文章を綺麗にする
 	# TODO 表のようになっている部分の処理を考える
-	def cleanly_text text
-		cleanly_str(text)
+	def clean_text text
+		clean_string(text)
 			.gsub(/\n(?!\n)/){""} # 単独の改行を消す
 			.gsub(/\n{2,}/){"\n"} # 連続の改行を一つの改行にする
 			.gsub(/  /){" "} # 連続した空白を一つにまとめる
 			.gsub(/。(?!$)/){"。\n"} # `。`の後に改行をつける
 			.gsub(/^ +/){""} # 行の始めの連続したスペースを消す
-			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
 			.gsub(/\n+\Z/){""} # 文章の最後の改行を削除
 	end
+	# 文章を綺麗にする
+	# その際に行の初めにタブをつける
+	def clean_text_with_tabs text
+		clean_text(text)
+			.gsub(/^/){"\t"} # 行のはじめにタブを付ける
+	end
 	# 数字や、文字を置き換える
-	def cleanly_str text
+	def clean_string text
 		text.tr('０-９Ａ-Ｚａ-ｚ．＊－（）　', '0-9A-Za-z.*\-() ') # 全角を半角に
 			.gsub(/ (\d)/){$1} # 数字の前の空白を削除
 	end
@@ -126,14 +133,31 @@ module GetInfo
 	def get_general_report doc
 		head = doc.elements["Report/Head"]
 		body = doc.elements["Report/Body"]
-		((head.elements["Headline/Text[.!='']"])? cleanly_text(head.elements["Headline/Text"].text) : "")+"\n"+
-		cleanly_text(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
+		repo_title = report_title(doc)
+		
+		control_title = doc.elements["Report/Control/Title"].text
+		head_title = clean_text(head.elements["Title"].text)
+		header = (
+			if control_title == head_title
+				# 火山に関するお知らせ
+				repo_title
+			elsif control_title[0..1]=="府県" && control_title[2..-1]==head_title[-control_title.length+2..-1] && !head_title.include?("に関する")
+				# 府県海氷予報 : 宗谷地方海氷予報 => 府県海氷予報 : 宗谷地方
+				repo_title+" : "+head_title[0..head_title.length-control_title.length+1]
+			else
+				repo_title+" : "+head_title
+			end
+		)
+		
+		header+"\n"+
+		((head.elements["Headline/Text[.!='']"])? clean_text_with_tabs(head.elements["Headline/Text"].text)+"\n" : "")+
+		clean_text_with_tabs(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
 	end
 	
 	def get_general_weather_conditions doc
 		body = doc.elements["Report/Body"]
 		body.elements["TargetArea/Name"].text+"\n"+
-		cleanly_text(body.elements["Comment/Text"].text)+"\n"
+		clean_text_with_tabs(body.elements["Comment/Text"].text)+"\n"
 	end
 	
 	
@@ -141,6 +165,36 @@ module GetInfo
 		Alert::alert_info(doc)
 	end
 	Alert = Struct.new(:area, :alert) do
+		extend GetInfo
+		
+		
+		# 気象庁の警報のページ(海に面するか・どのようにまとめるかの情報を取る)で
+		# 複数の情報を一ページに纏めている場合の変換テーブル
+		ALERT_AREA_CONVERSION_HASH = {
+			"上川地方" => "上川・留萌地方",
+			"留萌地方" => "上川・留萌地方",
+			"根室地方" => "釧路・根室・十勝地方",
+			"釧路地方" => "釧路・根室・十勝地方",
+			"十勝地方" => "釧路・根室・十勝地方",
+			"胆振地方" => "胆振・日高地方",
+			"日高地方" => "胆振・日高地方",
+			"石狩地方" => "石狩・空知・後志地方",
+			"空知地方" => "石狩・空知・後志地方",
+			"後志地方" => "石狩・空知・後志地方",
+			"渡島地方" => "渡島・檜山地方",
+			"檜山地方" => "渡島・檜山地方",
+			"鹿児島県（奄美地方除く）" => "鹿児島県",
+			"奄美地方" => "鹿児島県",
+		}
+		# 警報・注意報の順位(特別警報・警報・注意報をすべてまとめたもの)
+		ALERT_TYPE_RANKS = [
+			"大雨","洪水","強風","暴風","風雪","暴風雪","大雪","波浪","高潮","雷","融雪","濃霧","乾燥","なだれ","低温","霜","着氷","着雪"
+		]
+		# 度合いの順位を兼ねる
+		ALERT_TYPE_DEGREES = ["特別警報","警報","注意報"]
+		# 状態の順位を兼ねる
+		ALERT_TYPE_STATUSES = ["発表","継続","特別警報から警報","特別警報から注意報","警報から注意報","解除","発表警報・注意報はなし"]
+		
 		AlertAreaDetail = Struct.new(:name, :towns)
 		AlertTownDetail = Struct.new(:name, :is_seaside) do
 			alias_method :seaside?, :is_seaside
@@ -216,33 +270,6 @@ module GetInfo
 			}
 			.to_h
 		
-		# 気象庁の警報のページ(海に面するか・どのようにまとめるかの情報を取る)で
-		# 複数の情報を一ページに纏めている場合の変換テーブル
-		ALERT_AREA_CONVERSION_HASH = {
-			"上川地方" => "上川・留萌地方",
-			"留萌地方" => "上川・留萌地方",
-			"根室地方" => "釧路・根室・十勝地方",
-			"釧路地方" => "釧路・根室・十勝地方",
-			"十勝地方" => "釧路・根室・十勝地方",
-			"胆振地方" => "胆振・日高地方",
-			"日高地方" => "胆振・日高地方",
-			"石狩地方" => "石狩・空知・後志地方",
-			"空知地方" => "石狩・空知・後志地方",
-			"後志地方" => "石狩・空知・後志地方",
-			"渡島地方" => "渡島・檜山地方",
-			"檜山地方" => "渡島・檜山地方",
-			"鹿児島県（奄美地方除く）" => "鹿児島県",
-			"奄美地方" => "鹿児島県",
-		}
-		# 警報・注意報の順位(特別警報・警報・注意報をすべてまとめたもの)
-		ALERT_TYPE_RANKS = [
-			"大雨","洪水","強風","暴風","風雪","暴風雪","大雪","波浪","高潮","雷","融雪","濃霧","乾燥","なだれ","低温","霜","着氷","着雪"
-		]
-		# 度合いの順位を兼ねる
-		ALERT_TYPE_DEGREES = ["特別警報","警報","注意報"]
-		# 状態の順位を兼ねる
-		ALERT_TYPE_STATUSES = ["発表","継続","特別警報から警報","特別警報から注意報","警報から注意報","解除","発表警報・注意報はなし"]
-		
 		def non_sea_alert
 			@non_sea_alert ||= alert.reject{|kind|["波浪","高潮"].include?(kind.name)}
 		end
@@ -282,7 +309,7 @@ module GetInfo
 			summarized_alert_data = summarize_area(alert_data, alert_prefectures)
 			
 			alert_prefectures+"\n"+
-			cleanly_text(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
+			clean_text_with_tabs(doc.elements["Report/Head/Headline/Text"].text)+"\n"+
 			alert_data
 				.group_by{|area|area.alert.sort.to_a}
 				.sort_by{|alert,areas|alert}
@@ -334,7 +361,7 @@ module GetInfo
 			"風 "+loc+"\n\t\t"+format_special_weather_report_wind(item)
 		when "特殊気象報（各種現象）"
 			item.elements["Kind/Name"].text+" "+loc+"\n\t\t"+
-			cleanly_str(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
+			clean_string(delete_parentheses(add_info.elements["Text"].text.tr("　", " ")))
 		end
 	end
 	
@@ -454,9 +481,9 @@ module GetInfo
 				when "EarthquakeCount" # 地震回数に関する情報
 					count_part(info)
 				when "NextAdvisory" # 地震回数に関する情報
-					cleanly_text(info.text)+"\n"
+					clean_text_with_tabs(info.text)+"\n"
 				when "Text" # すべて
-					cleanly_text(info.text)+"\n"
+					clean_text_with_tabs(info.text)+"\n"
 				when "Comments" # すべて
 					comment_part(info)
 				end
@@ -590,7 +617,7 @@ module GetInfo
 		def comment_part info
 			info
 				.elements
-				.collect("*/Text||FreeFormComment"){|c|cleanly_text(c.text.gsub(/^\s+|\s+$/){""})}
+				.collect("*/Text||FreeFormComment"){|c|clean_text_with_tabs(c.text.gsub(/^\s+|\s+$/){""})}
 				.select{|a|a!=nil && !(a.match(/^[ \t\n]+$/))}
 				.join("\n")+"\n"
 		end
