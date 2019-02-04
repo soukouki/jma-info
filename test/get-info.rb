@@ -11,7 +11,7 @@ def test_group execute, name, &block
 	end
 end
 
-test_group(false||1, "一般報") do
+test_group(false, "一般報") do
 	puts get_info("./test/samples/general/20_01_01_100514_VPZJ50.xml")
 	puts get_info("./test/samples/general/21_01_01_160628_VPCJ50.xml")
 	puts get_info("./test/samples/general/22_01_01_100514_VPFJ50.xml")
@@ -23,9 +23,9 @@ test_group(false||1, "一般報") do
 	puts get_info("./test/samples/general/42_02_01_100831_VZVO40.xml")
 end
 
-test_group(false, "天気予報") do
-	puts get_info("./test/samples/weather_forecast/24_04_01_100806_VPFD50.xml")
+test_group(1, "天気予報") do
 	puts get_info("./test/samples/weather_forecast/府県天気予報-1.xml")
+	puts get_info("./test/samples/weather_forecast/24_04_01_100806_VPFD50.xml")
 end
 
 test_group(false, "概況") do

@@ -3,6 +3,8 @@
 module GetInfo
 	module_function
 	
+	AreaNameAndID = Struct.new(:name, :id)
+	
 	def get_info(uri)
 		doc = get_doc(uri)
 		title = doc.elements["Report/Control/Title"].text
@@ -14,8 +16,8 @@ module GetInfo
 				"スモッグ気象情報", "全般スモッグ気象情報", "全般潮位情報", "地方潮位情報", "府県潮位情報", "府県海氷予報",
 				"地方高温注意情報", "府県高温注意情報", "火山に関するお知らせ", "地震・津波に関するお知らせ"
 				get_general_report(doc) # 内部でrepo_titleの処理を行う
-			#when "府県天気予報"
-			#	repo_title+" : "+weather_forecast(doc)
+			when "府県天気予報"
+				repo_title+" : "+weather_forecast(doc)
 			when "府県天気概況"
 				repo_title+" : "+get_general_weather_conditions(doc)
 			when "気象警報・注意報", "気象特別警報報知", "気象警報・注意報（Ｈ２７）" # 無視
@@ -70,13 +72,13 @@ module GetInfo
 		str.gsub(/(.+)（.+）/){$1}
 	end
 	
-	def days_diff days
-		if days=="nil"
+	def datetimes_diff datetimes
+		if datetimes=="nil"
 			"データなし"
-		elsif days.to_i.positive?
-			days+"日遅い"
-		elsif days.to_i.negative?
-			days.to_i.abs.to_s+"日早い"
+		elsif datetimes.to_i.positive?
+			datetimes+"日遅い"
+		elsif datetimes.to_i.negative?
+			datetimes.to_i.abs.to_s+"日早い"
 		else
 			"同日"
 		end
@@ -96,8 +98,8 @@ module GetInfo
 	end
 	# 日~時まで
 	def time_diff_to_count_s diff
-		((diff>=(60*60*24))? (day=true; (diff.to_i/(60*60*24)).to_s+"日") : "")+
-		((diff.to_i % (60*60*24)>=1)? (((day)? "と" : "")+((diff.to_i % (60*60*24))/(60*60)).to_s+"時間") : "")
+		((diff>=(60*60*24))? (datetime=true; (diff.to_i/(60*60*24)).to_s+"日") : "")+
+		((diff.to_i % (60*60*24)>=1)? (((datetime)? "と" : "")+((diff.to_i % (60*60*24))/(60*60)).to_s+"時間") : "")
 	end
 	
 	def last_year_and_normal_year_text xmlitem
@@ -105,7 +107,7 @@ module GetInfo
 		
 		normal = (xmlitem.elements["DeviationFromNormal"]||xnil.new).text
 		lastyear = (xmlitem.elements["DeviationFromLastYear"]||xnil.new).text
-		"昨年比"+days_diff(lastyear)+", 平年比"+days_diff(normal)
+		"昨年比"+datetimes_diff(lastyear)+", 平年比"+datetimes_diff(normal)
 	end
 	
 	def get_doc uri, try_count=0
@@ -152,6 +154,130 @@ module GetInfo
 		header+"\n"+
 		((head.elements["Headline/Text[.!='']"])? clean_text_with_tabs(head.elements["Headline/Text"].text)+"\n" : "")+
 		clean_text_with_tabs(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
+	end
+	
+	module WeatherForecast
+		module_function
+		extend GetInfo
+		
+		def weather_forecast doc
+			head = doc.elements["Report/Head"]
+			body = doc.elements["Report/Body"]
+			
+			info = body
+				.elements
+				.each("MeteorologicalInfos/TimeSeriesInfo"){} # 独自予報は予報の中にテキストで時刻が入ってたりして、統一できないので捨てます
+				.map do |time_series_info|
+					time_define = time_define(time_series_info)
+					
+					time_series_info
+						.elements
+						.collect("Item") do |item|
+							item_ele = item.elements
+							area_doc_ele = (item_ele["Area"] || item_ele["Station"]).elements
+							area = AreaNameAndID.new(area_doc_ele["Name"].text, area_doc_ele["Code"].text.to_i)
+							item
+								.elements
+								.collect("Kind/Property") do |kind|
+									kind_info(kind:kind, area:area, time_define:time_define)
+								end
+						end
+						.flatten
+				end
+				.join("\n")
+			
+			head.elements["Title"].text.gsub("府県天気予報"){""}+"\n"+info
+		end
+		
+		def kind_info kind:, area:, time_define:
+			type = clean_string(kind.elements["Type"].text)
+			case type
+			when "天気", "風", "波"
+				kind
+					.elements
+					.collect("DetailForecast/*") do |part|
+						{
+							area: area,
+							td: time_define_by_part(time_define, part),
+							text: part.elements["Sentence"][:text],
+						}
+					end
+			when "降水確率"
+				kind
+					.elements
+					.collect("ProbabilityOfPrecipitationPart/jmx_eb:ProbabilityOfPrecipitation") do |part|
+						td = time_define_by_part(time_define, part)
+						{
+							area: area,
+							td: td,
+							text: td[:text].gsub(/(\d+)時から(\d+)時まで/){"#{$1}-#{$2}"}+
+								" : #{part.text}% #{part.attribute("condition")}",
+						}
+					end
+			when "日中の最高気温", "最高気温", "朝の最低気温"
+				t = kind.elements["TemperaturePart/jmx_eb:Temperature"]
+				{
+					area: area,
+					td: time_define_by_part(time_define, t),
+					text: "#{type} : #{t.text}度"
+				}
+			when "3時間内卓越天気"
+				kind
+					.elements
+					.collect("WeatherPart/jmx_eb:Weather") do |part|
+						{area: area, td: time_define_by_part(time_define, part), text: part.text}
+					end
+			when "3時間内代表風"
+				time_define
+					.map do |refid, td|
+						direction = kind.elements["WindDirectionPart/jmx_eb:WindDirection[@refID='#{refid}']"]
+						level = kind.elements["WindSpeedPart/WindSpeedLevel[@refID='#{refid}']"]
+						{
+							area: area,
+							td: td,
+							text: "#{direction.text}の風 #{clean_string(level.attribute("description").value.gsub("毎秒"){""})}"
+						}
+					end
+			when "3時間毎気温"
+				kind
+					.elements
+					.collect("TemperaturePart/jmx_eb:Temperature") do |part|
+						td = time_define_by_part(time_define, part)
+						{
+							area: area,
+							td: td,
+							text: "#{td[:datetime].hour}-#{td[:datetime].hour+3} : #{part.text}度",
+						}
+					end
+			end
+		end
+		
+		def time_define time_series_info
+			time_series_info
+				.elements
+				.collect("TimeDefines/TimeDefine") do |item|
+					[
+						item.attribute("timeId").value.to_i,
+						{
+							text: clean_string(item.elements["Name"]&.text || "時刻なし"),
+							datetime: (
+								dt = item.elements["DateTime"]
+								if dt # nilチェック
+									Time.parse(dt.text)
+								end || ""
+							),
+						},
+					]
+				end
+				.to_h
+		end
+		
+		def time_define_by_part time_define, part
+			td = time_define[part.attribute("refID").value.to_i]
+		end
+	end
+	def weather_forecast doc
+		WeatherForecast.weather_forecast doc
 	end
 	
 	def get_general_weather_conditions doc
@@ -376,9 +502,9 @@ module GetInfo
 		pos = item.elements["Station/Location"].text
 		data = item.elements["Kind/Name"].text+
 			"("+item.elements["Kind/ClassName"].text+", "+item.elements["Kind/Condition"].text+")"
-		daystext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
+		datetimestext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
 		
-		pos+"\n\t"+data+"\n\t"+daystext
+		pos+"\n\t"+data+"\n\t"+datetimestext
 	end
 	
 	def rare_rain doc
