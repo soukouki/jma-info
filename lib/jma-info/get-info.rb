@@ -65,7 +65,6 @@ module GetInfo
 	# 数字や、文字を置き換える
 	def clean_string text
 		text.tr('０-９Ａ-Ｚａ-ｚ．＊－（）　', '0-9A-Za-z.*\-() ') # 全角を半角に
-			.gsub(/ (\d)/){$1} # 数字の前の空白を削除
 	end
 	
 	def delete_parentheses str
@@ -156,6 +155,9 @@ module GetInfo
 		clean_text_with_tabs(body.elements["(Comment/Text)|(Text)"].text.gsub("。"){"。\n"})+"\n"
 	end
 	
+	def weather_forecast doc
+		WeatherForecast.weather_forecast(doc)
+	end
 	module WeatherForecast
 		module_function
 		extend GetInfo
@@ -182,7 +184,41 @@ module GetInfo
 									kind_info(kind:kind, area:area, time_define:time_define)
 								end
 						end
-						.flatten
+				end
+				.flatten
+				.group_by{|hash|hash[:td].day}
+				.map do |day, hashes_by_day|
+					t = Time.parse(head.elements["TargetDateTime"].text)
+					d = 60*60*24
+					date_nicknames = {
+						(t-1*d).day => "昨日",
+						(t+0*d).day => "今日",
+						(t+1*d).day => "明日",
+						(t+2*d).day => "あさって",
+					}
+					"\t#{day}日#{(date_nicknames[day].nil?)? "" : "(#{date_nicknames[day]})"}\n"+
+					hashes_by_day
+						.group_by{|hash|hash[:area]}
+						.map do |area, hashes_by_area|
+							"\t\t#{area.name}\n"+
+							hashes_by_area
+								.group_by{|hash|hash[:range]}
+								.sort_by{|r,hs|r||[]}
+								.map do |range, hashes_by_range|
+									if range.nil?
+										hashes_by_range
+											.map{|h|"\t\t\t#{h[:text]}"}
+											.join("\n")
+									else
+										"\t\t\t#{range[0]}時-#{range[1]}時\n"+
+										hashes_by_range
+											.map{|h|"\t\t\t\t#{h[:text]}"}
+											.join("\n")
+									end
+								end
+								.join("\n")
+						end
+						.join("\n")
 				end
 				.join("\n")
 			
@@ -199,7 +235,7 @@ module GetInfo
 						{
 							area: area,
 							td: time_define_by_part(time_define, part),
-							text: part.elements["Sentence"][:text],
+							text: "#{type}\n\t\t\t\t#{part.elements["Sentence"].text}",
 						}
 					end
 			when "降水確率"
@@ -210,8 +246,8 @@ module GetInfo
 						{
 							area: area,
 							td: td,
-							text: td[:text].gsub(/(\d+)時から(\d+)時まで/){"#{$1}-#{$2}"}+
-								" : #{part.text}% #{part.attribute("condition")}",
+							range: [td.hour, td.hour+6],
+							text: "降水確率 #{part.text}% #{part.attribute("condition")}",
 						}
 					end
 			when "日中の最高気温", "最高気温", "朝の最低気温"
@@ -219,13 +255,19 @@ module GetInfo
 				{
 					area: area,
 					td: time_define_by_part(time_define, t),
-					text: "#{type} : #{t.text}度"
+					text: "#{type} #{t.text}度"
 				}
 			when "3時間内卓越天気"
 				kind
 					.elements
 					.collect("WeatherPart/jmx_eb:Weather") do |part|
-						{area: area, td: time_define_by_part(time_define, part), text: part.text}
+						td = time_define_by_part(time_define, part)
+						{
+							area: area,
+							td: td,
+							range: [td.hour, td.hour+3],
+							text: part.text,
+						}
 					end
 			when "3時間内代表風"
 				time_define
@@ -235,6 +277,7 @@ module GetInfo
 						{
 							area: area,
 							td: td,
+							range: [td.hour, td.hour+6],
 							text: "#{direction.text}の風 #{clean_string(level.attribute("description").value.gsub("毎秒"){""})}"
 						}
 					end
@@ -246,7 +289,8 @@ module GetInfo
 						{
 							area: area,
 							td: td,
-							text: "#{td[:datetime].hour}-#{td[:datetime].hour+3} : #{part.text}度",
+							range: [td.hour, td.hour+6],
+							text: "気温 #{part.text}度",
 						}
 					end
 			end
@@ -256,18 +300,7 @@ module GetInfo
 			time_series_info
 				.elements
 				.collect("TimeDefines/TimeDefine") do |item|
-					[
-						item.attribute("timeId").value.to_i,
-						{
-							text: clean_string(item.elements["Name"]&.text || "時刻なし"),
-							datetime: (
-								dt = item.elements["DateTime"]
-								if dt # nilチェック
-									Time.parse(dt.text)
-								end || ""
-							),
-						},
-					]
+					[item.attribute("timeId").value.to_i, Time.parse(item.elements["DateTime"].text)]
 				end
 				.to_h
 		end
@@ -275,9 +308,6 @@ module GetInfo
 		def time_define_by_part time_define, part
 			td = time_define[part.attribute("refID").value.to_i]
 		end
-	end
-	def weather_forecast doc
-		WeatherForecast.weather_forecast doc
 	end
 	
 	def get_general_weather_conditions doc
