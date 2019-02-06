@@ -71,13 +71,13 @@ module GetInfo
 		str.gsub(/(.+)（.+）/){$1}
 	end
 	
-	def datetimes_diff datetimes
-		if datetimes=="nil"
+	def day_diff day
+		if day=="nil"
 			"データなし"
-		elsif datetimes.to_i.positive?
-			datetimes+"日遅い"
-		elsif datetimes.to_i.negative?
-			datetimes.to_i.abs.to_s+"日早い"
+		elsif day.to_i.positive?
+			day+"日遅い"
+		elsif day.to_i.negative?
+			day.to_i.abs.to_s+"日早い"
 		else
 			"同日"
 		end
@@ -106,7 +106,7 @@ module GetInfo
 		
 		normal = (xmlitem.elements["DeviationFromNormal"]||xnil.new).text
 		lastyear = (xmlitem.elements["DeviationFromLastYear"]||xnil.new).text
-		"昨年比"+datetimes_diff(lastyear)+", 平年比"+datetimes_diff(normal)
+		"昨年比"+day_diff(lastyear)+", 平年比"+day_diff(normal)
 	end
 	
 	def get_doc uri, try_count=0
@@ -532,9 +532,9 @@ module GetInfo
 		pos = item.elements["Station/Location"].text
 		data = item.elements["Kind/Name"].text+
 			"("+item.elements["Kind/ClassName"].text+", "+item.elements["Kind/Condition"].text+")"
-		datetimestext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
+		daytext = last_year_and_normal_year_text(doc.elements["Report/Body/AdditionalInfo/ObservationAddition"])
 		
-		pos+"\n\t"+data+"\n\t"+datetimestext
+		pos+"\n\t"+data+"\n\t"+daytext
 	end
 	
 	def rare_rain doc
