@@ -277,7 +277,7 @@ module GetInfo
 						{
 							area: area,
 							td: td,
-							range: [td.hour, td.hour+6],
+							range: [td.hour, td.hour+3],
 							text: "#{direction.text}の風 #{clean_string(level.attribute("description").value.gsub("毎秒"){""})}"
 						}
 					end
@@ -289,7 +289,7 @@ module GetInfo
 						{
 							area: area,
 							td: td,
-							range: [td.hour, td.hour+6],
+							range: [td.hour, td.hour+3],
 							text: "気温 #{part.text}度",
 						}
 					end
