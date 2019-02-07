@@ -210,10 +210,10 @@ module GetInfo
 											.map{|h|"\t\t\t#{h[:text]}"}
 											.join("\n")
 									else
-										"\t\t\t#{range[0]}時-#{range[1]}時\n"+
+										"\t\t\t#{range[0].to_s.rjust(2)}-#{range[1].to_s.rjust(2)} : "+
 										hashes_by_range
-											.map{|h|"\t\t\t\t#{h[:text]}"}
-											.join("\n")
+											.map{|h|"#{h[:text]}"}
+											.join("、")
 									end
 								end
 								.join("\n")
@@ -247,7 +247,7 @@ module GetInfo
 							area: area,
 							td: td,
 							range: [td.hour, td.hour+6],
-							text: "降水確率 #{part.text}% #{part.attribute("condition")}",
+							text: "降水確率 #{part.text}%(#{part.attribute("condition")})",
 						}
 					end
 			when "日中の最高気温", "最高気温", "朝の最低気温"

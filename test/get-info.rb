@@ -23,7 +23,7 @@ test_group(false, "一般報") do
 	puts get_info("./test/samples/general/42_02_01_100831_VZVO40.xml")
 end
 
-test_group(1, "天気予報") do
+test_group(false, "天気予報") do
 	puts get_info("./test/samples/weather_forecast/府県天気予報-1.xml")
 	puts get_info("./test/samples/weather_forecast/24_04_01_100806_VPFD50.xml")
 end
